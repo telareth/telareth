@@ -1,3 +1,5 @@
-nodeLinker: hoisted
+packages:
+  - "packages/*"
+nodeLinker: "hoisted"
 autoInstallPeers: true
 strictPeerDependencies: false
