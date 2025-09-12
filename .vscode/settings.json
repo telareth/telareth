@@ -37,7 +37,7 @@
     "editor.rulers": [100]
   },
   "[yaml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "redhat.vscode-yaml",
     "editor.tabSize": 2,
     "editor.rulers": [80]
   },

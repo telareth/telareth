@@ -1,7 +1,7 @@
 {
   "name": "@telareth/cli",
   "description": "Telareth CLI",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -20,7 +20,8 @@
   },
   "files": [
     "LICENSE",
-    "dist"
+    "dist",
+    "docs"
   ],
   "dependencies": {
     "commander": "^14.0.1",
@@ -29,5 +30,19 @@
   },
   "devDependencies": {
     "@types/node": "20.19.9"
-  }
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://github.com/telareth/telareth/blob/main/cli/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/telareth/telareth.git",
+    "directory": "cli"
+  },
+  "keywords": [
+    "telareth",
+    "cli"
+  ]
 }

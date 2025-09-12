@@ -1,14 +1,10 @@
 packages:
-  - packages/*
-  - sdk
-
+  - 'cli'
+  - 'sdk'
 autoInstallPeers: true
-
-nodeLinker: hoisted
-
+nodeLinker: 'hoisted'
 onlyBuiltDependencies:
   - '@swc/core'
-  - lefthook
-  - nx
-
+  - 'lefthook'
+  - 'nx'
 strictPeerDependencies: false
