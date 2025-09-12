@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "pnpm nx run-many -t build --verbose",
+    "clean": "pnpm dlx rimraf **/dist",
+    "build": "pnpm run clean && pnpm nx run-many -t build --verbose",
     "release": "pnpm nx release --first-release --yes",
     "prerelease": "pnpm run build"
   },
