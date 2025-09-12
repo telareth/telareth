@@ -25,6 +25,7 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@telareth/cli": "^0.1.2",
     "prisma": "^6.16.1",
     "typescript": "~5.9.2"
   }
