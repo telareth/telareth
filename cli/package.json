@@ -21,7 +21,8 @@
   "files": [
     "LICENSE",
     "dist",
-    "docs"
+    "docs",
+    "src"
   ],
   "dependencies": {
     "commander": "^14.0.1",

@@ -2,7 +2,11 @@
   "name": "@telareth/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build": "pnpm nx run-many -t build --verbose",
+    "release": "pnpm nx release --first-release --yes",
+    "prerelease": "pnpm run build"
+  },
   "private": true,
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
@@ -14,6 +18,7 @@
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
+    "@telareth/cli": "^0.1.0",
     "@telareth/eslint-plugin": "^0.5.0",
     "@telareth/prettier-config": "^0.2.0",
     "@types/node": "20.19.9",
@@ -33,6 +38,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "dependencies": {}
+  }
 }

@@ -35,7 +35,8 @@
     "projects": ["cli"],
     "projectsRelationship": "independent",
     "version": {
-      "conventionalCommits": true
+      "conventionalCommits": true,
+      "preVersionCommand": "pnpm nx run-many -t build --verbose"
     },
     "changelog": {
       "workspaceChangelog": false,

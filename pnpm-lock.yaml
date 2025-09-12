@@ -35,6 +35,9 @@ importers:
       '@swc/helpers':
         specifier: ~0.5.11
         version: 0.5.17
+      '@telareth/cli':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@telareth/eslint-plugin':
         specifier: ^0.5.0
         version: 0.5.0(@babel/traverse@7.28.4)(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.2))(@swc/core@1.5.29(@swc/helpers@0.5.17))(@typescript-eslint/parser@8.43.0(eslint@9.35.0(jiti@2.5.1))(typescript@5.9.2))(eslint@9.35.0(jiti@2.5.1))(nx@21.5.2(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.2))(@swc/core@1.5.29(@swc/helpers@0.5.17)))(prettier@3.6.2)(typescript@5.9.2)
@@ -1060,6 +1063,10 @@ packages:
 
   '@taplo/lib@0.5.0':
     resolution: {integrity: sha512-+xIqpQXJco3T+VGaTTwmhxLa51qpkQxCjRwezjFZgr+l21ExlywJFcDfTrNmL6lG6tqb0h8GyJKO3UPGPtSCWg==}
+
+  '@telareth/cli@0.1.0':
+    resolution: {integrity: sha512-4MCVzYTyZ80O7UPhmXF5TlitmYm72zOjDcQUL9n3ISLMgY7q7uz9SU5B+BDncKviufJUMNCYTn6edFIBvBapPQ==}
+    hasBin: true
 
   '@telareth/eslint-plugin@0.5.0':
     resolution: {integrity: sha512-kdzGnmS62KwqvqhPZEJA5d6Mns0I4F4MhnuNPfDlfoAhJbvK3Q+XpjzRY89c8NMVWNtrie1i60IsWpwHyn3JRA==}
@@ -4249,6 +4256,12 @@ snapshots:
   '@taplo/lib@0.5.0':
     dependencies:
       '@taplo/core': 0.2.0
+
+  '@telareth/cli@0.1.0':
+    dependencies:
+      commander: 14.0.1
+      tslib: 2.8.1
+      unique-names-generator: 4.7.1
 
   '@telareth/eslint-plugin@0.5.0(@babel/traverse@7.28.4)(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.2))(@swc/core@1.5.29(@swc/helpers@0.5.17))(@typescript-eslint/parser@8.43.0(eslint@9.35.0(jiti@2.5.1))(typescript@5.9.2))(eslint@9.35.0(jiti@2.5.1))(nx@21.5.2(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.25)(typescript@5.9.2))(@swc/core@1.5.29(@swc/helpers@0.5.17)))(prettier@3.6.2)(typescript@5.9.2)':
     dependencies:
