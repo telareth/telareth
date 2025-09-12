@@ -26,6 +26,7 @@
   ],
   "dependencies": {
     "commander": "^14.0.1",
+    "password-generator": "^2.3.2",
     "tslib": "^2.3.0",
     "unique-names-generator": "^4.7.1"
   },
