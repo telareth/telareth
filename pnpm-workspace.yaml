@@ -1,5 +1,14 @@
 packages:
-  - "packages/*"
-nodeLinker: "hoisted"
+  - packages/*
+  - sdk
+
 autoInstallPeers: true
+
+nodeLinker: hoisted
+
+onlyBuiltDependencies:
+  - '@swc/core'
+  - lefthook
+  - nx
+
 strictPeerDependencies: false
