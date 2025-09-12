@@ -1,0 +1,32 @@
+generator client {
+  provider               = "prisma-client"
+  output                 = "../src/datasource/types"
+  moduleFormat           = "esm"
+  generatedFileExtension = "ts"
+  importFileExtension    = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["admins", "services"]
+}
+
+enum AdminRole {
+  SUPERADMIN
+  ADMIN
+  MODERATOR
+
+  @@schema("admins")
+}
+
+model Admin {
+  id        String    @id @default(uuid()) @db.Uuid
+  email     String    @unique
+  password  String
+  role      AdminRole @default(ADMIN)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@schema("admins")
+}
