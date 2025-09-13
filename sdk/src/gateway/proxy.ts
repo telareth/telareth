@@ -1,6 +1,6 @@
-import type { Express } from 'express';
-
-import type { ClientRequest } from 'http';
+import type { Express, Request, Response } from 'express';
+import type { ClientRequest, IncomingMessage } from 'http';
+import type { Socket } from 'net';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
 import { dsrc } from '../datasource/index.js';
@@ -9,10 +9,7 @@ import type { ServiceModel } from '../datasource/types/models.js';
 /**
  * Sets up dynamic service proxies for the gateway.
  *
- * Fetches active services from the database and attaches proxy middlewares
- * to route requests with the service prefix to the service origin.
- * @param app The Express application instance.
- * @returns Void.
+ * @param app Express application instance
  */
 export async function setupServiceProxy(app: Express): Promise<void> {
   const services: ServiceModel[] = await dsrc.service.findMany({
@@ -24,19 +21,21 @@ export async function setupServiceProxy(app: Express): Promise<void> {
     const proxyMiddleware = createProxyMiddleware({
       target: service.origin,
       changeOrigin: true,
-
-      /**
-       * @param path
-       */
       pathRewrite: (path: string) => path.replace(service.prefix, ''),
-
-      /**
-       * @param proxyReq
-       * @param _req
-       * @param _res
-       */
-      onProxyReq: (proxyReq: ClientRequest, _req: unknown, _res: unknown) => {
-        proxyReq.setHeader('x-service-api-key', service.apiKey);
+      on: {
+        proxyReq: (proxyReq: ClientRequest, req: Request, res: Response) => {
+          proxyReq.setHeader('x-service-api-key', service.apiKey);
+        },
+        proxyRes: (proxyRes: IncomingMessage, req: Request, res: Response) => {
+          // Optional: handle response
+        },
+        error: (err: Error, req: Request, res: Response | Socket) => {
+          console.error(`[ERROR] Proxy error for ${service.prefix}:`, err);
+          if ('status' in res && typeof res.status === 'function') {
+            // Only send a response if `res` is an Express Response
+            res.status(502).send('Bad Gateway');
+          }
+        },
       },
     });
 

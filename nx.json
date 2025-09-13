@@ -36,7 +36,7 @@
     "projectsRelationship": "independent",
     "version": {
       "conventionalCommits": true,
-      "preVersionCommand": "pnpm dlx rimraf **/dist && pnpm nx run-many -t build --verbose"
+      "preVersionCommand": "pnpm run build"
     },
     "changelog": {
       "workspaceChangelog": false,

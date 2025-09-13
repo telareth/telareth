@@ -9,10 +9,12 @@
     "reset:node": "pnpm dlx rimraf **/node_modules",
     "reset:builds": "pnpm dlx rimraf **/dist",
     "reset:hard": "pnpm run reset:builds && pnpm run reset:node && pnpm run reset:nx && pnpm install",
-    "build": "pnpm nx run-many -t build --verbose",
+    "build": "pnpm nx run-many -t build --exclude @telareth/sdk --verbose",
     "prebuild": "pnpm run reset:builds",
     "release": "pnpm nx release --first-release --yes",
-    "prerelease": "pnpm run build"
+    "prerelease": "pnpm run build",
+    "up:tools": "pnpm update @telareth/cli@latest @telareth/eslint-plugin@latest @telareth/prettier-config@latest",
+    "postup:tool": "pnpm update -g @telareth/cli@latest"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
@@ -27,9 +29,9 @@
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
-    "@telareth/cli": "^0.2.0",
-    "@telareth/eslint-plugin": "^0.9.0",
-    "@telareth/prettier-config": "^0.5.0",
+    "@telareth/cli": "^0.5.0",
+    "@telareth/eslint-plugin": "^0.10.0",
+    "@telareth/prettier-config": "^0.6.0",
     "@types/express": "^5.0.3",
     "@types/node": "20.19.9",
     "commitizen": "^4.3.1",

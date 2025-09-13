@@ -1,7 +1,6 @@
-import 'dotenv/config';
+import { Gateway } from './gateway/gateway.js';
 
-import { Gateway } from './Gateway.js';
-
-const gateway = new Gateway();
-
-gateway.start();
+(async () => {
+  const gateway = new Gateway();
+  await gateway.start();
+})();
