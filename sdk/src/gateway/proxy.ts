@@ -14,35 +14,38 @@ function registerProxy(app: Express, path: string, target: string): void {
     createProxyMiddleware({
       target,
       changeOrigin: true,
-      logLevel: 'info',
       on: {
         /**
-         * Event fired before a proxy request is sent.
-         * @param proxyReq The outgoing proxy request object.
-         * @param _req The incoming client request (unused).
-         * @param _res The outgoing Express response (unused).
+         * Called before forwarding the request to the target.
+         * @param _proxyReq The proxy request object.
+         * @param _req The original Express request object.
+         * @param _res The Express response object.
          */
-        proxyReq: (proxyReq, _req: Request, _res: Response) => {
+        proxyReq: (_proxyReq, _req: Request, _res: Response) => {
           console.log(`[PROXY] Forwarding request to: ${target}${path}`);
         },
 
         /**
-         * Event fired when the proxy receives a response from the target.
-         * @param _proxyRes The response received from the target server (unused).
-         * @param _req The incoming client request (unused).
-         * @param _res The outgoing Express response (unused).
+         * Called after receiving a response from the target server.
+         * @param _proxyRes The response object from the proxied server.
+         * @param _req The original Express request object.
+         * @param _res The Express response object.
          */
         proxyRes: (_proxyRes, _req: Request, _res: Response) => {
           console.log(`[PROXY] Response received from: ${target}`);
         },
 
         /**
-         * Event fired when an error occurs in the proxy.
-         * @param err The error object.
-         * @param _req The incoming client request (unused).
-         * @param _res The outgoing Express response (unused).
+         * Handles proxy errors.
+         * @param err The error encountered during proxying.
+         * @param _req The original Express request object.
+         * @param _res The Express response object or network socket.
          */
-        error: (err: Error, _req: Request, _res: Response) => {
+        error: (
+          err: Error,
+          _req: Request,
+          _res: Response | import('net').Socket
+        ) => {
           console.error(`[PROXY ERROR] ${err.message}`);
         },
       },

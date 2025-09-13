@@ -7,8 +7,8 @@ export default [
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
-  // ...telareth.configs.javascript,
-  // ...telareth.configs.typescript,
+  ...telareth.configs.javascript,
+  ...telareth.configs.typescript,
   ...telareth.configs.json,
   ...telareth.configs.markdown,
   {

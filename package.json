@@ -14,7 +14,7 @@
     "release": "pnpm nx release --first-release --yes",
     "prerelease": "pnpm run build",
     "up:tools": "pnpm update @telareth/cli@latest @telareth/eslint-plugin@latest @telareth/prettier-config@latest",
-    "postup:tool": "pnpm update -g @telareth/cli@latest"
+    "postup:tools": "pnpm install && pnpm update -g @telareth/cli@latest"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
@@ -29,9 +29,9 @@
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
-    "@telareth/cli": "^0.6.0",
-    "@telareth/eslint-plugin": "^0.11.0",
-    "@telareth/prettier-config": "^0.7.0",
+    "@telareth/cli": "^0.6.2",
+    "@telareth/eslint-plugin": "^0.11.2",
+    "@telareth/prettier-config": "^0.7.2",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/morgan": "^1.9.10",

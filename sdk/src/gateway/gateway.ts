@@ -6,8 +6,9 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { dsrc } from 'src/datasource/index.js';
 import { z } from 'zod';
+
+import { dsrc } from '../datasource/index.js';
 
 import { setupServiceProxy } from './proxy.js';
 
