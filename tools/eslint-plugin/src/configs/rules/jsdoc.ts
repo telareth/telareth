@@ -28,7 +28,10 @@ export const rulesJsdoc: Linter.RulesRecord = {
   'jsdoc/no-blank-blocks': 'warn', // Warn on empty blocks
   'jsdoc/no-defaults': 'warn', // Warn when default values are repeated
   'jsdoc/no-undefined-types': 'error', // Prevent undefined types
-  'jsdoc/require-description': 'error', // All JSDoc entries require descriptions
+  'jsdoc/require-description': [
+    'error',
+    { contexts: ['FunctionDeclaration', 'ClassDeclaration'] },
+  ],
   'jsdoc/require-description-complete-sentence': 'warn', // Enforce full sentences
   'jsdoc/require-jsdoc': [
     'error',
