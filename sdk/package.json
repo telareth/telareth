@@ -17,10 +17,20 @@
   },
   "files": [
     "LICENSE",
+    "db",
+    "dist",
     "docker",
     "prisma",
+    ".env",
     "prisma.config.mjs"
   ],
+  "scripts": {
+    "g:db:credentials": "pnpm telareth g db credentials",
+    "docker:up": "docker compose -f docker/docker-compose.yml up -d",
+    "docker:down": "docker compose -f docker/docker-compose.yml down",
+    "migrate:dev": "pnpm prisma migrate dev --name \"$(pnpm telareth g name -t 2 -s '')\"",
+    "g:ds:types": "pnpm prisma generate"
+  },
   "dependencies": {
     "tslib": "^2.3.0"
   },
@@ -28,5 +38,68 @@
     "@telareth/cli": "^0.2.0",
     "prisma": "^6.16.1",
     "typescript": "~5.9.2"
+  },
+  "nx": {
+    "targets": {
+      "g:db:credentials": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk",
+          "commands": [
+            "pnpm run g:db:credentials"
+          ]
+        }
+      },
+      "docker:up": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk",
+          "commands": [
+            "pnpm run docker:up",
+            "sleep 5"
+          ],
+          "parallel": false
+        }
+      },
+      "docker:down": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk",
+          "commands": [
+            "pnpm run docker:down"
+          ]
+        }
+      },
+      "migrate:dev": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk",
+          "commands": [
+            "pnpm run migrate:dev"
+          ]
+        }
+      },
+      "migrate:dev:docker": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk",
+          "commands": [
+            "pnpm run migrate:dev"
+          ]
+        },
+        "dependsOn": [
+          "docker:up"
+        ]
+      },
+      "g:ds:types": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk",
+          "commands": [
+            "pnpm run g:ds:types"
+          ]
+        }
+      }
+    }
   }
 }

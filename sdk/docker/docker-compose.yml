@@ -4,11 +4,11 @@ services:
     container_name: telareth_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: telarethadmin
-      POSTGRES_PASSWORD: telarethpass
-      POSTGRES_DB: telareth
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASS}
+      POSTGRES_DB: ${DATABASE_NAME}
     ports:
-      - '5432:5432'
+      - "${DATABASE_PORT}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
