@@ -13,6 +13,7 @@ import { setupServiceProxy } from './proxy.js';
 
 /**
  * Gateway configuration schema.
+ * Uses zod to validate environment variables and provide defaults.
  */
 const GatewayConfigSchema = z.object({
   GATEWAY_PORT: z
@@ -30,13 +31,14 @@ const GatewayConfigSchema = z.object({
     .default(100), // 100 requests
 });
 
-/**
- * Type of parsed Gateway options.
- */
+/** Type of parsed Gateway options. */
 export type GatewayOptions = z.infer<typeof GatewayConfigSchema>;
 
 /**
- *
+ * Gateway class for handling:
+ * - Service proxying
+ * - Global middlewares (security, logging, rate limiting, etc.)
+ * - Health and readiness endpoints.
  */
 export class Gateway {
   private readonly app: Express;
@@ -44,7 +46,8 @@ export class Gateway {
   private proxiesReady = false;
 
   /**
-   *
+   * Initializes a new Gateway instance.
+   * Loads environment variables, validates configuration, and sets up base middlewares & endpoints.
    */
   constructor() {
     dotenv.config();
@@ -57,7 +60,8 @@ export class Gateway {
   }
 
   /**
-   * Starts the gateway.
+   * Starts the gateway by initializing proxies and listening on the configured port.
+   * @returns Promise&lt;void>.
    */
   public async start(): Promise<void> {
     try {
@@ -73,7 +77,12 @@ export class Gateway {
   }
 
   /**
-   * Register global middlewares.
+   * Register global middlewares:
+   * - Helmet (security headers)
+   * - CORS
+   * - Morgan (logging)
+   * - JSON & URL parsing
+   * - Rate limiting.
    */
   private setupMiddlewares(): void {
     this.app.use(helmet());
@@ -86,12 +95,13 @@ export class Gateway {
     const limiter = rateLimit({
       windowMs: this.options.RATE_LIMIT_WINDOW_MS,
       max: this.options.RATE_LIMIT_MAX,
-      standardHeaders: true, // adds RateLimit-* headers
-      legacyHeaders: false, // disables X-RateLimit-* headers
+      standardHeaders: true,
+      legacyHeaders: false,
 
       /**
-       * @param req
-       * @param res
+       * Custom handler when rate limit is exceeded.
+       * @param req Express request.
+       * @param res Express response.
        */
       handler: (req, res) => {
         console.warn(`[WARN] Rate limit exceeded from ${req.ip}`);
@@ -108,6 +118,8 @@ export class Gateway {
 
   /**
    * Register a simple healthcheck endpoint.
+   * - Returns `status: ok` if gateway is running.
+   * - Useful for liveness probes.
    */
   private setupHealthcheck(): void {
     this.app.get('/healthz', (_req, res) => {
@@ -123,6 +135,8 @@ export class Gateway {
 
   /**
    * Register a readiness endpoint.
+   * - Checks DB connectivity
+   * - Ensures proxies are initialized.
    */
   private setupReadiness(): void {
     this.app.get('/readyz', async (_req, res) => {
@@ -150,8 +164,11 @@ export class Gateway {
 
   /**
    * Sets up all dynamic service proxies.
+   * @returns Promise&lt;void>.
    */
   private async setupProxies(): Promise<void> {
     await setupServiceProxy(this.app);
+    this.proxiesReady = true;
+    console.log('[INFO] Service proxies initialized');
   }
 }
