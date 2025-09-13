@@ -8,6 +8,7 @@ import globals from 'globals';
 import js from '@eslint/js';
 
 import { rulesImportsExports } from './rules/imports-exports.js';
+import { rulesJavascript } from './rules/javascript.js';
 import { rulesJsdoc } from './rules/jsdoc.js';
 import eslintConfigIgnores from './ignores.js';
 import eslintConfigPrettier from './prettier.js';
@@ -38,6 +39,7 @@ const eslintConfigJavascript: Linter.Config[] = defineConfig([
       },
     },
     rules: {
+      ...rulesJavascript,
       ...rulesJsdoc,
       ...rulesImportsExports,
     },

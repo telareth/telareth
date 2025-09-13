@@ -1,7 +1,7 @@
 import type { Linter } from 'eslint';
 
 /**
- * JSDoc rules for documenting functions, classes, and modules.
+ * ESLint JSDoc rules for documenting functions, classes, and modules.
  *
  * Dependencies required:
  * - eslint-plugin-jsdoc.
@@ -9,8 +9,9 @@ import type { Linter } from 'eslint';
  * Features:
  * - Require JSDoc for functions and classes
  * - Enforce type annotations in JSDoc
- * - Require param and return descriptions
- * - Enforce consistent style.
+ * - Require param and return descriptions (except for ignored params)
+ * - Enforce consistent style
+ * - Ignore inline callbacks and underscore-prefixed variables.
  */
 export const rulesJsdoc: Linter.RulesRecord = {
   'jsdoc/check-alignment': 'error', // Align JSDoc block asterisks
@@ -46,8 +47,18 @@ export const rulesJsdoc: Linter.RulesRecord = {
     },
   ],
   'jsdoc/require-param': 'error', // Require @param for all function parameters
-  'jsdoc/require-param-description': 'error', // Params must have description
-  'jsdoc/require-returns': 'error', // Require @returns for functions
+  'jsdoc/require-param-description': [
+    'error',
+    {
+      exemptedBy: ['_'], // Ignore underscore-prefixed params
+    },
+  ],
+  'jsdoc/require-returns': [
+    'error',
+    {
+      exemptedBy: ['_'], // Ignore returns for inline functions if named '_'
+    },
+  ],
   'jsdoc/require-returns-check': 'error', // Ensure @returns matches code
   'jsdoc/require-returns-description': 'error', // Returns must have description
   'jsdoc/valid-types': 'error', // Ensure all types are valid
