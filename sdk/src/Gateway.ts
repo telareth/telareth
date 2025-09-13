@@ -1,6 +1,8 @@
 import type { Express } from 'express';
 import express from 'express';
 
+import { setupServiceProxy } from './gateway/proxy.js';
+
 /**
  * Represents the API Gateway server.
  */
@@ -28,6 +30,13 @@ export class Gateway {
   }
 
   /**
+   * Sets up poxies.
+   */
+  private async setupProxies() {
+    await setupServiceProxy(this.app);
+  }
+
+  /**
    * Sets up all routes for the Express app.
    */
   private setupRoutes() {
@@ -40,7 +49,9 @@ export class Gateway {
   /**
    * Starts the Gateway server and listens on the configured port.
    */
-  public start() {
+  public async start() {
+    await this.setupProxies();
+
     // TODO: improve start function, add graceful shutdown, always restart, etc
     this.app.listen(this.port, () => {
       console.log('[INFO]', `Gateway started at http://localhost:${this.port}`);
