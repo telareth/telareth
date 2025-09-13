@@ -9,13 +9,17 @@ import type { Linter } from 'eslint';
  * @type {Linter.RulesRecord}
  */
 export const rulesJavascript: Linter.RulesRecord = {
-  'no-unused-vars': [
-    'warn',
+  'no-unused-vars': 'off',
+  '@typescript-eslint/no-unused-vars': [
+    'error',
     {
-      vars: 'all',
-      args: 'after-used',
-      varsIgnorePattern: '^_', // ignore variables starting with _
-      argsIgnorePattern: '^_', // ignore function args starting with _
+      args: 'all',
+      argsIgnorePattern: '^_',
+      caughtErrors: 'all',
+      caughtErrorsIgnorePattern: '^_',
+      destructuredArrayIgnorePattern: '^_',
+      varsIgnorePattern: '^_',
+      ignoreRestSiblings: true,
     },
   ],
 };

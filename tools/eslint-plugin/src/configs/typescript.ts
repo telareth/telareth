@@ -23,6 +23,7 @@ const eslintConfigTypescript: Linter.Config[] = defineConfig([
     files: ['**/*.{ts,cts,mts,tsx}'],
     plugins: {
       js,
+      '@typescript-eslint': tseslint.plugin,
       jsdoc,
       import: importPlg,
       'simple-import-sort': simpleImportSort,

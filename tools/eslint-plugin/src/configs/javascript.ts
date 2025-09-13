@@ -4,6 +4,7 @@ import importPlg from 'eslint-plugin-import';
 import jsdoc from 'eslint-plugin-jsdoc';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 import js from '@eslint/js';
 
@@ -22,12 +23,14 @@ const eslintConfigJavascript: Linter.Config[] = defineConfig([
     files: ['**/*.{js,mjs,cjs,jsx}'],
     plugins: {
       js,
+      '@typescript-eslint': tseslint.plugin,
       jsdoc,
       import: importPlg,
       'simple-import-sort': simpleImportSort,
     },
     extends: [
       'js/recommended',
+      tseslint.configs.recommended,
       jsdoc.configs['flat/contents-typescript-flavor'],
       jsdoc.configs['flat/logical-typescript-flavor'],
       jsdoc.configs['flat/stylistic-typescript-flavor'],
