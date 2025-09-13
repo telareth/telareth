@@ -11,7 +11,7 @@
     "eslint-configs"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/telareth/tree/main/tools/eslint-plugin",
+  "homepage": "https://github.com/telareth/telareth/tree/main/tools/eslint-plugin",
   "repository": {
     "type": "git",
     "url": "https://github.com/telareth/telareth.git",
