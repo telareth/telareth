@@ -4,10 +4,10 @@
   "files": [],
   "references": [
     {
-      "path": "./cli"
+      "path": "./sdk"
     },
     {
-      "path": "./sdk"
+      "path": "./tools/cli"
     },
     {
       "path": "./tools/prettier-config"

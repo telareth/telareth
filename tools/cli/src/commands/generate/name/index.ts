@@ -1,15 +1,18 @@
 import { Command } from 'commander';
+import type { Config } from 'unique-names-generator';
 import {
-  uniqueNamesGenerator,
-  type Config,
   adjectives,
-  colors,
   animals,
+  colors,
+  uniqueNamesGenerator,
 } from 'unique-names-generator';
 
-import { type CommandNameOptions } from './types.js';
 import { options as opt } from './options/index.js';
+import type { CommandNameOptions } from './types.js';
 
+/**
+ * @param program
+ */
 export function setupNameCommand(program: Command) {
   program
     .command('name')

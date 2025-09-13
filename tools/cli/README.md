@@ -18,6 +18,6 @@ telareth <args>
 
 For the list of all available commands see the [documentation](./docs/commands/README.md).
 
-# License
+## License
 
 MIT

@@ -2,7 +2,7 @@ import type { Linter } from 'eslint';
 import { defineConfig } from 'eslint/config';
 import importPlg from 'eslint-plugin-import';
 import jsdoc from 'eslint-plugin-jsdoc';
-import importSimpleSort from 'eslint-plugin-simple-import-sort';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
 
 import js from '@eslint/js';
@@ -23,7 +23,7 @@ const eslintConfigJavascript: Linter.Config[] = defineConfig([
       js,
       jsdoc,
       import: importPlg,
-      'simple-import-sort': importSimpleSort,
+      'simple-import-sort': simpleImportSort,
     },
     extends: [
       'js/recommended',

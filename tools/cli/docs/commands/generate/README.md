@@ -13,3 +13,4 @@ telareth g
 ## Subcommands
 
 - [name](./generate/name.md)
+- [database](./db/README.md)

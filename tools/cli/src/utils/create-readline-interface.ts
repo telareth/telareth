@@ -2,7 +2,7 @@ import readline from 'readline';
 
 /**
  * Creates a Readline interface for user input.
- * @returns {readline.Interface} The readline interface.
+ * @returns The readline interface.
  */
 export function createReadlineInterface(): readline.Interface {
   return readline.createInterface({

@@ -1,8 +1,10 @@
-import baseConfig from '../../eslint.config.mjs';
+import { defineConfig } from 'eslint/config';
 import eslintPlugin from 'eslint-plugin-eslint-plugin';
 import nodePlugin from 'eslint-plugin-n';
 
-export default [
+import baseConfig from '../../eslint.config.mjs';
+
+export default defineConfig([
   ...baseConfig,
   {
     files: ['**/*.json'],
@@ -28,4 +30,4 @@ export default [
       eslintPlugin,
     },
   },
-];
+]);

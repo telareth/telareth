@@ -1,9 +1,17 @@
-import express, { type Express } from 'express';
+import type { Express } from 'express';
+import express from 'express';
 
+/**
+ * Represents the API Gateway server.
+ */
 export class Gateway {
   private app: Express;
   private port: number;
 
+  /**
+   * Creates a new Gateway instance.
+   * @param port The port number to listen on. Defaults to `process.env.GATEWAY_PORT` or 3000.
+   */
   constructor(port?: number) {
     this.port = port ?? parseInt(process.env.GATEWAY_PORT ?? '3000', 10);
     this.app = express();
@@ -11,11 +19,17 @@ export class Gateway {
     this.setupRoutes();
   }
 
+  /**
+   * Sets up all middlewares for the Express app.
+   */
   private setupMiddlewares() {
     this.app.use(express.json());
     // TODO: add logging, CORS, proxy setup later
   }
 
+  /**
+   * Sets up all routes for the Express app.
+   */
   private setupRoutes() {
     this.app.get('/health', (_req, res) => {
       res.json({ status: 'ok' });
@@ -23,6 +37,9 @@ export class Gateway {
     // TODO: add service proxy, etc.
   }
 
+  /**
+   * Starts the Gateway server and listens on the configured port.
+   */
   public start() {
     // TODO: improve start function, add graceful shutdown, always restart, etc
     this.app.listen(this.port, () => {
@@ -30,6 +47,10 @@ export class Gateway {
     });
   }
 
+  /**
+   * Returns the underlying Express app instance.
+   * @returns The Express application.
+   */
   public getApp(): Express {
     return this.app;
   }

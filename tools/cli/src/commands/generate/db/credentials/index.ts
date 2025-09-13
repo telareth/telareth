@@ -1,13 +1,15 @@
-import { Option, type Command } from 'commander';
+import type { Command } from 'commander';
+import { Option } from 'commander';
 import generatePassword from 'password-generator';
-import path from 'path';
-import fs from 'fs';
 import {
   adjectives,
   animals,
   colors,
   uniqueNamesGenerator,
 } from 'unique-names-generator';
+
+import fs from 'fs';
+import path from 'path';
 
 import { promptUser } from '../../../../utils/prompt-user.js';
 
@@ -22,7 +24,7 @@ const optPath = new Option(
 
 /**
  * Sets up the `credentials` command for the program.
- * @param {Command} program The Commander program instance.
+ * @param program The Commander program instance.
  */
 export function setupCredentialsCommand(program: Command) {
   program

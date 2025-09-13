@@ -47,10 +47,8 @@ export const rulesJsdoc: Linter.RulesRecord = {
   ],
   'jsdoc/require-param': 'error', // Require @param for all function parameters
   'jsdoc/require-param-description': 'error', // Params must have description
-  'jsdoc/require-param-type': 'error', // Params must have type
   'jsdoc/require-returns': 'error', // Require @returns for functions
   'jsdoc/require-returns-check': 'error', // Ensure @returns matches code
   'jsdoc/require-returns-description': 'error', // Returns must have description
-  'jsdoc/require-returns-type': 'error', // Returns must have type
   'jsdoc/valid-types': 'error', // Ensure all types are valid
 };
