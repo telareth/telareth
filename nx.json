@@ -32,7 +32,7 @@
     }
   ],
   "release": {
-    "projects": ["cli"],
+    "projects": ["cli", "tools/eslint-plugin", "tools/prettier-config"],
     "projectsRelationship": "independent",
     "version": {
       "conventionalCommits": true,
