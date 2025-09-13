@@ -1,15 +1,18 @@
-import express, { type Express } from 'express';
 import dotenv from 'dotenv';
-import { z } from 'zod';
-import { setupServiceProxy } from './proxy.js';
-import helmet from 'helmet';
+
 import cors from 'cors';
-import morgan from 'morgan';
+import type { Express } from 'express';
+import express from 'express';
 import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+import morgan from 'morgan';
 import { dsrc } from 'src/datasource/index.js';
+import { z } from 'zod';
+
+import { setupServiceProxy } from './proxy.js';
 
 /**
- * Gateway configuration schema
+ * Gateway configuration schema.
  */
 const GatewayConfigSchema = z.object({
   GATEWAY_PORT: z
@@ -28,15 +31,21 @@ const GatewayConfigSchema = z.object({
 });
 
 /**
- * Type of parsed Gateway options
+ * Type of parsed Gateway options.
  */
 export type GatewayOptions = z.infer<typeof GatewayConfigSchema>;
 
+/**
+ *
+ */
 export class Gateway {
   private readonly app: Express;
   private readonly options: GatewayOptions;
   private proxiesReady = false;
 
+  /**
+   *
+   */
   constructor() {
     dotenv.config();
     this.options = GatewayConfigSchema.parse(process.env);
@@ -48,7 +57,7 @@ export class Gateway {
   }
 
   /**
-   * Starts the gateway
+   * Starts the gateway.
    */
   public async start(): Promise<void> {
     try {
@@ -64,7 +73,7 @@ export class Gateway {
   }
 
   /**
-   * Register global middlewares
+   * Register global middlewares.
    */
   private setupMiddlewares(): void {
     this.app.use(helmet());
@@ -79,6 +88,11 @@ export class Gateway {
       max: this.options.RATE_LIMIT_MAX,
       standardHeaders: true, // adds RateLimit-* headers
       legacyHeaders: false, // disables X-RateLimit-* headers
+
+      /**
+       * @param req
+       * @param res
+       */
       handler: (req, res) => {
         console.warn(`[WARN] Rate limit exceeded from ${req.ip}`);
         res.status(429).json({
@@ -93,7 +107,7 @@ export class Gateway {
   }
 
   /**
-   * Register a simple healthcheck endpoint
+   * Register a simple healthcheck endpoint.
    */
   private setupHealthcheck(): void {
     this.app.get('/healthz', (_req, res) => {
@@ -108,7 +122,7 @@ export class Gateway {
   }
 
   /**
-   * Register a readiness endpoint
+   * Register a readiness endpoint.
    */
   private setupReadiness(): void {
     this.app.get('/readyz', async (_req, res) => {
@@ -135,7 +149,7 @@ export class Gateway {
   }
 
   /**
-   * Sets up all dynamic service proxies
+   * Sets up all dynamic service proxies.
    */
   private async setupProxies(): Promise<void> {
     await setupServiceProxy(this.app);
