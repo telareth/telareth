@@ -28,8 +28,9 @@
     "g:db:credentials": "pnpm telareth g db credentials",
     "docker:up": "docker compose -f docker/docker-compose.yml up -d",
     "docker:down": "docker compose -f docker/docker-compose.yml down",
+    "g:ds:types": "pnpm prisma generate",
     "migrate:dev": "pnpm prisma migrate dev --name \"$(pnpm telareth g name -t 2 -s '')\"",
-    "g:ds:types": "pnpm prisma generate"
+    "migrate:dev:docker": "pnpm nx run @telareth/sdk:migrate:dev:docker --verbose"
   },
   "dependencies": {
     "tslib": "^2.3.0"

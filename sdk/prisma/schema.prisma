@@ -30,3 +30,47 @@ model Admin {
 
   @@schema("admins")
 }
+
+model Service {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique
+  description String?
+  origin      String
+  prefix      String
+  active      Boolean  @default(false)
+  apiKey      String   @unique // secret to validate service <-> gateway
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  middlewares Middleware[]
+  ApiKey      ApiKey[]
+
+  @@schema("services")
+}
+
+model Middleware {
+  id     String @id @default(uuid()) @db.Uuid
+  name   String // e.g. "auth", "rate-limit"
+  config Json? // JSON config for the middleware
+
+  service   Service @relation(fields: [serviceId], references: [id])
+  serviceId String  @db.Uuid
+
+  @@schema("services")
+}
+
+model ApiKey {
+  id         String    @id @default(uuid()) @db.Uuid
+  key        String    @unique // the actual token/secret
+  name       String? // human-friendly label ("CI token", "staging key")
+  expiresAt  DateTime? // nullable = never expires
+  revoked    Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  lastUsedAt DateTime? // last time the key was used
+  usageCount Int       @default(0) // how many times the key was used
+
+  service   Service @relation(fields: [serviceId], references: [id])
+  serviceId String  @db.Uuid
+
+  @@schema("services")
+}
