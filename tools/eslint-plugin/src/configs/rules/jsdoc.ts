@@ -50,13 +50,13 @@ export const rulesJsdoc: Linter.RulesRecord = {
   'jsdoc/require-param-description': [
     'error',
     {
-      exemptedBy: ['_'], // Ignore underscore-prefixed params
+      contexts: ['any'],
     },
   ],
   'jsdoc/require-returns': [
     'error',
     {
-      exemptedBy: ['_'], // Ignore returns for inline functions if named '_'
+      contexts: ['any'],
     },
   ],
   'jsdoc/require-returns-check': 'error', // Ensure @returns matches code
