@@ -1,10 +1,13 @@
 packages:
   - 'cli'
   - 'sdk'
+  - 'tools/*'
 autoInstallPeers: true
 nodeLinker: 'hoisted'
 onlyBuiltDependencies:
+  - '@prisma/engines'
   - '@swc/core'
   - 'lefthook'
   - 'nx'
+  - 'prisma'
 strictPeerDependencies: false

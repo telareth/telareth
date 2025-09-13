@@ -8,6 +8,12 @@
     },
     {
       "path": "./sdk"
+    },
+    {
+      "path": "./tools/prettier-config"
+    },
+    {
+      "path": "./tools/eslint-plugin"
     }
   ]
 }

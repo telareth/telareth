@@ -1,0 +1,70 @@
+{
+  "name": "@telareth/prettier-config",
+  "version": "0.3.10",
+  "description": "Telareth Prettier config",
+  "type": "module",
+  "keywords": [
+    "telareth",
+    "prettier",
+    "prettier-config"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/telareth/tree/main/tools/prettier-config",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/telareth/telareth.git",
+    "directory": "tools/prettier-config"
+  },
+  "bugs": {
+    "url": "https://github.com/telareth/telareth/issues"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@telareth/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "packageManager": "pnpm@10.15.1",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "prettier-plugin-prisma": "^5.0.0",
+    "prettier-plugin-sh": "^0.18.0",
+    "prettier-plugin-toml": "^2.0.6"
+  },
+  "peerDependencies": {
+    "prettier": "^3.6.2",
+    "prettier-plugin-prisma": "^5.0.0",
+    "prettier-plugin-sh": "^0.18.0",
+    "prettier-plugin-toml": "^2.0.6"
+  },
+  "nx": {
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "pnpm dlx rimraf ./dist"
+        ]
+      }
+    },
+    "targets": {
+      "build": {
+        "dependesOn": [
+          "clean"
+        ]
+      }
+    }
+  }
+}
