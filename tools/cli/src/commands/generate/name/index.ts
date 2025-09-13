@@ -11,7 +11,8 @@ import { options as opt } from './options/index.js';
 import type { CommandNameOptions } from './types.js';
 
 /**
- * @param program
+ * Sets up the "name" CLI command which generates random names.
+ * @param program The Commander program instance to attach the command to.
  */
 export function setupNameCommand(program: Command) {
   program

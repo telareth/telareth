@@ -48,11 +48,11 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0
       '@telareth/eslint-plugin':
-        specifier: ^0.8.0
-        version: 0.8.0(@typescript-eslint/parser@8.43.0(eslint@9.35.0(jiti@2.5.1))(typescript@5.9.2))(eslint@9.35.0(jiti@2.5.1))(prettier@3.6.2)(typescript@5.9.2)
+        specifier: ^0.9.0
+        version: 0.9.0(@typescript-eslint/parser@8.43.0(eslint@9.35.0(jiti@2.5.1))(typescript@5.9.2))(eslint@9.35.0(jiti@2.5.1))(prettier@3.6.2)(typescript@5.9.2)
       '@telareth/prettier-config':
-        specifier: ^0.4.0
-        version: 0.4.0(prettier-plugin-prisma@5.0.0(prettier@3.6.2))(prettier-plugin-sh@0.18.0(prettier@3.6.2))(prettier-plugin-toml@2.0.6(prettier@3.6.2))(prettier@3.6.2)
+        specifier: ^0.5.0
+        version: 0.5.0(prettier-plugin-prisma@5.0.0(prettier@3.6.2))(prettier-plugin-sh@0.18.0(prettier@3.6.2))(prettier-plugin-toml@2.0.6(prettier@3.6.2))(prettier@3.6.2)
       '@types/express':
         specifier: ^5.0.3
         version: 5.0.3
@@ -1236,13 +1236,13 @@ packages:
     resolution: {integrity: sha512-vXSMBGKYO1jwWZ0ryw+g1CPfAhkacQFPh8HCcA8Pgauwp65t6a1wIKxvPV/193wTtx2lZ9MHcqR6LCoUljdOSA==}
     hasBin: true
 
-  '@telareth/eslint-plugin@0.8.0':
-    resolution: {integrity: sha512-aZTujc3xDhhl/s0Behk+Mw+AcqgndpR/Sgpj8/qMfy/QIczYDyzfGeoI7XYSI0fIqhsuQURf7yPXNjiB7Vw0zQ==}
+  '@telareth/eslint-plugin@0.9.0':
+    resolution: {integrity: sha512-z2nMQhV10hmzEiFvdkiGkH7GmIk4ooRKgGwWQK6ROTSJbJ5E6JymDiyK0ymojYpWQ1WmQ+eRqjYdKfMfR99tPw==}
     peerDependencies:
       eslint: ^9.35.0
 
-  '@telareth/prettier-config@0.4.0':
-    resolution: {integrity: sha512-swRIY3P7d/ye6Tadz8mWErgrl+tWLsd9PzP0NvpjZoN4EDTH4P6n+YNrNEIY6X6+MKcqpJoXqqI3M7IU3D0LZg==}
+  '@telareth/prettier-config@0.5.0':
+    resolution: {integrity: sha512-s8+pkOiEBFVNxYhvJXknwge+0BuIAGfSrte6wdtaoyrKffV1tT8YRPxryoq+URXQRr+3YhdZTkDvLiq/FxwxHA==}
     peerDependencies:
       prettier: ^3.6.2
       prettier-plugin-prisma: ^5.0.0
@@ -5150,7 +5150,7 @@ snapshots:
       tslib: 2.8.1
       unique-names-generator: 4.7.1
 
-  '@telareth/eslint-plugin@0.8.0(@typescript-eslint/parser@8.43.0(eslint@9.35.0(jiti@2.5.1))(typescript@5.9.2))(eslint@9.35.0(jiti@2.5.1))(prettier@3.6.2)(typescript@5.9.2)':
+  '@telareth/eslint-plugin@0.9.0(@typescript-eslint/parser@8.43.0(eslint@9.35.0(jiti@2.5.1))(typescript@5.9.2))(eslint@9.35.0(jiti@2.5.1))(prettier@3.6.2)(typescript@5.9.2)':
     dependencies:
       '@eslint/js': 9.35.0
       '@eslint/json': 0.13.2
@@ -5174,7 +5174,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@telareth/prettier-config@0.4.0(prettier-plugin-prisma@5.0.0(prettier@3.6.2))(prettier-plugin-sh@0.18.0(prettier@3.6.2))(prettier-plugin-toml@2.0.6(prettier@3.6.2))(prettier@3.6.2)':
+  '@telareth/prettier-config@0.5.0(prettier-plugin-prisma@5.0.0(prettier@3.6.2))(prettier-plugin-sh@0.18.0(prettier@3.6.2))(prettier-plugin-toml@2.0.6(prettier@3.6.2))(prettier@3.6.2)':
     dependencies:
       prettier: 3.6.2
       prettier-plugin-prisma: 5.0.0(prettier@3.6.2)

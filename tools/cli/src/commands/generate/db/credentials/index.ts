@@ -23,7 +23,7 @@ const optPath = new Option(
 ).default('.');
 
 /**
- * Sets up the `credentials` command for the program.
+ * Sets up the "credentials" command for the program.
  * @param program The Commander program instance.
  */
 export function setupCredentialsCommand(program: Command) {
