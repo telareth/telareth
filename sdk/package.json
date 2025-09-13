@@ -33,10 +33,12 @@
     "migrate:dev:docker": "pnpm nx run @telareth/sdk:migrate:dev:docker --verbose"
   },
   "dependencies": {
+    "express": "^5.1.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@telareth/cli": "^0.2.0",
+    "@types/express": "^5.0.3",
     "prisma": "^6.16.1",
     "typescript": "~5.9.2"
   },
