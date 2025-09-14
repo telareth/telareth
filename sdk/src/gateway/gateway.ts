@@ -30,6 +30,7 @@ const GatewayConfigSchema = z.object({
     .string()
     .transform((val) => parseInt(val, 10))
     .default(100), // 100 requests
+  GATEWAY_PREFIX_MODE: z.string().default(''),
 });
 
 /** Type of parsed Gateway options. */
@@ -168,7 +169,7 @@ export class Gateway {
    * @returns Promise&lt;void>.
    */
   private async setupProxies(): Promise<void> {
-    await setupServiceProxy(this.app);
+    await setupServiceProxy(this.app, this.options.GATEWAY_PREFIX_MODE);
     this.proxiesReady = true;
     console.log('[INFO] Service proxies initialized');
   }

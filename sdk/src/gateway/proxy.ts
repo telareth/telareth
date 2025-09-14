@@ -1,52 +1,72 @@
 import type { Express, Request, Response } from 'express';
 
+import { ServerResponse } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import { Socket } from 'net';
+
+import { dsrc } from '../datasource/index.js';
+import type { Service } from '../datasource/types/client.js';
 
 /**
- * Registers a proxy route on the given Express app.
+ * Registers a proxy middleware on the given Express app.
  * @param app Express application instance where the proxy is mounted.
  * @param path The base path to match incoming requests for this proxy.
  * @param target The destination target URL where requests should be forwarded.
+ * @param apiKey Optional API key to be set in the proxied request headers.
  */
-function registerProxy(app: Express, path: string, target: string): void {
+function registerProxy(
+  app: Express,
+  path: string,
+  target: string,
+  apiKey?: string
+): void {
   app.use(
     path,
     createProxyMiddleware({
       target,
       changeOrigin: true,
+
+      /**
+       * Rewrites the request path by removing the proxy mount path.
+       * @param p The original request path.
+       */
+      pathRewrite: (p: string) => p.replace(path, ''),
       on: {
         /**
-         * Called before forwarding the request to the target.
-         * @param _proxyReq The proxy request object.
-         * @param _req The original Express request object.
-         * @param _res The Express response object.
+         * Event fired before forwarding the request to the target server.
+         * @param proxyReq The outgoing proxy request object.
          */
-        proxyReq: (_proxyReq, _req: Request, _res: Response) => {
-          console.log(`[PROXY] Forwarding request to: ${target}${path}`);
+        proxyReq: (proxyReq) => {
+          if (apiKey) {
+            proxyReq.setHeader('x-service-api-key', apiKey);
+          }
+          console.log(`[PROXY] Forwarding request → ${target}`);
         },
 
         /**
-         * Called after receiving a response from the target server.
-         * @param _proxyRes The response object from the proxied server.
-         * @param _req The original Express request object.
-         * @param _res The Express response object.
+         * Event fired when the proxy receives a response from the target.
          */
-        proxyRes: (_proxyRes, _req: Request, _res: Response) => {
-          console.log(`[PROXY] Response received from: ${target}`);
+        proxyRes: () => {
+          console.log(`[PROXY] Response received ← ${target}`);
         },
 
         /**
-         * Handles proxy errors.
-         * @param err The error encountered during proxying.
-         * @param _req The original Express request object.
-         * @param _res The Express response object or network socket.
+         * Event fired when an error occurs in the proxy.
+         * @param err The error that occurred.
+         * @param _req The incoming Express request object.
+         * @param res The response or socket object to send the error to.
          */
-        error: (
-          err: Error,
-          _req: Request,
-          _res: Response | import('net').Socket
-        ) => {
+        error: (err: Error, _req: Request, res: Response | Socket) => {
           console.error(`[PROXY ERROR] ${err.message}`);
+
+          if (res instanceof ServerResponse) {
+            if (!res.headersSent) {
+              res.writeHead(502, { 'Content-Type': 'application/json' });
+            }
+            res.end(JSON.stringify({ error: 'Bad Gateway' }));
+          } else if (res instanceof Socket) {
+            res.end();
+          }
         },
       },
     })
@@ -54,14 +74,32 @@ function registerProxy(app: Express, path: string, target: string): void {
 }
 
 /**
- * Sets up service proxies on the given Express app.
- * Typically used to connect microservices behind the gateway.
- * @param app Express application instance.
+ * Sets up proxy routes for all active services on the given Express app.
+ *
+ * Fetches active services from the database and registers a proxy for each,
+ * mounting them under the given base path + service prefix.
+ * @param app Express application instance where service proxies will be registered.
+ * @param basePath The base path under which service proxies will be mounted.
  */
-export async function setupServiceProxy(app: Express): Promise<void> {
-  // TODO: fetch from DB instead of hardcoding
-  registerProxy(app, '/api/service1', 'http://localhost:4001');
-  registerProxy(app, '/api/service2', 'http://localhost:4002');
+export async function setupServiceProxy(
+  app: Express,
+  basePath: string
+): Promise<void> {
+  const services: Service[] = await dsrc.service.findMany({
+    where: { active: true },
+    include: { ApiKey: true },
+  });
 
-  console.log('[INFO] Service proxies registered');
+  services.forEach((service) => {
+    // Normalize: avoid double slashes
+    const normalizedBase =
+      basePath.endsWith('/') && basePath !== '/'
+        ? basePath.slice(0, -1)
+        : basePath;
+    const mountPath = `${normalizedBase}${service.prefix}`;
+
+    registerProxy(app, mountPath, service.origin, service.apiKey ?? undefined);
+
+    console.log(`[INFO] Proxy configured: ${mountPath} → ${service.origin}`);
+  });
 }
