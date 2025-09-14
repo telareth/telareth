@@ -53,6 +53,11 @@
     "@types/node": "20.19.9"
   },
   "nx": {
+    "tags": [
+      "scope:tools",
+      "type:cli",
+      "runtime:devtool"
+    ],
     "clean": {
       "executor": "nx:run-commands",
       "options": {

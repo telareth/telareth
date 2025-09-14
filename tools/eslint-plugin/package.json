@@ -60,6 +60,12 @@
     "eslint-plugin-n": "^17.21.3"
   },
   "nx": {
+    "tags": [
+      "scope:tools",
+      "type:devtool",
+      "tool:eslint",
+      "runtime:devtool"
+    ],
     "clean": {
       "executor": "nx:run-commands",
       "options": {

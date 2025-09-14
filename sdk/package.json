@@ -53,6 +53,10 @@
     "typescript": "~5.9.2"
   },
   "nx": {
+    "tags": [
+      "scope:sdk",
+      "runtime:core"
+    ],
     "targets": {
       "g:db:credentials": {
         "executor": "nx:run-commands",
