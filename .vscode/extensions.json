@@ -17,6 +17,7 @@
     "foxundermoon.shell-format",
     "timonwong.shellcheck",
     "bierner.emojisense",
-    "gruntfuggly.todo-tree"
+    "gruntfuggly.todo-tree",
+    "ms-vscode.makefile-tools"
   ]
 }
