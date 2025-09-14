@@ -35,7 +35,7 @@ export class GatewayRouter {
         this.router
       );
 
-      this.router.use(this.options.middlewares);
+      this.router.use(...(this.options.middlewares ?? []));
     }
   }
 
