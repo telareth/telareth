@@ -20,7 +20,8 @@
     "release": "pnpm nx release --first-release --yes",
     "prerelease": "pnpm run build:devtools",
     "up:tools": "pnpm update @telareth/cli@latest @telareth/eslint-plugin@latest @telareth/prettier-config@latest",
-    "postup:tools": "pnpm install && pnpm update -g @telareth/cli@latest"
+    "postup:tools": "pnpm install && pnpm update -g @telareth/cli@latest",
+    "start:pm2": "pnpm nx run @telareth/sdk:start:pm2"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
@@ -64,6 +65,7 @@
     "morgan": "^1.10.1",
     "nx": "21.5.2",
     "password-generator": "^2.3.2",
+    "pm2": "^6.0.10",
     "prettier": "^3.6.2",
     "prettier-plugin-prisma": "^5.0.0",
     "prettier-plugin-sh": "^0.18.0",

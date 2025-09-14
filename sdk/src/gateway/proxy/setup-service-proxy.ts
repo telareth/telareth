@@ -1,7 +1,6 @@
 import type { Application } from 'express';
 
-import { dsrc } from '../../datasource/index.js';
-import type { Service } from '../../datasource/types/client.js';
+import { fetchActiveServices } from '../../db/queries/service/fetch-active-services.js';
 
 import { registerProxy } from './register-proxy.js';
 
@@ -17,21 +16,18 @@ export async function setupServiceProxy(
   app: Application,
   basePath: string
 ): Promise<void> {
-  const services: Service[] = await dsrc.service.findMany({
-    where: { active: true },
-    include: { ApiKey: true },
-  });
+  const services = await fetchActiveServices();
 
-  services.forEach((service) => {
-    // Normalize: avoid double slashes
+  for (const service of services) {
     const normalizedBase =
       basePath.endsWith('/') && basePath !== '/'
         ? basePath.slice(0, -1)
         : basePath;
+
     const mountPath = `${normalizedBase}${service.prefix}`;
 
     registerProxy(app, mountPath, service.origin, service.apiKey ?? undefined);
 
     console.log(`[INFO] Proxy configured: ${mountPath} → ${service.origin}`);
-  });
+  }
 }

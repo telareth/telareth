@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 
 import { PROXIES_READY } from '../../../consts.js';
-import { dsrc } from '../../../datasource/index.js';
+import { getPrismaClient } from '../../../db/client.js';
 
 /**
  * Handles the readiness check endpoint.
@@ -14,9 +14,10 @@ import { dsrc } from '../../../datasource/index.js';
  */
 export async function readinessHandler(req: Request, res: Response) {
   const proxiesReady = (req.app.get(PROXIES_READY) as boolean) ?? false;
+  const prisma = getPrismaClient();
 
   try {
-    await dsrc.$queryRaw`SELECT 1`;
+    await prisma.$queryRaw`SELECT 1`;
     if (proxiesReady) {
       return res
         .status(503)

@@ -1,12 +1,12 @@
 import type { Application, Handler, Router } from 'express';
 import express from 'express';
 
+import type { HttpMethod } from '../../types/http-methods.js';
 import type {
   GatewayRouterOptionsInput,
   GatewayRouterOptionsOutput,
-} from '../../schemas/gateway-router-options.js';
-import type { HttpMethod } from '../../types/http-methods.js';
-import { parseGatewayRouterOptions } from '../../utils/parse-gateway-router-options.js';
+} from '../schemas/gateway-router-options.js';
+import { parseGatewayRouterOptions } from '../utils/parse-gateway-router-options.js';
 
 import type { MountRouteArgs } from './types/mount-route.js';
 

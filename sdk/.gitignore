@@ -3,6 +3,8 @@
 
 /node_modules
 
-/db
 /dist
-/src/datasource/types
+
+# Prisma generated files
+/src/db/types
+/src/db/migrations

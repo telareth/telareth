@@ -3,18 +3,21 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import type { Application } from 'express';
 import express from 'express';
-import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
-import { PROXIES_READY } from '../consts.js';
-import type { GatewayOptionsOutput } from '../schemas/gateway-options.js';
-import { parseGatewayOptions } from '../utils/parse-gateway-options.js';
+import type { Server } from 'http';
 
+import { PROXIES_READY } from '../consts.js';
+import { createShutdownHandler } from '../core/shutdown.js';
+
+import { createRateLimiter } from './middlewares/rate-limit.js';
 import { setupServiceProxy } from './proxy/setup-service-proxy.js';
 import { healthzHandler } from './routes/handlers/healthz.js';
 import { readinessHandler } from './routes/handlers/readiness.js';
 import { GatewayRouter } from './routes/router.js';
+import type { GatewayOptionsOutput } from './schemas/gateway-options.js';
+import { parseGatewayOptions } from './utils/parse-gateway-options.js';
 
 /**
  * Gateway class for handling:
@@ -25,6 +28,7 @@ import { GatewayRouter } from './routes/router.js';
 export class Gateway {
   private readonly app: Application;
   private readonly options: GatewayOptionsOutput;
+  private server: Server | null = null;
 
   /**
    * Initializes a new Gateway instance.
@@ -57,13 +61,26 @@ export class Gateway {
     try {
       await this.setupProxies();
 
-      this.app.listen(this.options.GATEWAY_PORT, () => {
+      this.server = this.app.listen(this.options.GATEWAY_PORT, () => {
         console.log(`[INFO] Gateway started at ${this.options.GATEWAY_URL}`);
       });
+
+      this.setupGracefulShutdown();
     } catch (err) {
       console.error('[ERROR] Failed to start gateway:', err);
       process.exit(1);
     }
+  }
+
+  /**
+   * Registers handlers for graceful shutdown.
+   */
+  private setupGracefulShutdown(): void {
+    const shutdown = createShutdownHandler(this.server);
+
+    process.on('SIGINT', () => shutdown('SIGINT'));
+    process.on('SIGTERM', () => shutdown('SIGTERM'));
+    process.on('SIGQUIT', () => shutdown('SIGQUIT'));
   }
 
   /**
@@ -80,28 +97,7 @@ export class Gateway {
     this.app.use(morgan('combined')); // logs all requests
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-
-    // Rate limiter
-    const limiter = rateLimit({
-      windowMs: this.options.RATE_LIMIT_WINDOW_MS,
-      max: this.options.RATE_LIMIT_MAX,
-      standardHeaders: true,
-      legacyHeaders: false,
-
-      /**
-       * Custom handler when rate limit is exceeded.
-       * @param req Express request.
-       * @param res Express response.
-       */
-      handler: (req, res) => {
-        console.warn(`[WARN] Rate limit exceeded from ${req.ip}`);
-        res.status(429).json({
-          error: 'Too many requests, please try again later.',
-        });
-      },
-    });
-
-    this.app.use(limiter);
+    this.app.use(createRateLimiter(this.options));
 
     console.log('[INFO] Global middlewares initialized');
   }

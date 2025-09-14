@@ -28,7 +28,7 @@
     "g:db:credentials": "pnpm telareth g db credentials",
     "docker:up": "docker compose -f docker/docker-compose.yml up -d",
     "docker:down": "docker compose -f docker/docker-compose.yml down",
-    "g:ds:types": "pnpm prisma generate",
+    "g:db:types": "pnpm prisma generate",
     "migrate:dev": "pnpm prisma migrate dev --name \"$(pnpm telareth g name -t 2 -s '')\"",
     "migrate:dev:docker": "pnpm nx run @telareth/sdk:migrate:dev:docker --verbose"
   },
@@ -108,12 +108,21 @@
           "docker:up"
         ]
       },
-      "g:ds:types": {
+      "g:db:types": {
         "executor": "nx:run-commands",
         "options": {
           "cwd": "sdk",
           "commands": [
-            "pnpm run g:ds:types"
+            "pnpm run g:db:types"
+          ]
+        }
+      },
+      "start:pm2": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk",
+          "commands": [
+            "pnpm pm2 start"
           ]
         }
       }
