@@ -1,40 +1,20 @@
 import dotenv from 'dotenv';
 
 import cors from 'cors';
-import type { Express } from 'express';
+import type { Application } from 'express';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { z } from 'zod';
 
-import { dsrc } from '../datasource/index.js';
+import { PROXIES_READY } from '../consts.js';
+import type { GatewayOptionsOutput } from '../schemas/gateway-options.js';
+import { parseGatewayOptions } from '../utils/parse-gateway-options.js';
 
-import { setupServiceProxy } from './proxy.js';
-
-/**
- * Gateway configuration schema.
- * Uses zod to validate environment variables and provide defaults.
- */
-const GatewayConfigSchema = z.object({
-  GATEWAY_PORT: z
-    .string()
-    .transform((val) => parseInt(val, 10))
-    .default(3000),
-  GATEWAY_URL: z.url().default('http://localhost:3000'),
-  RATE_LIMIT_WINDOW_MS: z
-    .string()
-    .transform((val) => parseInt(val, 10))
-    .default(900000), // 15 min
-  RATE_LIMIT_MAX: z
-    .string()
-    .transform((val) => parseInt(val, 10))
-    .default(100), // 100 requests
-  GATEWAY_PREFIX_MODE: z.string().default(''),
-});
-
-/** Type of parsed Gateway options. */
-export type GatewayOptions = z.infer<typeof GatewayConfigSchema>;
+import { setupServiceProxy } from './proxy/setup-service-proxy.js';
+import { healthzHandler } from './routes/handlers/healthz.js';
+import { readinessHandler } from './routes/handlers/readiness.js';
+import { GatewayRouter } from './routes/router.js';
 
 /**
  * Gateway class for handling:
@@ -43,22 +23,30 @@ export type GatewayOptions = z.infer<typeof GatewayConfigSchema>;
  * - Health and readiness endpoints.
  */
 export class Gateway {
-  private readonly app: Express;
-  private readonly options: GatewayOptions;
-  private proxiesReady = false;
+  private readonly app: Application;
+  private readonly options: GatewayOptionsOutput;
 
   /**
    * Initializes a new Gateway instance.
    * Loads environment variables, validates configuration, and sets up base middlewares & endpoints.
+   * @param options User defined options that comes from process.env.
    */
-  constructor() {
-    dotenv.config();
-    this.options = GatewayConfigSchema.parse(process.env);
+  constructor(options: GatewayOptionsOutput) {
+    this.options = options;
     this.app = express();
 
     this.setupMiddlewares();
-    this.setupHealthcheck();
-    this.setupReadiness();
+    this.setupRootRouter();
+  }
+
+  /**
+   * Async factory to create a Gateway instance.
+   * @returns A promise that resolves to a Gateway instance.
+   */
+  public static async create(): Promise<Gateway | null> {
+    dotenv.config();
+    const options = await parseGatewayOptions(process.env);
+    return new Gateway(options);
   }
 
   /**
@@ -119,49 +107,15 @@ export class Gateway {
   }
 
   /**
-   * Register a simple healthcheck endpoint.
-   * - Returns `status: ok` if gateway is running.
-   * - Useful for liveness probes.
+   * Sets up the root router.
    */
-  private setupHealthcheck(): void {
-    this.app.get('/healthz', (_req, res) => {
-      res.status(200).json({
-        status: 'ok',
-        uptime: process.uptime(),
-        timestamp: new Date().toISOString(),
-      });
+  private setupRootRouter() {
+    const router = new GatewayRouter({
+      app: this.app,
     });
 
-    console.log('[INFO] Healthcheck endpoint registered at /healthz');
-  }
-
-  /**
-   * Register a readiness endpoint.
-   * - Checks DB connectivity
-   * - Ensures proxies are initialized.
-   */
-  private setupReadiness(): void {
-    this.app.get('/readyz', async (_req, res) => {
-      try {
-        // DB check
-        await dsrc.$queryRaw`SELECT 1`;
-
-        if (!this.proxiesReady) {
-          return res
-            .status(503)
-            .json({ status: 'not ready', reason: 'Proxies not initialized' });
-        }
-
-        return res.status(200).json({ status: 'ready' });
-      } catch (err) {
-        console.error('[ERROR] Readiness check failed:', err);
-        return res
-          .status(503)
-          .json({ status: 'not ready', reason: 'DB not reachable' });
-      }
-    });
-
-    console.log('[INFO] Readiness endpoint registered at /readyz');
+    router.mountRoute(healthzHandler);
+    router.mountRoute(readinessHandler);
   }
 
   /**
@@ -170,7 +124,7 @@ export class Gateway {
    */
   private async setupProxies(): Promise<void> {
     await setupServiceProxy(this.app, this.options.GATEWAY_PREFIX_MODE);
-    this.proxiesReady = true;
+    this.app.set(PROXIES_READY, true);
     console.log('[INFO] Service proxies initialized');
   }
 }
