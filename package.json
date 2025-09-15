@@ -5,7 +5,7 @@
   "scripts": {
     "build:all": "nx run-many -t build",
     "build:tools": "nx run-many -t build --projects=tag:runtime:devtool",
-    "release": "nx release --first-release",
+    "release": "nx release --first-release --yes --verbose",
     "postrelease": "chmod +x ./scripts/update-tools.sh && ./scripts/update-tools.sh"
   },
   "private": true,
