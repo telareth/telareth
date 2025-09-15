@@ -62,7 +62,8 @@
   "devDependencies": {
     "eslint": "^9.35.0",
     "eslint-plugin-eslint-plugin": "^7.0.0",
-    "eslint-plugin-n": "^17.21.3"
+    "eslint-plugin-n": "^17.21.3",
+    "rimraf": "^6.0.1"
   },
   "nx": {
     "tags": [
@@ -75,16 +76,32 @@
       "clean": {
         "executor": "nx:run-commands",
         "options": {
+          "cwd": "tools/eslint-plugin",
           "commands": [
-            "eslint --fix .",
-            "npx rimraf ./dist"
-          ],
-          "parallel": false
+            "rimraf dist"
+          ]
         }
       },
-      "build": {
+      "install": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npm install"
+          ]
+        },
         "dependesOn": [
-          "clean"
+          "^clean"
+        ]
+      },
+      "lint:fmt": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": [
+            "eslint --fix ."
+          ]
+        },
+        "dependesOn": [
+          "^install"
         ]
       }
     }

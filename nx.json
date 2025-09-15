@@ -31,6 +31,11 @@
       }
     }
   ],
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^clean", "install", "^lint:fmt", "^build"]
+    }
+  },
   "release": {
     "projects": ["tools/eslint-plugin", "tools/prettier-config"],
     "projectsRelationship": "independent",

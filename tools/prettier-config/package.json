@@ -49,7 +49,8 @@
     "prettier": "^3.6.2",
     "prettier-plugin-prisma": "^5.0.0",
     "prettier-plugin-sh": "^0.18.0",
-    "prettier-plugin-toml": "^2.0.6"
+    "prettier-plugin-toml": "^2.0.6",
+    "rimraf": "^6.0.1"
   },
   "peerDependencies": {
     "prettier": "^3.6.2",
@@ -70,15 +71,30 @@
         "options": {
           "cwd": "tools/prettier-config",
           "commands": [
-            "eslint --fix .",
-            "npx rimraf ./dist"
-          ],
-          "parallel": false
+            "rimraf dist"
+          ]
         }
       },
-      "build": {
+      "install": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npm install"
+          ]
+        },
         "dependesOn": [
-          "clean"
+          "^clean"
+        ]
+      },
+      "lint:fmt": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": [
+            "eslint --fix ."
+          ]
+        },
+        "dependesOn": [
+          "^install"
         ]
       }
     }
