@@ -1,0 +1,10 @@
+.env*
+!.env
+
+/node_modules
+
+/dist
+
+# Prisma generated files
+/src/db/types
+/src/db/migrations

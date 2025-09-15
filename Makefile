@@ -1,4 +1,4 @@
-.PHONY: install-g-deps setup-cz setup-prettier setup-eslint setup-lefthook
+.PHONY: install-g-deps setup-cz setup-prettier setup-eslint setup-lefthook update-tools install-pm2
 
 install-g-deps:
 	@echo "[INFO] Installing global packages"
@@ -20,6 +20,10 @@ setup-lefthook:
 	chmod +x scripts/setup-lefthook.sh
 	./scripts/setup-lefthook.sh
 
-update-yools:
+update-tools:
 	chmod +x ./scripts/update-tools.sh
 	./scripts/update-tools.sh
+
+install-pm2:
+	chmod +x ./scripts/install-pm2.sh
+	./scripts/install-pm2.sh
