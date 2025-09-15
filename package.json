@@ -21,7 +21,7 @@
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
-    "@telareth/cli": "^0.6.2",
+    "@telareth/cli": "^0.7.0",
     "@telareth/eslint-plugin": "^0.12.2",
     "@telareth/prettier-config": "^0.8.2",
     "@types/node": "20.19.9",
