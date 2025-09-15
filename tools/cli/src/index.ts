@@ -2,7 +2,6 @@
 import { Command } from 'commander';
 
 import pkg from '../package.json' with { type: 'json' };
-
 import { setupGenerateCommand } from './commands/index.js';
 
 const program = new Command();

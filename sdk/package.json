@@ -1,11 +1,38 @@
 {
   "name": "@telareth/sdk",
   "version": "0.0.1",
-  "private": true,
+  "description": "Telareth sdk",
+  "keywords": [
+    "telareth",
+    "api",
+    "rest",
+    "rest-api",
+    "api-gateway",
+    "gateway"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/telareth/telareth/blob/main/sdk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/telareth/telareth.git",
+    "directory": "sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/telareth/telareth/issues"
+  },
+  "scripts": {},
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "LICENSE",
+    "dist",
+    "docker",
+    ".env",
+    "ecosystem.config.cjs",
+    "prisma.config.mjs"
+  ],
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -15,22 +42,9 @@
       "default": "./dist/index.js"
     }
   },
-  "files": [
-    "LICENSE",
-    "db",
-    "dist",
-    "docker",
-    "prisma",
-    ".env",
-    "prisma.config.mjs"
-  ],
-  "scripts": {
-    "g:db:credentials": "npm telareth g db credentials",
-    "docker:up": "docker compose -f docker/docker-compose.yml up -d",
-    "docker:down": "docker compose -f docker/docker-compose.yml down",
-    "g:db:types": "npm prisma generate",
-    "migrate:dev": "npm prisma migrate dev --name \"$(npm telareth g name -t 2 -s '')\"",
-    "migrate:dev:docker": "nx run @telareth/sdk:migrate:dev:docker --verbose"
+  "private": true,
+  "publishConfig": {
+    "access": "restricted"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.49.0",
@@ -45,46 +59,38 @@
     "tslib": "^2.3.0",
     "zod": "^4.1.8"
   },
-  "devDependencies": {
-    "@telareth/cli": "^0.2.0",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.3",
-    "@types/morgan": "^1.9.10",
-    "prisma": "^6.16.1",
-    "typescript": "~5.9.2"
-  },
   "nx": {
     "tags": [
       "scope:sdk",
       "runtime:core"
     ],
     "targets": {
-      "g:db:credentials": {
+      "db:docker:up": {
         "executor": "nx:run-commands",
         "options": {
           "cwd": "sdk",
           "commands": [
-            "npm run g:db:credentials"
-          ]
-        }
-      },
-      "docker:up": {
-        "executor": "nx:run-commands",
-        "options": {
-          "cwd": "sdk",
-          "commands": [
-            "npm run docker:up",
+            "docker compose -f docker/docker-compose.yml up -d",
             "sleep 5"
           ],
           "parallel": false
         }
       },
-      "docker:down": {
+      "db:docker:down": {
         "executor": "nx:run-commands",
         "options": {
           "cwd": "sdk",
           "commands": [
-            "npm run docker:down"
+            "docker compose -f docker/docker-compose.yml down"
+          ]
+        }
+      },
+      "generate:db:credentials": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk",
+          "commands": [
+            "telareth g db credentials"
           ]
         }
       },
@@ -93,7 +99,7 @@
         "options": {
           "cwd": "sdk",
           "commands": [
-            "npm run migrate:dev"
+            "prisma migrate dev --name \"$(npm telareth g name -t 2 -s '')\""
           ]
         }
       },
@@ -102,23 +108,22 @@
         "options": {
           "cwd": "sdk",
           "commands": [
-            "npm run migrate:dev"
-          ]
-        },
-        "dependsOn": [
-          "docker:up"
-        ]
+            "nx run @telareth/sdk:db:docker:up",
+            "prisma migrate dev --name \"$(npm telareth g name -t 2 -s '')\""
+          ],
+          "parallel": false
+        }
       },
-      "g:db:types": {
+      "generate:db:types": {
         "executor": "nx:run-commands",
         "options": {
           "cwd": "sdk",
           "commands": [
-            "npm run g:db:types"
+            "prima generate"
           ]
         }
       },
-      "start:pm2": {
+      "dev:pm2": {
         "executor": "nx:run-commands",
         "options": {
           "cwd": "sdk",
@@ -137,5 +142,13 @@
         }
       }
     }
+  },
+  "devDependencies": {
+    "@telareth/cli": "^0.7.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/morgan": "^1.9.10",
+    "prisma": "^6.16.1",
+    "typescript": "^5.9.2"
   }
 }

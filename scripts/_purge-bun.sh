@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(dirname "$0")"
+
 # shellcheck disable=SC1091
-. "$(dirname "${BASH_SOURCE[0]}")/../utils/logger.sh"
+. "$SCRIPT_DIR/_logger.sh"
 # shellcheck disable=SC1091
-. "$(dirname "${BASH_SOURCE[0]}")/../utils/remove-dir.sh"
+. "$SCRIPT_DIR/_rm-file.sh"
 # shellcheck disable=SC1091
-. "$(dirname "${BASH_SOURCE[0]}")/../utils/remove-file.sh"
+. "$SCRIPT_DIR/_rm-dir.sh"
 
 check_for_leftovers() {
   info "Checking for leftovers..."
@@ -23,10 +25,10 @@ purge_bun() {
   info "Purging Bun..."
 
   # Remove Bun's installation directory
-  remove_dir "$HOME/.bun"
+  rm_dir "$HOME/.bun"
 
   # Remove global Bun binary
-  remove_file "/usr/local/bin/bun"
+  rm_file "/usr/local/bin/bun" || true
 
   # Remove Bun lines from shell configs
   for f in "$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.profile" "$HOME/.zprofile" "$HOME/.bash_profile"; do

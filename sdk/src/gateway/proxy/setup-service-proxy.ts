@@ -1,7 +1,6 @@
 import type { Application } from 'express';
 
 import { fetchActiveServices } from '../../db/queries/service/fetch-active-services.js';
-
 import { registerProxy } from './register-proxy.js';
 
 /**

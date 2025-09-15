@@ -4,16 +4,16 @@
   "files": [],
   "references": [
     {
-      "path": "./sdk"
-    },
-    {
-      "path": "./tools/cli"
+      "path": "./tools/eslint-plugin"
     },
     {
       "path": "./tools/prettier-config"
     },
     {
-      "path": "./tools/eslint-plugin"
+      "path": "./tools/cli"
+    },
+    {
+      "path": "./sdk"
     }
   ]
 }

@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(dirname "$0")"
+
 # shellcheck disable=SC1091
-. "$(dirname "${BASH_SOURCE[0]}")/../utils/logger.sh"
+. "$SCRIPT_DIR/_logger.sh"
 # shellcheck disable=SC1091
-. "$(dirname "${BASH_SOURCE[0]}")/../utils/remove-dir.sh"
+. "$SCRIPT_DIR/_rm-file.sh"
 # shellcheck disable=SC1091
-. "$(dirname "${BASH_SOURCE[0]}")/../utils/remove-file.sh"
+. "$SCRIPT_DIR/_rm-dir.sh"
 
 check_for_leftovers() {
   info "Checking for leftovers..."
@@ -23,12 +25,12 @@ purge_pnpm() {
   info "Purging PNPM..."
 
   # Remove pnpm store & configs
-  remove_dir "$HOME/.pnpm-store"
-  remove_dir "$HOME/.local/share/pnpm"
-  remove_dir "$HOME/.config/pnpm"
+  rm_dir "$HOME/.pnpm-store"
+  rm_dir "$HOME/.local/share/pnpm"
+  rm_dir "$HOME/.config/pnpm"
 
   # Remove global pnpm binaries
-  remove_file "/usr/local/bin/pnpm"
+  rm_file "/usr/local/bin/pnpm" || true
 
   # Remove pnpm lines from shell configs
   for f in "$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.profile" "$HOME/.zprofile" "$HOME/.bash_profile"; do

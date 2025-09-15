@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Source library functions
 # shellcheck disable=SC1091
 SCRIPT_DIR=$(dirname "$0")
 
 # shellcheck disable=SC1091
-. "$SCRIPT_DIR/utils/logger.sh"
+. "$SCRIPT_DIR/_logger.sh"
 # shellcheck disable=SC1091
-. "$SCRIPT_DIR/lib/install-bun.sh"
+. "$SCRIPT_DIR/_install-bun.sh"
 
 install_pm2() {
   info "Installing PM2 globally..."

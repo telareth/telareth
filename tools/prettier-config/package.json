@@ -1,15 +1,14 @@
 {
   "name": "@telareth/prettier-config",
-  "version": "0.7.2",
+  "version": "0.8.2",
   "description": "Telareth Prettier config",
-  "type": "module",
   "keywords": [
     "telareth",
     "prettier",
     "prettier-config"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/telareth/telareth/tree/main/tools/eslint-plugin",
+  "homepage": "https://github.com/telareth/telareth/tree/main/tools/prettier-config",
   "repository": {
     "type": "git",
     "url": "https://github.com/telareth/telareth.git",
@@ -18,9 +17,16 @@
   "bugs": {
     "url": "https://github.com/telareth/telareth/issues"
   },
+  "scripts": {},
+  "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "LICENSE"
+  ],
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -38,10 +44,13 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "eslint": "^9.35.0",
+    "jsonc-eslint-parser": "^2.4.0",
     "prettier": "^3.6.2",
     "prettier-plugin-prisma": "^5.0.0",
     "prettier-plugin-sh": "^0.18.0",
-    "prettier-plugin-toml": "^2.0.6"
+    "prettier-plugin-toml": "^2.0.6",
+    "rimraf": "^6.0.1"
   },
   "peerDependencies": {
     "prettier": "^3.6.2",
@@ -56,18 +65,36 @@
       "tool:prettier",
       "runtime:devtool"
     ],
-    "clean": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "pnpx rimraf ./dist"
-        ]
-      }
-    },
     "targets": {
-      "build": {
+      "clean": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "tools/prettier-config",
+          "commands": [
+            "rimraf dist"
+          ]
+        }
+      },
+      "install": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npm install"
+          ]
+        },
         "dependesOn": [
-          "clean"
+          "^clean"
+        ]
+      },
+      "lint:fmt": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": [
+            "eslint --fix ."
+          ]
+        },
+        "dependesOn": [
+          "^install"
         ]
       }
     }

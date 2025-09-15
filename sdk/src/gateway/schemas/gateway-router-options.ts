@@ -6,7 +6,12 @@ export const GatewayRouterOptionsSchema = z.object({
 
   path: z.string().default('/'),
 
-  middlewares: z.array(z.custom<Handler>()).default([]),
+  middlewares: z
+    .array(z.any())
+    .default([])
+    .transform((arr) =>
+      arr.filter((m): m is Handler => typeof m === 'function')
+    ),
 });
 
 export type GatewayRouterOptions = z.infer<typeof GatewayRouterOptionsSchema>;

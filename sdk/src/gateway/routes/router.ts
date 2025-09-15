@@ -7,7 +7,6 @@ import type {
   GatewayRouterOptionsOutput,
 } from '../schemas/gateway-router-options.js';
 import { parseGatewayRouterOptions } from '../utils/parse-gateway-router-options.js';
-
 import type { MountRouteArgs } from './types/mount-route.js';
 
 /**
@@ -29,13 +28,11 @@ export class GatewayRouter {
 
       this.router = express.Router({ mergeParams: true });
 
-      this.app.use(
-        this.options.path,
-        ...(this.options.middlewares ?? []),
-        this.router
-      );
+      if (this.options.middlewares.length > 0) {
+        this.router.use(...this.options.middlewares);
+      }
 
-      this.router.use(...(this.options.middlewares ?? []));
+      this.app.use(this.options.path, this.router);
     }
   }
 

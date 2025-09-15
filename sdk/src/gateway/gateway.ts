@@ -1,4 +1,6 @@
-import dotenv from 'dotenv';
+import dotenv from '@dotenvx/dotenvx';
+
+import type { Server } from 'http';
 
 import cors from 'cors';
 import type { Application } from 'express';
@@ -6,11 +8,9 @@ import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
-import type { Server } from 'http';
-
 import { DEBUG, PROXIES_READY } from '../consts.js';
 import { createShutdownHandler } from '../core/shutdown.js';
-
+import { waitForDatabase } from '../db/wait-for-db.js';
 import { createRateLimiter } from './middlewares/rate-limit.js';
 import { setupServiceProxy } from './proxy/setup-service-proxy.js';
 import { healthzHandler } from './routes/handlers/healthz.js';
@@ -59,18 +59,13 @@ export class Gateway {
    * @returns Promise&lt;void>.
    */
   public async start(): Promise<void> {
-    try {
-      await this.setupProxies();
+    this.server = this.app.listen(this.options.GATEWAY_PORT, () => {
+      console.log(`[INFO] Gateway started at ${this.options.GATEWAY_URL}`);
+    });
 
-      this.server = this.app.listen(this.options.GATEWAY_PORT, () => {
-        console.log(`[INFO] Gateway started at ${this.options.GATEWAY_URL}`);
-      });
+    this.setupGracefulShutdown();
 
-      this.setupGracefulShutdown();
-    } catch (err) {
-      console.error('[ERROR] Failed to start gateway:', err);
-      process.exit(1);
-    }
+    this.initProxies();
   }
 
   /**
@@ -111,8 +106,8 @@ export class Gateway {
       app: this.app,
     });
 
-    router.mountRoute(healthzHandler);
-    router.mountRoute(readinessHandler);
+    router.mountRoute('/healtz', healthzHandler);
+    router.mountRoute('/readiness', readinessHandler);
   }
 
   /**
@@ -123,5 +118,18 @@ export class Gateway {
     await setupServiceProxy(this.app, this.options.GATEWAY_PREFIX_MODE);
     this.app.set(PROXIES_READY, true);
     console.log('[INFO] Service proxies initialized');
+  }
+
+  /**
+   * Waits for the database to be ready and then sets up all service proxies.
+   * Logs errors if initialization fails.
+   */
+  private async initProxies(): Promise<void> {
+    try {
+      await waitForDatabase();
+      await this.setupProxies();
+    } catch (err) {
+      console.error('[ERROR] Could not initialize service proxies:', err);
+    }
   }
 }

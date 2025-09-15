@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# source logger
-# shellcheck disable=SC1091
-. "$(dirname "${BASH_SOURCE[0]}")/../utils/logger.sh"
+# The path to the main script's directory is needed to source files correctly.
+SCRIPT_DIR=$(dirname "$0")
 
-remove_dir() {
+# shellcheck disable=SC1091
+. "$SCRIPT_DIR/_logger.sh"
+
+rm_dir() {
   local dir="$1"
   if [ -d "$dir" ]; then
     info "Removing directory: $dir"

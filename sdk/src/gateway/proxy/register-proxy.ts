@@ -1,8 +1,8 @@
-import type { Application, Request, Response } from 'express';
-
 import { ServerResponse } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { Socket } from 'net';
+
+import type { Application, Request, Response } from 'express';
 
 /**
  * Registers a proxy middleware on the given Express app.

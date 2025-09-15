@@ -31,12 +31,22 @@
       }
     }
   ],
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^clean", "install", "^lint:fmt", "^build"]
+    },
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    }
+  },
   "release": {
-    "projects": ["tools/cli", "tools/eslint-plugin", "tools/prettier-config"],
+    "projects": ["tools/eslint-plugin", "tools/prettier-config", "tools/cli"],
     "projectsRelationship": "independent",
     "version": {
       "conventionalCommits": true,
-      "preVersionCommand": "npm run build"
+      "preVersionCommand": "nx run-many -t build"
     },
     "changelog": {
       "workspaceChangelog": false,

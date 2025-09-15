@@ -1,8 +1,7 @@
 {
   "name": "@telareth/eslint-plugin",
-  "version": "0.11.2",
+  "version": "0.12.2",
   "description": "Telareth ESLint plugin and configs",
-  "type": "module",
   "keywords": [
     "telareth",
     "eslint",
@@ -20,9 +19,16 @@
   "bugs": {
     "url": "https://github.com/telareth/telareth/issues"
   },
+  "scripts": {},
+  "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "LICENSE"
+  ],
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -56,7 +62,8 @@
   "devDependencies": {
     "eslint": "^9.35.0",
     "eslint-plugin-eslint-plugin": "^7.0.0",
-    "eslint-plugin-n": "^17.21.3"
+    "eslint-plugin-n": "^17.21.3",
+    "rimraf": "^6.0.1"
   },
   "nx": {
     "tags": [
@@ -65,20 +72,36 @@
       "tool:eslint",
       "runtime:devtool"
     ],
-    "clean": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "npm run eslint --fix .",
-          "npx rimraf ./dist"
-        ],
-        "parallel": false
-      }
-    },
     "targets": {
-      "build": {
+      "clean": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "tools/eslint-plugin",
+          "commands": [
+            "rimraf dist"
+          ]
+        }
+      },
+      "install": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npm install"
+          ]
+        },
         "dependesOn": [
-          "clean"
+          "^clean"
+        ]
+      },
+      "lint:fmt": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": [
+            "eslint --fix ."
+          ]
+        },
+        "dependesOn": [
+          "^install"
         ]
       }
     }

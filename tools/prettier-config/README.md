@@ -50,8 +50,7 @@ import telarethConfig from '@telareth/prettier-config';
  * @type {import("prettier").Config}
  */
 const config = {
-  ...usernamePrettierConfig,
-  semi: false,
+  ...telarethConfig,
 };
 
 export default config;

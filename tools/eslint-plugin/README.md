@@ -101,7 +101,7 @@ npx eslint .
 Auto-fix:
 
 ```bash
-npx eslint . --fix
+npx eslint --fix .
 ```
 
 ---

@@ -1,8 +1,7 @@
 {
   "name": "@telareth/cli",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "description": "Telareth CLI",
-  "type": "module",
   "keywords": [
     "telareth",
     "cli"
@@ -17,9 +16,17 @@
   "bugs": {
     "url": "https://github.com/telareth/telareth/issues"
   },
+  "scripts": {},
+  "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "LICENSE",
+    "dist",
+    "docs",
+    "src"
+  ],
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -32,12 +39,6 @@
   "bin": {
     "telareth": "./dist/index.js"
   },
-  "files": [
-    "LICENSE",
-    "dist",
-    "docs",
-    "src"
-  ],
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -57,20 +58,36 @@
       "type:cli",
       "runtime:devtool"
     ],
-    "clean": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "npm run eslint --fix .",
-          "npx rimraf ./dist"
-        ],
-        "parallel": false
-      }
-    },
     "targets": {
-      "build": {
+      "clean": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "tools/cli",
+          "commands": [
+            "rimraf dist"
+          ]
+        }
+      },
+      "install": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npm install"
+          ]
+        },
         "dependesOn": [
-          "clean"
+          "^clean"
+        ]
+      },
+      "lint:fmt": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": [
+            "eslint --fix ."
+          ]
+        },
+        "dependesOn": [
+          "^install"
         ]
       }
     }

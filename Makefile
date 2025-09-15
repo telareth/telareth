@@ -1,46 +1,29 @@
-.PHONY: scripts install-node purge-node install-pm2 install-clis reset-node reset-builds start-pm2 reload-pm2
+.PHONY: install-g-deps setup-cz setup-prettier setup-eslint setup-lefthook update-tools install-pm2
 
-# Make all scripts executable
-scripts:
-	@echo "[INFO] Making all .sh files in scripts/ executable..."
-	find scripts -type f -name "*.sh" -exec chmod +x {} +
+install-g-deps:
+	@echo "[INFO] Installing global packages"
+	npm i -g nx eslint prettier lefthook commitlint commitizen
 
-# Install Node, NVM, PNPM
-install-node: scripts
-	@echo "[INFO] Running install-node.sh..."
-	./scripts/install-node.sh
+setup-cz:
+	chmod +x scripts/setup-cz.sh
+	./scripts/setup-cz.sh
 
-# Purge Node, NVM, PNPM, Yarn, Bun
-purge-node: scripts
-	@echo "[INFO] Running purge-node.sh..."
-	./scripts/purge-node.sh
+setup-prettier:
+	chmod +x scripts/setup-prettier.sh
+	./scripts/setup-prettier.sh
 
-# Install PM2 and its modules
+setup-eslint:
+	chmod +x scripts/setup-eslint.sh
+	./scripts/setup-eslint.sh
+
+setup-lefthook:
+	chmod +x scripts/setup-lefthook.sh
+	./scripts/setup-lefthook.sh
+
+update-tools:
+	chmod +x ./scripts/update-tools.sh
+	./scripts/update-tools.sh
+
 install-pm2:
-	@echo "[INFO] Running install-pm2.sh..."
+	chmod +x ./scripts/install-pm2.sh
 	./scripts/install-pm2.sh
-
-# Install global CLIs
-install-clis:
-	@echo "[INFO] Installing Telareth CLI and tooling..."
-	npm install -g @telareth/cli@latest nx lefthook prettier eslint
-
-# Clean node_modules
-reset-node:
-	@echo "[INFO] Deleting all node_modules directories..."
-	find . -type d -name "node_modules" -prune -exec rm -rf {} +
-
-# Clean build directories
-reset-builds:
-	@echo "[INFO] Deleting all build directories..."
-	find . -type d -name "build" -prune -exec rm -rf {} +
-
-# Start PM2 processes
-start-pm2:
-	@echo "[INFO] Starting PM2 applications..."
-	nx run @telareth/sdk:start:pm2
-
-# Reload PM2 processes
-reload-pm2:
-	@echo "[INFO] Reloading PM2 applications..."
-	nx run @telareth/sdk:reload:pm2

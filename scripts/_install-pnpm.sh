@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# source logger
+SCRIPT_DIR="$(dirname "$0")"
+
 # shellcheck disable=SC1091
-. "$(dirname "${BASH_SOURCE[0]}")/../utils/logger.sh"
+. "$SCRIPT_DIR/_logger.sh"
 
 SHELL_NAME=$(basename "$SHELL")
 RC_FILE="$HOME/.${SHELL_NAME}rc"

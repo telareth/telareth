@@ -5,13 +5,13 @@ set -euo pipefail
 SCRIPT_DIR=$(dirname "$0")
 
 # shellcheck disable=SC1091
-. "$SCRIPT_DIR/utils/logger.sh"
+. "$SCRIPT_DIR/_logger.sh"
 # shellcheck disable=SC1091
-. "$SCRIPT_DIR/lib/update-system.sh"
+. "$SCRIPT_DIR/_update-system.sh"
 # shellcheck disable=SC1091
-. "$SCRIPT_DIR/lib/install-nvm.sh"
+. "$SCRIPT_DIR/_install-nvm.sh"
 # shellcheck disable=SC1091
-. "$SCRIPT_DIR/lib/install-node-lts.sh"
+. "$SCRIPT_DIR/_install-node-lts.sh"
 
 
 install_node() {

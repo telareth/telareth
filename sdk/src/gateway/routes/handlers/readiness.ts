@@ -10,7 +10,6 @@ import { getPrismaClient } from '../../../db/client.js';
  * Returns HTTP 200 if the system is ready, 503 otherwise.
  * @param req Express request object.
  * @param res Express response object.
- * @returns JSON response indicating readiness status.
  */
 export async function readinessHandler(req: Request, res: Response) {
   const proxiesReady = (req.app.get(PROXIES_READY) as boolean) ?? false;
@@ -18,11 +17,13 @@ export async function readinessHandler(req: Request, res: Response) {
 
   try {
     await prisma.$queryRaw`SELECT 1`;
-    if (proxiesReady) {
+
+    if (!proxiesReady) {
       return res
         .status(503)
         .json({ status: 'not ready', reason: 'Proxies not initialized' });
     }
+
     return res.status(200).json({ status: 'ready' });
   } catch (err) {
     console.error('[ERROR] Readiness check failed:', err);

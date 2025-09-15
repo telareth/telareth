@@ -1,7 +1,6 @@
 import type { ESLint } from 'eslint';
 
 import pkg from '../package.json' with { type: 'json' };
-
 import type { TelarethESLintPluginConfigs } from './configs/index.js';
 import { configs } from './configs/index.js';
 

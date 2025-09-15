@@ -1,6 +1,5 @@
 import type { Linter } from 'eslint';
 import { defineConfig } from 'eslint/config';
-
 import json from '@eslint/json';
 
 import eslintConfigIgnores from './ignores.js';

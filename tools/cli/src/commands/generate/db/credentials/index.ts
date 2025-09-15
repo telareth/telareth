@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+
 import type { Command } from 'commander';
 import { Option } from 'commander';
 import generatePassword from 'password-generator';
@@ -7,9 +10,6 @@ import {
   colors,
   uniqueNamesGenerator,
 } from 'unique-names-generator';
-
-import fs from 'fs';
-import path from 'path';
 
 import { promptUser } from '../../../../utils/prompt-user.js';
 

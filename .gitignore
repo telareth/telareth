@@ -1,4 +1,7 @@
-# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# dotenv files other then .env
+# use another dotenv file for local overrides such as .env.local
+.env*
+!.env
 
 # compiled output
 dist
