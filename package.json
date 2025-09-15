@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "release": "nx release --first-release",
-    "postrelease": "chmod +x scripts/update-internal-dev-tools-sh && ./scripts/update-internal-dev-tools.sh"
+    "postrelease": "chmod +x ./scripts/update-internal-dev-tools.sh && ./scripts/update-internal-dev-tools.sh"
   },
   "private": true,
   "devDependencies": {
