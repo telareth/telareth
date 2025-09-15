@@ -14,4 +14,4 @@ info "Staging changes"
 git add .
 git commit -m "chore: update internal dev tools"
 
-ok "Committed changes. Manually tun git push"
+ok "Committed changes. Manually run git push"
