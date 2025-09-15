@@ -32,7 +32,6 @@
       "default": "./dist/index.js"
     }
   },
-  "packageManager": "pnpm@10.15.1",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -70,8 +69,8 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "pnpm run eslint --fix .",
-          "pnpm dlx rimraf ./dist"
+          "npm run eslint --fix .",
+          "npx rimraf ./dist"
         ],
         "parallel": false
       }

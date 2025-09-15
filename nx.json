@@ -36,7 +36,7 @@
     "projectsRelationship": "independent",
     "version": {
       "conventionalCommits": true,
-      "preVersionCommand": "pnpm run build"
+      "preVersionCommand": "npm run build"
     },
     "changelog": {
       "workspaceChangelog": false,

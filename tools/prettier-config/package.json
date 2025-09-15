@@ -30,7 +30,6 @@
       "default": "./dist/index.js"
     }
   },
-  "packageManager": "pnpm@10.15.1",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -61,7 +60,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "pnpm dlx rimraf ./dist"
+          "pnpx rimraf ./dist"
         ]
       }
     },

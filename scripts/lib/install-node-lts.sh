@@ -29,6 +29,9 @@ install_node_lts() {
   nvm alias default "$LTS_VERSION"
   nvm use "$LTS_VERSION"
 
+  # Update npm
+  npm install -g npm@latest
+
   ok "Setup Complete"
   info "Node: $(node -v)"
   info "npm:  $(npm -v)"

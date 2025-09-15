@@ -25,12 +25,12 @@
     "prisma.config.mjs"
   ],
   "scripts": {
-    "g:db:credentials": "pnpm telareth g db credentials",
+    "g:db:credentials": "npm telareth g db credentials",
     "docker:up": "docker compose -f docker/docker-compose.yml up -d",
     "docker:down": "docker compose -f docker/docker-compose.yml down",
-    "g:db:types": "pnpm prisma generate",
-    "migrate:dev": "pnpm prisma migrate dev --name \"$(pnpm telareth g name -t 2 -s '')\"",
-    "migrate:dev:docker": "pnpm nx run @telareth/sdk:migrate:dev:docker --verbose"
+    "g:db:types": "npm prisma generate",
+    "migrate:dev": "npm prisma migrate dev --name \"$(npm telareth g name -t 2 -s '')\"",
+    "migrate:dev:docker": "nx run @telareth/sdk:migrate:dev:docker --verbose"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.49.0",
@@ -64,7 +64,7 @@
         "options": {
           "cwd": "sdk",
           "commands": [
-            "pnpm run g:db:credentials"
+            "npm run g:db:credentials"
           ]
         }
       },
@@ -73,7 +73,7 @@
         "options": {
           "cwd": "sdk",
           "commands": [
-            "pnpm run docker:up",
+            "npm run docker:up",
             "sleep 5"
           ],
           "parallel": false
@@ -84,7 +84,7 @@
         "options": {
           "cwd": "sdk",
           "commands": [
-            "pnpm run docker:down"
+            "npm run docker:down"
           ]
         }
       },
@@ -93,7 +93,7 @@
         "options": {
           "cwd": "sdk",
           "commands": [
-            "pnpm run migrate:dev"
+            "npm run migrate:dev"
           ]
         }
       },
@@ -102,7 +102,7 @@
         "options": {
           "cwd": "sdk",
           "commands": [
-            "pnpm run migrate:dev"
+            "npm run migrate:dev"
           ]
         },
         "dependsOn": [
@@ -114,7 +114,7 @@
         "options": {
           "cwd": "sdk",
           "commands": [
-            "pnpm run g:db:types"
+            "npm run g:db:types"
           ]
         }
       },

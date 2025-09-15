@@ -1,39 +1,46 @@
-.PHONY: scripts install-node purge-node install-pm2 install-clis reset-node reset-builds start-mp2 reload-pm2
+.PHONY: scripts install-node purge-node install-pm2 install-clis reset-node reset-builds start-pm2 reload-pm2
 
+# Make all scripts executable
 scripts:
-	@echo "Making all .sh files in scripts/ executable..."
-	find scripts -name "*.sh" -exec chmod +x {} +
-	@echo "Done."
+	@echo "[INFO] Making all .sh files in scripts/ executable..."
+	find scripts -type f -name "*.sh" -exec chmod +x {} +
 
+# Install Node, NVM, PNPM
 install-node: scripts
-	@echo "Running install-node.sh..."
-	chmod +x scripts/install-node.sh
+	@echo "[INFO] Running install-node.sh..."
 	./scripts/install-node.sh
 
+# Purge Node, NVM, PNPM, Yarn, Bun
 purge-node: scripts
-	@echo "Running purge-node.sh..."
-	chmod +x scripts/purge-node.sh
+	@echo "[INFO] Running purge-node.sh..."
 	./scripts/purge-node.sh
 
+# Install PM2 and its modules
 install-pm2:
-	@echo "Running install-pm2.sh..."
-	chmod +x scripts/install-pm2.sh
+	@echo "[INFO] Running install-pm2.sh..."
 	./scripts/install-pm2.sh
 
+# Install global CLIs
 install-clis:
-	@echo "Installing telareth cli"
-	pnpm install -g @telareth/cli@latest nx lefthook prettier eslint
+	@echo "[INFO] Installing Telareth CLI and tooling..."
+	npm install -g @telareth/cli@latest nx lefthook prettier eslint
 
+# Clean node_modules
 reset-node:
-	@echo "Deleting all node_modules directories"
-	find . -name "node_modules" -type d -prune -exec rm -rf "{}" +
+	@echo "[INFO] Deleting all node_modules directories..."
+	find . -type d -name "node_modules" -prune -exec rm -rf {} +
 
+# Clean build directories
 reset-builds:
-	@echo "Deleting all node_modules directories"
-	find . -name "build" -type d -prune -exec rm -rf "{}" +
+	@echo "[INFO] Deleting all build directories..."
+	find . -type d -name "build" -prune -exec rm -rf {} +
 
+# Start PM2 processes
 start-pm2:
-	pnpm nx run @telareth/sdk:start:pm2
+	@echo "[INFO] Starting PM2 applications..."
+	nx run @telareth/sdk:start:pm2
 
+# Reload PM2 processes
 reload-pm2:
-	pnpm nx run @telareth/sdk:reload:pm2
+	@echo "[INFO] Reloading PM2 applications..."
+	nx run @telareth/sdk:reload:pm2
