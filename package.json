@@ -2,7 +2,10 @@
   "name": "@telareth/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "release": "nx release --first-release",
+    "postrelease": "chmod +x scripts/update-internal-dev-tools-sh && ./scripts/update-internal-dev-tools.sh"
+  },
   "private": true,
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
@@ -16,8 +19,8 @@
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
-    "@telareth/eslint-plugin": "^0.12.0",
-    "@telareth/prettier-config": "^0.8.0",
+    "@telareth/eslint-plugin": "^0.12.1",
+    "@telareth/prettier-config": "^0.8.1",
     "@types/node": "20.19.9",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
