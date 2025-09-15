@@ -8,7 +8,7 @@ import morgan from 'morgan';
 
 import type { Server } from 'http';
 
-import { PROXIES_READY } from '../consts.js';
+import { DEBUG, PROXIES_READY } from '../consts.js';
 import { createShutdownHandler } from '../core/shutdown.js';
 
 import { createRateLimiter } from './middlewares/rate-limit.js';
@@ -48,7 +48,8 @@ export class Gateway {
    * @returns A promise that resolves to a Gateway instance.
    */
   public static async create(): Promise<Gateway | null> {
-    dotenv.config();
+    dotenv.config({ override: true, debug: DEBUG });
+
     const options = await parseGatewayOptions(process.env);
     return new Gateway(options);
   }

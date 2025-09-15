@@ -1,4 +1,4 @@
-.PHONY: scripts install-node purge-node install-pm2 install-clis reset-node reset-builds start-mp2
+.PHONY: scripts install-node purge-node install-pm2 install-clis reset-node reset-builds start-mp2 reload-pm2
 
 scripts:
 	@echo "Making all .sh files in scripts/ executable..."
@@ -34,3 +34,6 @@ reset-builds:
 
 start-pm2:
 	pnpm nx run @telareth/sdk:start:pm2
+
+reload-pm2:
+	pnpm nx run @telareth/sdk:reload:pm2

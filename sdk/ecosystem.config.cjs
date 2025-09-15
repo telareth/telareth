@@ -4,6 +4,7 @@ module.exports = {
       name: 'telareth:db:docker',
       script: 'docker/up.sh',
       interpreter: 'bash',
+      watch: ['docker'],
       broadcast_logs: true,
     },
     {
