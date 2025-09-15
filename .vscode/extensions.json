@@ -2,6 +2,22 @@
   "recommendations": [
     "nrwl.angular-console",
     "esbenp.prettier-vscode",
-    "dbaeumer.vscode-eslint"
+    "joshbolduc.commitlint",
+    "vivaxy.vscode-conventional-commits",
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "github.vscode-github-actions",
+    "bierner.github-markdown-preview",
+    "github.vscode-pull-request-github",
+    "visualstudioexptteam.vscodeintellicode",
+    "visualstudioexptteam.intellicode-api-usage-examples",
+    "christian-kohler.npm-intellisense",
+    "christian-kohler.path-intellisense",
+    "rpinski.shebang-snippets",
+    "foxundermoon.shell-format",
+    "timonwong.shellcheck",
+    "bierner.emojisense",
+    "gruntfuggly.todo-tree",
+    "ms-vscode.makefile-tools"
   ]
 }
