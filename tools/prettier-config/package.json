@@ -1,20 +1,18 @@
 {
-  "name": "@telareth/eslint-plugin",
-  "version": "0.11.2",
-  "description": "Telareth ESLint plugin and configs",
+  "name": "@telareth/prettier-config",
+  "version": "0.7.2",
+  "description": "Telareth Prettier config",
   "keywords": [
     "telareth",
-    "eslint",
-    "eslint-plugin",
-    "eslint-config",
-    "eslint-configs"
+    "prettier",
+    "prettier-config"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/telareth/telareth/tree/main/tools/eslint-plugin",
+  "homepage": "https://github.com/telareth/telareth/tree/main/tools/prettier-config",
   "repository": {
     "type": "git",
     "url": "https://github.com/telareth/telareth.git",
-    "directory": "tools/eslint-plugin"
+    "directory": "tools/prettier-config"
   },
   "bugs": {
     "url": "https://github.com/telareth/telareth/issues"
@@ -43,38 +41,34 @@
     "access": "public"
   },
   "dependencies": {
-    "@eslint/js": "^9.35.0",
-    "@eslint/json": "^0.13.2",
-    "@eslint/markdown": "^7.2.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-jsdoc": "^57.0.3",
-    "eslint-plugin-prettier": "^5.5.4",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
-    "globals": "^16.4.0",
-    "jsonc-eslint-parser": "^2.4.0",
-    "tslib": "^2.3.0",
-    "typescript-eslint": "^8.43.0"
-  },
-  "peerDependencies": {
-    "eslint": "^9.35.0"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "eslint": "^9.35.0",
-    "eslint-plugin-eslint-plugin": "^7.0.0",
-    "eslint-plugin-n": "^17.21.3"
+    "jsonc-eslint-parser": "^2.4.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-prisma": "^5.0.0",
+    "prettier-plugin-sh": "^0.18.0",
+    "prettier-plugin-toml": "^2.0.6"
+  },
+  "peerDependencies": {
+    "prettier": "^3.6.2",
+    "prettier-plugin-prisma": "^5.0.0",
+    "prettier-plugin-sh": "^0.18.0",
+    "prettier-plugin-toml": "^2.0.6"
   },
   "nx": {
     "tags": [
       "scope:tools",
       "type:devtool",
-      "tool:eslint",
+      "tool:prettier",
       "runtime:devtool"
     ],
     "targets": {
       "clean": {
         "executor": "nx:run-commands",
         "options": {
+          "cwd": "tools/prettier-config",
           "commands": [
             "eslint --fix .",
             "npx rimraf ./dist"

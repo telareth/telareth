@@ -1,6 +1,4 @@
 import { defineConfig } from 'eslint/config';
-import eslintPlugin from 'eslint-plugin-eslint-plugin';
-import nodePlugin from 'eslint-plugin-n';
 
 import baseConfig from '../../eslint.config.mjs';
 
@@ -18,16 +16,6 @@ export default defineConfig([
     },
     languageOptions: {
       parser: await import('jsonc-eslint-parser'),
-    },
-  },
-  {
-    files: ['src/**/*.ts'],
-    extends: [
-      eslintPlugin.configs.recommended,
-      nodePlugin.configs['flat/recommended-module'],
-    ],
-    plugins: {
-      eslintPlugin,
     },
   },
 ]);

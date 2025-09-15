@@ -32,11 +32,11 @@
     }
   ],
   "release": {
-    "projects": ["tools/cli", "tools/eslint-plugin", "tools/prettier-config"],
+    "projects": ["tools/eslint-plugin", "tools/prettier-config"],
     "projectsRelationship": "independent",
     "version": {
       "conventionalCommits": true,
-      "preVersionCommand": "npm run build"
+      "preVersionCommand": "nx run-many -t build"
     },
     "changelog": {
       "workspaceChangelog": false,
