@@ -8,6 +8,9 @@
     },
     {
       "path": "./tools/prettier-config"
+    },
+    {
+      "path": "./tools/cli"
     }
   ]
 }

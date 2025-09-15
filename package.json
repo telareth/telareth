@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "build:all": "nx run-many -t build",
+    "build:tools": "nx run-many -t build --projects=tag:runtime:devtool",
     "release": "nx release --first-release",
-    "postrelease": "chmod +x ./scripts/update-internal-dev-tools.sh && ./scripts/update-internal-dev-tools.sh"
+    "postrelease": "chmod +x ./scripts/update-tools.sh && ./scripts/update-tools.sh"
   },
   "private": true,
   "devDependencies": {

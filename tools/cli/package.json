@@ -1,0 +1,95 @@
+{
+  "name": "@telareth/cli",
+  "version": "0.6.2",
+  "description": "Telareth CLI",
+  "keywords": [
+    "telareth",
+    "cli"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/telareth/telareth/blob/main/tools/cli",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/telareth/telareth.git",
+    "directory": "tools/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/telareth/telareth/issues"
+  },
+  "scripts": {},
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "LICENSE",
+    "dist",
+    "docs",
+    "src"
+  ],
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@telareth/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "telareth": "./dist/index.js"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "commander": "^14.0.1",
+    "password-generator": "^2.3.2",
+    "tslib": "^2.3.0",
+    "unique-names-generator": "^4.7.1"
+  },
+  "devDependencies": {
+    "@types/node": "20.19.9"
+  },
+  "nx": {
+    "tags": [
+      "scope:tools",
+      "type:cli",
+      "runtime:devtool"
+    ],
+    "targets": {
+      "clean": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "tools/cli",
+          "commands": [
+            "rimraf dist"
+          ]
+        }
+      },
+      "install": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npm install"
+          ]
+        },
+        "dependesOn": [
+          "^clean"
+        ]
+      },
+      "lint:fmt": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": [
+            "eslint --fix ."
+          ]
+        },
+        "dependesOn": [
+          "^install"
+        ]
+      }
+    }
+  }
+}

@@ -19,3 +19,7 @@ setup-eslint:
 setup-lefthook:
 	chmod +x scripts/setup-lefthook.sh
 	./scripts/setup-lefthook.sh
+
+update-yools:
+	chmod +x ./scripts/update-tools.sh
+	./scripts/update-tools.sh
