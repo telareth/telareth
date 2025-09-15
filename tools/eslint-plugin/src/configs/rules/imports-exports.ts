@@ -3,15 +3,15 @@ import type { Linter } from 'eslint';
 /**
  * JavaScript import sorting and type import rules.
  *
- * Dependencies required to make these rules work:
+ * Dependencies required:
  * - eslint-plugin-import
  * - eslint-plugin-simple-import-sort.
  *
- * Rules enforced:
- * 1. Dotenv imports first
- * 2. Side-effect imports
- * 3. Bare package imports
- * 4. Node.js built-ins
+ * Import order enforced:
+ * 1. Dotenv imports
+ * 2. Node.js built-ins
+ * 3. Side-effect imports
+ * 4. Bare third-party packages
  * 5. React and related packages
  * 6. UI libraries (MUI, Tabler)
  * 7. Internal packages (@telareth)
@@ -21,13 +21,15 @@ import type { Linter } from 'eslint';
  */
 export const rulesImportsExports: Linter.RulesRecord = {
   'sort-imports': 'off',
+
   'simple-import-sort/imports': [
     'error',
     {
       groups: [
+        // 1. Dotenv imports first
         ['^dotenv', '^@dotenvx/dotenvx'],
-        ['^\\u0000'],
-        ['^[^@./]'],
+
+        // 2. Node.js built-ins
         [
           '^assert',
           '^buffer',
@@ -66,11 +68,23 @@ export const rulesImportsExports: Linter.RulesRecord = {
           '^zlib',
           '^node:',
         ],
-        ['^react', '^react-dom', '^@?\\w'],
+
+        // 3. Side-effect imports (polyfills, CSS resets, etc.)
+        ['^\\u0000'],
+
+        // 4. Non-scoped and scoped third-party packages (chalk, lodash, express, @scope/...)
+        ['^[^@./]', '^@\\w'],
+
+        // 5. React ecosystem
+        ['^react$', '^react-dom$', '^react'],
+
+        // 6. UI libraries
         ['^@mui', '^@material-ui', '^@tabler'],
-        ['^(@telareth)(/.*|$)'],
-        ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
-        ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
+
+        // 7-9. Internal org packages + relative imports (parent + sibling)
+        ['^(@telareth)(/.*|$)', '^\\.\\.?/.+'],
+
+        // 10. Styles and media assets last
         [
           '^.+\\.s?css$',
           '^.+\\.(png|jpe?g|gif|webp|svg)$',
@@ -80,7 +94,10 @@ export const rulesImportsExports: Linter.RulesRecord = {
       ],
     },
   ],
+
+  // Sort export statements
   'simple-import-sort/exports': 'error',
 
+  // Prefer top-level type imports
   'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
 };
