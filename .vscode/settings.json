@@ -119,6 +119,19 @@
 
   "nxConsole.generateAiAgentRules": true,
 
+  "exportall.config.barrelName": "index.ts",
+  "exportall.config.exportFileExtension": "js",
+  "exportall.config.includeFoldersToExport": false,
+  "exportall.config.namedExports": true,
+  "exportall.config.semis": true,
+  "exportall.config.recursive": true,
+  "exportall.config.folderListener": [
+    "sdk/db/src",
+    "/sdk/db/src/helpers",
+    "/sdk/db/src/middlewares",
+    "/sdk/db/src/queries"
+  ],
+
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/node_modules/**": true,
