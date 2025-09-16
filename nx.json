@@ -46,7 +46,7 @@
     "projectsRelationship": "independent",
     "version": {
       "conventionalCommits": true,
-      "preVersionCommand": "nx run-many -t build"
+      "preVersionCommand": "nx run-many -t build --exclude @telareth/sdk-reference"
     },
     "changelog": {
       "workspaceChangelog": false,

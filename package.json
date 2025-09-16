@@ -4,9 +4,9 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "chmod +x ./scripts/safe-build.sh && ./scripts/safe-build.sh --run",
-    "build:all": "nx run-many -t build",
+    "build:all": "nx run-many -t build --exclude @telareth/sdk-reference",
     "build:tools": "nx run-many -t build --projects=tag:runtime:devtool",
-    "build:sdk": "nx run @telareth/sdk:build",
+    "build:sdk": "nx run -t build --projects=tag:runtime:sdk",
     "release": "nx release --first-release --yes --verbose",
     "postrelease": "chmod +x ./scripts/update-tools.sh && ./scripts/update-tools.sh",
     "db:docker:up": "nx run @telareth/sdk:db:docker:up",
@@ -31,7 +31,9 @@
     "@telareth/cli": "^0.7.0",
     "@telareth/eslint-plugin": "^0.12.2",
     "@telareth/prettier-config": "^0.8.2",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "20.19.9",
+    "bcryptjs": "^3.0.2",
     "commitizen": "^4.3.1",
     "cors": "^2.8.5",
     "cz-conventional-changelog": "^3.3.0",
@@ -48,6 +50,7 @@
     "helmet": "^8.1.0",
     "http-proxy-middleware": "^3.0.5",
     "jsonc-eslint-parser": "^2.1.0",
+    "jsonwebtoken": "^9.0.2",
     "lefthook": "^1.13.0",
     "morgan": "^1.10.1",
     "nx": "21.5.2",
@@ -56,6 +59,7 @@
     "prettier-plugin-sh": "^0.18.0",
     "prettier-plugin-toml": "^2.0.6",
     "prisma": "^6.16.1",
+    "redis": "^5.8.2",
     "rimraf": "^6.0.1",
     "tslib": "^2.3.0",
     "typescript": "~5.9.2",
@@ -64,7 +68,7 @@
   },
   "workspaces": [
     "tools/*",
-    "sdk",
+    "sdk/*",
     "sdk-reference"
   ],
   "config": {
