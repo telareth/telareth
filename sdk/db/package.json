@@ -1,6 +1,6 @@
 {
   "name": "@telareth/db",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Telareth Database sdk",
   "keywords": [
     "telareth",

@@ -1,6 +1,6 @@
 {
   "name": "@telareth/eslint-plugin",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "Telareth ESLint plugin and configs",
   "keywords": [
     "telareth",
