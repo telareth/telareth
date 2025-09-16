@@ -86,7 +86,7 @@
             "eslint --fix ."
           ]
         },
-        "dependesOn": [
+        "dependsOn": [
           "^install"
         ]
       }
