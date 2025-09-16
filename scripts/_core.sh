@@ -37,7 +37,7 @@ warn() {
 }
 
 # Usage:
-# error "This is an error message."
+# error "This is an an error message."
 error() {
   _log "${RED}[ERROR]${NC}" "$@"
 }
@@ -93,17 +93,20 @@ _loadsh() {
     return 1
   fi
 
-  # Source the file.
+  # Corrected: Pass all remaining arguments to the sourced script and function
+  set -- "$@"
   # shellcheck disable=SC1090
-  . "$file" "$@"
+  . "$file"
 
   if [ "$run_immediately" -eq 1 ]; then
-    func_name="$(basename "$file_path")"
+    # Automatically convert filename to function name by replacing hyphens with underscores
+    func_name="$(basename "$file_path" | tr '-' '_')"
 
     if command -v "$func_name" >/dev/null 2>&1; then
       "$func_name" "$@"
     else
       error "Function $func_name not found after sourcing file $file."
+      return 1
     fi
   fi
 }
@@ -138,9 +141,9 @@ _confirm() {
   sentence="$1"
   auto_yes=0
 
-  # Check all arguments for the --yes flag
+  # Corrected: Check for both --yes and -y flags
   for arg in "$@"; do
-    if [ "$arg" = "--yes" ]; then
+    if [ "$arg" = "--yes" ] || [ "$arg" = "-y" ]; then
       auto_yes=1
       break
     fi
@@ -153,7 +156,8 @@ _confirm() {
   # The main confirmation loop
   while true; do
       printf "%s [y/n] " "$sentence"
-      read input || return 1
+      # Corrected: Use read -r to prevent mangling of backslashes
+      read -r input || return 1
 
       case "$input" in
           y|Y|yes|YES)

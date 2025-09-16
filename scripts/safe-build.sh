@@ -39,6 +39,11 @@ reset_nx() {
   else
     warn "Nx not found. Skipping 'nx reset'."
   fi
+
+  # FIX: Ensure Nx cache directories exist before starting the build
+  info "Clearing and preparing Nx cache directory..."
+  rm -rf .nx || true
+  mkdir -p .nx/cache/terminalOutputs
 }
 
 build() {
@@ -50,7 +55,7 @@ build() {
 
   # The `if ! command; then ... fi` pattern is the most reliable
   # way to handle a non-zero exit code when `set -e` is active.
-  if ! nx run-many --target=build --all --parallel; then
+  if ! nx run-many -t build; then
       error "Nx build failed. Reverting changes"
       restore_configs
       exit 1
@@ -67,12 +72,12 @@ build() {
 }
 
 safe_build() {
+  info "Starting safe-build process..."
+
   if ! _iscmd "nx"; then
     error "Nx is not installed. This script requires Nx to build projects."
     exit 1
   fi
-
-  info "Safe-building projects"
 
   backup_configs
   reset_nx

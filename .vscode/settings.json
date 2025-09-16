@@ -101,7 +101,7 @@
 
   "shellcheck.run": "onType",
 
-  "shellformat.path": "/usr/local/bin/shfmt",
+  "shellformat.path": "/home/dev/go/bin/shfmt",
   "shellformat.useEditorConfig": true,
   "shellformat.effectLanguages": [
     "shellscript",

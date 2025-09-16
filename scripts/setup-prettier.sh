@@ -29,10 +29,10 @@ purge_prettier() {
 setup_prettier() {
   local auto_yes=""
 
-  # Check for the --yes flag passed to the script
+  # Check for both --yes and -y flags
   for arg in "$@"; do
-    if [ "$arg" == "--yes" ]; then
-      auto_yes="--yes"
+    if [ "$arg" = "--yes" ] || [ "$arg" = "-y" ]; then
+      auto_yes="-y"
       break
     fi
   done

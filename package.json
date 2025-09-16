@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "postinstall": "chmod +x ./scripts/safe-build.sh && ./scripts/safe-build.sh --run",
     "build:all": "nx run-many -t build",
     "build:tools": "nx run-many -t build --projects=tag:runtime:devtool",
     "build:sdk": "nx run @telareth/sdk:build",
