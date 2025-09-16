@@ -64,7 +64,8 @@
   },
   "workspaces": [
     "tools/*",
-    "sdk"
+    "sdk",
+    "sdk-reference"
   ],
   "config": {
     "commitizen": {

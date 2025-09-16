@@ -61,14 +61,14 @@
   },
   "nx": {
     "tags": [
-      "scope:sdk",
+      "scope:sdk-reference",
       "runtime:core"
     ],
     "targets": {
       "db:docker:up": {
         "executor": "nx:run-commands",
         "options": {
-          "cwd": "sdk",
+          "cwd": "sdk-reference",
           "commands": [
             "docker compose -f docker/docker-compose.yml up -d",
             "sleep 5"
@@ -79,7 +79,7 @@
       "db:docker:down": {
         "executor": "nx:run-commands",
         "options": {
-          "cwd": "sdk",
+          "cwd": "sdk-reference",
           "commands": [
             "docker compose -f docker/docker-compose.yml down"
           ]
@@ -88,7 +88,7 @@
       "generate:db:credentials": {
         "executor": "nx:run-commands",
         "options": {
-          "cwd": "sdk",
+          "cwd": "sdk-reference",
           "commands": [
             "telareth g db credentials"
           ]
@@ -97,7 +97,7 @@
       "migrate:dev": {
         "executor": "nx:run-commands",
         "options": {
-          "cwd": "sdk",
+          "cwd": "sdk-reference",
           "commands": [
             "prisma migrate dev --name \"$(npm telareth g name -t 2 -s '')\""
           ]
@@ -106,7 +106,7 @@
       "migrate:dev:docker": {
         "executor": "nx:run-commands",
         "options": {
-          "cwd": "sdk",
+          "cwd": "sdk-reference",
           "commands": [
             "nx run @telareth/sdk:db:docker:up",
             "prisma migrate dev --name \"$(npm telareth g name -t 2 -s '')\""
@@ -117,7 +117,7 @@
       "generate:db:types": {
         "executor": "nx:run-commands",
         "options": {
-          "cwd": "sdk",
+          "cwd": "sdk-reference",
           "commands": [
             "prima generate"
           ]
@@ -126,7 +126,7 @@
       "dev:pm2": {
         "executor": "nx:run-commands",
         "options": {
-          "cwd": "sdk",
+          "cwd": "sdk-reference",
           "commands": [
             "pm2 start ecosystem.config.cjs"
           ]
@@ -135,13 +135,14 @@
       "reload:pm2": {
         "executor": "nx:run-commands",
         "options": {
-          "cwd": "sdk",
+          "cwd": "sdk-reference",
           "commands": [
             "pm2 reload ecosystem.config.cjs"
           ]
         }
       }
-    }
+    },
+    "name": "@telareth/sdk-reference"
   },
   "devDependencies": {
     "@telareth/cli": "^0.7.0",
