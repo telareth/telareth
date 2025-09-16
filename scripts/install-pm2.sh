@@ -1,15 +1,72 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# shellcheck disable=SC1091
-SCRIPT_DIR=$(dirname "$0")
+# Check if _core.sh exists before sourcing
+if [ -f "$(dirname "${BASH_SOURCE[0]}")/_core.sh" ]; then
+  # shellcheck disable=SC1091
+  . "$(dirname "${BASH_SOURCE[0]}")/_core.sh"
+else
+  # Fallback message if the core library is missing
+  echo "Error: The core library (_core.sh) was not found. Please ensure it is in the same directory."
+  exit 1
+fi
 
-# shellcheck disable=SC1091
-. "$SCRIPT_DIR/_logger.sh"
-# shellcheck disable=SC1091
-. "$SCRIPT_DIR/_install-bun.sh"
+# A simple local function to remove pm2.
+purge_pm2() {
+  info "Purging existing pm2 installation..."
+  if _iscmd "npm"; then
+    npm uninstall -g pm2 || true
+  else
+    warn "npm not found. Cannot automatically uninstall pm2."
+  fi
+}
 
+# install_pm2 - Installs PM2 and its modules.
+#
+# Usage:
+# install_pm2
+# install_pm2 --yes
 install_pm2() {
+  local auto_yes=""
+
+  # Check for the --yes flag passed to the script
+  for arg in "$@"; do
+    if [ "$arg" == "--yes" ]; then
+      auto_yes="--yes"
+      break
+    fi
+  done
+
+  # Check for existing pm2 installation and prompt for re-install
+  if _iscmd "pm2"; then
+    if _confirm "PM2 is already installed. Do you want to force re-install it?" "$auto_yes"; then
+      purge_pm2
+    else
+      info "Installation canceled by user."
+      return 0
+    fi
+  fi
+
+  # Check for Node.js installation as PM2 is a Node.js package
+  if ! _iscmd "node"; then
+    warn "Node.js is not installed. PM2 requires Node.js."
+    if _confirm "Do you want to install Node.js (via NVM)?" "$auto_yes"; then
+      _loadsh "--run" "install-node" "$auto_yes" || {
+        error "Failed to install Node.js. Please check for errors above."
+        return 1
+      }
+    else
+      info "Node.js installation canceled. Cannot proceed with PM2 installation."
+      return 0
+    fi
+  fi
+
+  # Check if npm is available after the potential Node.js installation.
+  if ! _iscmd "npm"; then
+    error "npm is not available. Cannot install PM2."
+    return 1
+  fi
+
   info "Installing PM2 globally..."
   if npm install -g pm2; then
     ok "PM2 installed successfully"
@@ -38,12 +95,8 @@ install_pm2() {
   pm2 -v
 }
 
-# Check if Bun is installed, and if not, install it.
-if ! command -v bun &> /dev/null; then
-    info "Bun not found. Installing now..."
-    install_bun
-else
-    info "Bun is already installed. Skipping installation."
+# This is where the script's execution logic lives.
+if [ "$#" -gt 0 ] && [ "$1" == "--run" ]; then
+  install_pm2 "$@"
+  exit 0
 fi
-
-install_pm2

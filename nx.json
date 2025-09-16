@@ -33,7 +33,7 @@
   ],
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^clean", "install", "^lint:fmt", "^build"]
+      "dependsOn": ["^clean", "install", "^build"]
     },
     "@nx/js:tsc": {
       "cache": true,

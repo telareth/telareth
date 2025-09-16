@@ -18,6 +18,7 @@
     "timonwong.shellcheck",
     "bierner.emojisense",
     "gruntfuggly.todo-tree",
-    "ms-vscode.makefile-tools"
+    "ms-vscode.makefile-tools",
+    "mads-hartmann.bash-ide-vscode"
   ]
 }
