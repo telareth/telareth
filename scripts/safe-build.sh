@@ -55,7 +55,7 @@ build() {
 
   # The `if ! command; then ... fi` pattern is the most reliable
   # way to handle a non-zero exit code when `set -e` is active.
-  if ! nx run-many -t build; then
+  if ! nx run-many -t build --exclude @telareth/sdk-reference; then
       error "Nx build failed. Reverting changes"
       restore_configs
       exit 1
