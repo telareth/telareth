@@ -32,9 +32,9 @@
     "LICENSE",
     "dist"
   ],
-  "private": true,
+  "private": false,
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   },
   "exports": {
     "./package.json": "./package.json",
