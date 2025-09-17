@@ -117,8 +117,6 @@
     "bats"
   ],
 
-  "nxConsole.generateAiAgentRules": true,
-
   "exportall.config.barrelName": "index.ts",
   "exportall.config.exportFileExtension": "js",
   "exportall.config.includeFoldersToExport": false,
@@ -131,6 +129,13 @@
     "/sdk/db/src/middlewares",
     "/sdk/db/src/queries"
   ],
+
+  "nxConsole.generateAiAgentRules": true,
+
+  "sonarlint.connectedMode.project": {
+    "connectionId": "telareth",
+    "projectKey": "telareth_telareth"
+  },
 
   "files.watcherExclude": {
     "**/.git/objects/**": true,

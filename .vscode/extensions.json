@@ -20,6 +20,7 @@
     "gruntfuggly.todo-tree",
     "ms-vscode.makefile-tools",
     "mads-hartmann.bash-ide-vscode",
-    "eliostruyf.vscode-typescript-exportallmodules"
+    "eliostruyf.vscode-typescript-exportallmodules",
+    "sonarsource.sonarlint-vscode"
   ]
 }
