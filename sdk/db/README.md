@@ -22,7 +22,8 @@ bun install @telareth/db
 
 ```.env
 REDIS_URL="redis://localhost:6379"
-JWT_SECRET="supersecret"
+SECRET_KEY='sepersecret'
+JWT_SECRET="$SECRET_KEY"
 JWT_EXPIRES_IN="1h"
 ```
 

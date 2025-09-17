@@ -1,8 +1,8 @@
 import bcrypt from 'bcryptjs';
-import { TABLES } from 'src/consts.js';
-import { redis } from 'src/helpers/redis-client.js';
-import { AdminSchema } from 'src/schemas/admin.js';
 
+import { TABLES } from '../../consts/table.js';
+import { redis } from '../../helpers/redis-client.js';
+import { AdminSchema } from '../../schemas/admin.js';
 import { getAdminById } from '../admin/get-by-id.js';
 
 /**

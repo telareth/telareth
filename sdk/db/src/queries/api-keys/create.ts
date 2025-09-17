@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 
-import { TABLES } from '../../consts.js';
+import { TABLES } from '../../consts/table.js';
 import { redis } from '../../helpers/redis-client.js';
 import type { ApiKey } from '../../schemas/api-key.js';
 import { ApiKeySchema } from '../../schemas/api-key.js';

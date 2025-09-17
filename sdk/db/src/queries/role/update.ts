@@ -1,7 +1,7 @@
-import { TABLES } from '../../consts.js';
 import { redis } from '../../helpers/redis-client.js';
 import type { Role } from '../../schemas/role.js';
 import { RoleSchema } from '../../schemas/role.js';
+import { TABLES } from '../consts/index.js';
 
 /**
  * Updates an existing role.

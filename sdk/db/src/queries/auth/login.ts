@@ -1,7 +1,8 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-import { JWT_EXPIRES_IN, JWT_SECRET, TABLES } from '../../consts.js';
+import { JWT_EXPIRES_IN, JWT_SECRET } from '../../consts/security.js';
+import { TABLES } from '../../consts/table.js';
 import { redis } from '../../helpers/redis-client.js';
 import type { Admin } from '../../schemas/admin.js';
 import { AdminSchema } from '../../schemas/admin.js';

@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-import { TABLES } from '../consts.js';
+import { TABLES } from '../consts/table.js';
 import type { Admin } from '../schemas/admin.js';
 import { sendVerificationEmail } from './admin-email-send.js';
 import { redis } from './redis-client.js';

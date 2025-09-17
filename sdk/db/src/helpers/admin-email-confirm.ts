@@ -1,4 +1,4 @@
-import { TABLES } from '../consts.js';
+import { TABLES } from '../consts/table.js';
 import { updateAdmin } from '../queries/admin/update.js';
 import { redis } from './redis-client.js';
 

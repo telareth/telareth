@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
-import { confirmEmail } from 'src/helpers/admin-email-confirm.js';
+
+import { confirmEmail } from '../helpers/admin-email-confirm.js';
 
 /**
  * Middleware to verify an admin's email verification token.
@@ -21,7 +22,8 @@ export async function verifyEmailToken(
   try {
     await confirmEmail(adminId, token);
     next();
-  } catch (_err) {
+  } catch (err) {
+    console.error('Email token verification error', err);
     res.status(400).send({ error: 'Invalid or expired token' });
   }
 }

@@ -1,5 +1,5 @@
-import { TABLES } from '../../consts.js';
 import { redis } from '../../helpers/redis-client.js';
+import { TABLES } from '../consts/index.js';
 
 /**
  * Deletes a role by ID.

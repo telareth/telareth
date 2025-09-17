@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 
-import { TABLES } from '../../consts.js';
+import { TABLES } from '../../consts/table.js';
 import { redis } from '../../helpers/redis-client.js';
 import type { Middleware } from '../../schemas/middleware.js';
 import { MiddlewareSchema } from '../../schemas/middleware.js';

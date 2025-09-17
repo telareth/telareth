@@ -4,6 +4,8 @@ export * from './email-token-model.js';
 export * from './group.js';
 export * from './middleware.js';
 export * from './permission.js';
+export * from './redis.js';
 export * from './role.js';
 export * from './security.js';
 export * from './service.js';
+export * from './table.js';

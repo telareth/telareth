@@ -1,4 +1,4 @@
-import { TABLES } from '../../consts.js';
+import { TABLES } from '../../consts/table.js';
 import { redis } from '../../helpers/redis-client.js';
 import type { Admin } from '../../schemas/admin.js';
 import { AdminSchema } from '../../schemas/admin.js';

@@ -1,6 +1,6 @@
-import { DEFAULT_ROLES, TABLES } from '../../consts.js';
 import { redis } from '../../helpers/redis-client.js';
 import type { PermissionKey } from '../../schemas/permission.js';
+import { DEFAULT_ROLES, TABLES } from '../consts/index.js';
 import { createRole } from './create.js';
 
 /**

@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 
-import { TABLES } from '../../consts.js';
+import { TABLES } from '../../consts/table.js';
 import { redis } from '../../helpers/redis-client.js';
 import type { Group } from '../../schemas/group.js';
 import { GroupSchema } from '../../schemas/group.js';

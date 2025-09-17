@@ -2,7 +2,7 @@ import { randomUUID } from 'crypto';
 
 import bcrypt from 'bcryptjs';
 
-import { TABLES } from '../../consts.js';
+import { TABLES } from '../../consts/table.js';
 import { sendVerificationEmail } from '../../helpers/admin-email-send.js';
 import { redis } from '../../helpers/redis-client.js';
 import type { Admin } from '../../schemas/admin.js';

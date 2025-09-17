@@ -4,7 +4,7 @@ import { redis } from 'src/helpers/redis-client.js';
 import type { Service } from 'src/schemas/service.js';
 import { ServiceSchema } from 'src/schemas/service.js';
 
-import { TABLES } from '../../consts.js';
+import { TABLES } from '../../consts/table.js';
 
 /**
  * Creates a new service and stores it in Redis.

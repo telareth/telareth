@@ -1,7 +1,7 @@
 import type { RedisClientType } from 'redis';
 import { createClient } from 'redis';
 
-import { REDIS_URL } from '../consts.js';
+import { REDIS_URL } from '../consts/redis.js';
 
 /**
  * Redis client instance.
