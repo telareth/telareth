@@ -1,5 +1,5 @@
 export type { Admin, AdminInput, AdminOutput } from './admin.js';
-export { AdminRole, AdminSchema } from './admin.js';
+export { AdminSchema } from './admin.js';
 export type { ApiKey, ApiKeyInput, ApiKeyOutput } from './api-key.js';
 export { ApiKeySchema } from './api-key.js';
 export type {
@@ -17,11 +17,11 @@ export type {
 } from './middleware.js';
 export { MiddlewareSchema } from './middleware.js';
 export type {
-  Permission,
-  PermissionInput,
-  PermissionOutput,
+  PermissionKey,
+  PermissionKeyInput,
+  PermissionKeyOutput,
 } from './permission.js';
-export { PermissionKey, PermissionSchema } from './permission.js';
+export { PermissionKeySchema } from './permission.js';
 export type { Role, RoleInput, RoleOutput } from './role.js';
 export { RoleSchema } from './role.js';
 export type { Service, ServiceInput, ServiceOutput } from './service.js';
