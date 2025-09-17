@@ -1,4 +1,12 @@
-.PHONY: install-golang setup-vscode-exts setup-cz setup-prettier setup-eslint setup-lefthook update-tools install-pm2 safe-build
+.PHONY: install-redis install-golang
+.PHONY: setup-vscode-exts
+.PHONY: setup-cz setup-prettier setup-eslint setup-lefthook install-pm2
+.PHONY: update-tools
+.PHONY: safe-build
+
+install-redis:
+	chmod +x ./scripts/install-redis.sh
+	./scripts/install-redis.sh --run -y
 
 install-golang:
 	chmod +x ./scripts/install-golang.sh
