@@ -123,12 +123,6 @@
   "exportall.config.namedExports": true,
   "exportall.config.semis": true,
   "exportall.config.recursive": true,
-  "exportall.config.folderListener": [
-    "sdk/db/src",
-    "/sdk/db/src/helpers",
-    "/sdk/db/src/middlewares",
-    "/sdk/db/src/queries"
-  ],
 
   "nxConsole.generateAiAgentRules": true,
 
