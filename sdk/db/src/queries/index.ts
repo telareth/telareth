@@ -1,3 +1,4 @@
+export { addAdminToGroup } from './admin/add-to-group.js';
 export { createAdmin } from './admin/create.js';
 export { deleteAdmin } from './admin/delete.js';
 export { getAdminById } from './admin/get-by-id.js';
@@ -9,7 +10,6 @@ export { incrementUsage } from './api-keys/increment-usage.js';
 export { revokeApiKey } from './api-keys/revoke.js';
 export { login } from './auth/login.js';
 export { updatePassword } from './auth/password-update.js';
-export { addAdminToGroup } from './group/add-to-group.js';
 export { createGroup } from './group/create.js';
 export { createMiddleware } from './middleware/create.js';
 export { deleteMiddleware } from './middleware/delete.js';
