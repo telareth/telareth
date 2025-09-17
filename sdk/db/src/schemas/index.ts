@@ -14,5 +14,11 @@ export type {
   MiddlewareOutput,
 } from './middleware.js';
 export { MiddlewareSchema } from './middleware.js';
+export type {
+  Permission,
+  PermissionInput,
+  PermissionOutput,
+} from './permission.js';
+export { PermissionKey, PermissionSchema } from './permission.js';
 export type { Service, ServiceInput, ServiceOutput } from './service.js';
 export { ServiceSchema } from './service.js';

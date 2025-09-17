@@ -9,9 +9,9 @@ export const TABLES = {
   SERVICES: 'services',
   MIDDLEWARES: 'middlewares',
   API_KEYS: 'apiKeys',
-  ROLES: 'roles', // future: store custom roles
-  GROUPS: 'groups', // future: store groups
-  PERMISSIONS: 'permissions', // future: store permissions
+  ROLES: 'roles',
+  GROUPS: 'groups',
+  PERMISSIONS: 'permissions',
   EMAIL_VERIFICATION_PREFIX: 'email-verification:', // key prefix for tokens
 } as const;
 
