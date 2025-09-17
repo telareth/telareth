@@ -1,10 +1,69 @@
+source_dir: ./config/lefthook
+
 commit-msg:
   jobs:
     - name: lint commit msg
       run: npx commitlint --verbose --edit {1}
 
 pre-commit:
+  follow: true
+  parallel: false
   jobs:
-    - name: lint and format
-      run: npx eslint --fix .
-      stage_fixed: true
+    - name: lint and format staged files
+      interactive: true
+      group:
+        piped: true
+        jobs:
+          - run: npx eslint --fix {staged_files}
+            stage_fixed: true
+          - run: npx prettier {staged_files} --write
+            glob:
+              - '*.sh'
+              - '*.yaml'
+              - '*.yml'
+              - '*.toml'
+            stage_fixed: true
+
+post-checkout:
+  follow: true
+  parallel: false
+  jobs:
+    - name: fix dependencies installs
+      interactive: true
+      group:
+        piped: true
+        jobs:
+          - name: Pruning all 'node_modules' directories
+            run: find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
+          - name: Pruning all 'dist' directories
+            run: find . -name 'dist' -type d -prune -exec rm -rf '{}' +
+          - name: Installing dependencies
+            run: npm install --ignore-scripts
+          - name: Making 'scripts/safe-build.sh' executable
+            run: chmod +x scripts/safe-build.sh
+            runner: bash
+          - name: Resetting Nx and safe-building projects
+            run: ./scripts/safe-build.sh --run
+            runner: bash
+
+post-merge:
+  follow: true
+  parallel: false
+  jobs:
+    - name: fix dependencies installs
+      interactive: true
+      group:
+        piped: true
+        jobs:
+          - name: Pruning all 'node_modules' directories
+            run: find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
+          - name: Pruning all 'dist' directories
+            run: find . -name 'dist' -type d -prune -exec rm -rf '{}' +
+          - name: Installing dependencies
+            run: npm install --ignore-scripts
+          - name: Making 'scripts/safe-build.sh' executable
+            run: chmod +x scripts/safe-build.sh
+            runner: bash
+          - name: Resetting Nx and safe-building projects
+            run: ./scripts/safe-build.sh --run
+            runner: bash

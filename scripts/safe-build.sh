@@ -34,15 +34,16 @@ backup_configs() {
 
 reset_nx() {
   info "Resetting Nx"
+
+  info "Clearing and preparing Nx cache directory..."
+  rm -rf .nx || true
+
   if _iscmd "nx"; then
     nx reset
   else
     warn "Nx not found. Skipping 'nx reset'."
   fi
 
-  # FIX: Ensure Nx cache directories exist before starting the build
-  info "Clearing and preparing Nx cache directory..."
-  rm -rf .nx || true
   mkdir -p .nx/cache/terminalOutputs
 }
 
@@ -55,19 +56,19 @@ build() {
 
   # The `if ! command; then ... fi` pattern is the most reliable
   # way to handle a non-zero exit code when `set -e` is active.
-  if ! nx run-many -t build --exclude @telareth/sdk-reference; then
-      error "Nx build failed. Reverting changes"
-      restore_configs
-      exit 1
+  if ! nx run-many -t build --exclude @telareth/sdk-reference --tui false; then
+    error "Nx build failed. Reverting changes"
+    restore_configs
+    exit 1
   fi
 
   info "Nx build completed successfully. Checking for dist folders."
   find . -type d -name "dist" | while read -r dist_dir; do
-      if [ -d "$dist_dir" ]; then
-          info "Found dist folder: $dist_dir"
-      else
-          error "Dist folder not found for a package. Build may have failed for some projects."
-      fi
+    if [ -d "$dist_dir" ]; then
+      info "Found dist folder: $dist_dir"
+    else
+      error "Dist folder not found for a package. Build may have failed for some projects."
+    fi
   done
 }
 
