@@ -20,5 +20,7 @@ export type {
   PermissionOutput,
 } from './permission.js';
 export { PermissionKey, PermissionSchema } from './permission.js';
+export type { Role, RoleInput, RoleOutput } from './role.js';
+export { RoleSchema } from './role.js';
 export type { Service, ServiceInput, ServiceOutput } from './service.js';
 export { ServiceSchema } from './service.js';
