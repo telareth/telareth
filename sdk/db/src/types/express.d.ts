@@ -4,7 +4,6 @@ import type { RedisClientType } from 'redis';
 
 import type { ApiKey } from '../schemas/api-key.js';
 
-// NOTE: keep this declareation in this file otherwise it won't be compiled
 declare module 'express-serve-static-core' {
   interface Request {
     redis?: RedisClientType;

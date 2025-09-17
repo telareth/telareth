@@ -1,9 +1,6 @@
 import { z } from 'zod';
 
-/**
- * Supported permission keys across the system.
- */
-export const PermissionKeySchema = z.enum([
+export const PERMISSION = [
   'SUPERUSER_CREATE',
   'SUPERUSER_UPDATE',
   'SUPERUSER_DELETE',
@@ -27,8 +24,8 @@ export const PermissionKeySchema = z.enum([
   'MIDDLEWARE_DELETE',
   'SERVICE_APIKEYS_CREATE',
   'SERVICE_APIKEYS_UPDATE',
-]);
+] as const;
 
-export type PermissionKey = z.infer<typeof PermissionKeySchema>;
-export type PermissionKeyInput = z.input<typeof PermissionKeySchema>;
-export type PermissionKeyOutput = z.output<typeof PermissionKeySchema>;
+export const PermissionSchema = z.enum(PERMISSION);
+
+export type Permission = z.infer<typeof PermissionSchema>;

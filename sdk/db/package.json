@@ -69,11 +69,6 @@
       "import": "./dist/types/index.js",
       "default": "./dist/types/index.js"
     },
-    "./consts": {
-      "types": "./dist/consts.d.ts",
-      "import": "./dist/consts.js",
-      "default": "./dist/consts.js"
-    },
     "./init": {
       "types": "./dist/init.d.ts",
       "import": "./dist/init.js",
