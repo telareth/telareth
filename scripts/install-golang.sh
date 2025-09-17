@@ -19,28 +19,26 @@ install_golang() {
   local profile_file
   local path_export_line
 
-  # Check for --yes or -y flags
-  for arg in "$@"; do
-    if [ "$arg" = "--yes" ] || [ "$arg" = "-y" ]; then
-      auto_yes="-y"
-      break
-    fi
+  # parse args
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      -y|--yes)
+        auto_yes="-y"
+        shift
+        ;;
+      --run)
+        shift
+        ;;
+      *)
+        shift
+        ;;
+    esac
   done
 
   # Check for required commands
-  if ! _iscmd "curl"; then
-    error "Curl is not installed. It is required to download Go."
-    return 1
-  fi
-
-  if ! _iscmd "tar"; then
-    error "Tar is not installed. It is required to extract the archive."
-    return 1
-  fi
-
-  if ! _iscmd "sudo"; then
-    error "Sudo is not installed. Administrative privileges are required for this installation."
-    return 1
+  if ! _iscmd "curl tar"; then
+    info "Installing dependencies..."
+    _install "curl tar" "$auto_yes"
   fi
 
   # Purge any previous Go installation to ensure a clean install

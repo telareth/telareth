@@ -113,14 +113,17 @@ _loadsh() {
 
 ## System/File Functions
 #-----------------------------------------------------------------------------
-# Return true if a command exists, false otherwise.
+# Return true if *all* given commands exist, false otherwise.
 #
 # Usage:
-# if _is_cmd "git"; then
-#   info "Git is available."
+# if _iscmd "git curl"; then
+#   info "Git and curl are available."
 # fi
 _iscmd() {
-  command -v "$1" >/dev/null 2>&1
+  for cmd in $1; do
+    command -v "$cmd" >/dev/null 2>&1 || return 1
+  done
+  return 0
 }
 
 # Prompt the user for confirmation.
@@ -211,6 +214,43 @@ _rmfile() {
     ok "File removed: $file"
   else
     warn "File not found: $file"
+  fi
+}
+
+# Wrapper for apt-get install with optional -y
+_install() {
+  pkgs=$1
+  auto_yes=${2:-}   # default to empty if not provided
+
+  if ! _iscmd "sudo"; then
+    error "Sudo is not installed. Administrative privileges are required for this installation."
+    return 1
+  fi
+
+  if _iscmd "at"; then
+    sudo apt-get update || true
+
+    if [ -n "$auto_yes" ]; then
+      sudo apt-get install -y "$pkgs" || true
+    else
+      sudo apt-get install "$pkgs" || true
+    fi
+  else
+    error "Could not find 'apt' package manager. Please manually install $pkgs."
+    return 1
+  fi
+}
+
+# Enable a systemctl service
+_enable_service() {
+  service_name=$1
+
+  # Enable service at boot
+  if command -v systemctl >/dev/null 2>&1; then
+    sudo systemctl enable "$service_name" || true
+    sudo systemctl start "$service_name" || true
+  else
+    echo "Warning: systemctl not available, skipping service enable/start for $service_name" >&2
   fi
 }
 

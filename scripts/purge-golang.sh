@@ -17,12 +17,20 @@ purge_golang() {
   # shellcheck disable=SC2016
   local path_export_line='export PATH=\$PATH:/usr/local/go/bin'
 
-  # Check for both --yes and -y flags
-  for arg in "$@"; do
-    if [ "$arg" = "--yes" ] || [ "$arg" = "-y" ]; then
-      auto_yes="-y"
-      break
-    fi
+  # parse args
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      -y|--yes)
+        auto_yes="-y"
+        shift
+        ;;
+      --run)
+        shift
+        ;;
+      *)
+        shift
+        ;;
+    esac
   done
 
   info "PURGE GO LANG"
@@ -32,15 +40,8 @@ purge_golang() {
     return 0
   fi
 
-  # Check for required commands
-  if ! _iscmd "sudo"; then
-    error "Sudo is not installed. Administrative privileges are required for this action."
-    return 1
-  fi
-
-  if ! _iscmd "grep" || ! _iscmd "sed"; then
-      error "grep or sed are not installed. These are required to edit your profile file."
-      return 1
+  if ! _iscmd "grep sed"; then
+    _install "grep sed" "$auto_yes"
   fi
 
   if ! _confirm "Do you want to remove the Go installation from /usr/local/go and your PATH?" "$auto_yes"; then

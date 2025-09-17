@@ -30,12 +30,20 @@ purge_commitizen() {
 setup_cz() {
   local auto_yes=""
 
-  # Check for both --yes and -y flags
-  for arg in "$@"; do
-    if [ "$arg" = "--yes" ] || [ "$arg" = "-y" ]; then
-      auto_yes="-y"
-      break
-    fi
+  # parse args
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      -y|--yes)
+        auto_yes="-y"
+        shift
+        ;;
+      --run)
+        shift
+        ;;
+      *)
+        shift
+        ;;
+    esac
   done
 
   # Check for existing installation and prompt for re-install

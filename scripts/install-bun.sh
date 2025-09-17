@@ -26,12 +26,20 @@ install_bun() {
   local rc_file
   local auto_yes=""
 
-  # Check for both --yes and -y flags
-  for arg in "$@"; do
-    if [ "$arg" = "--yes" ] || [ "$arg" = "-y" ]; then
-      auto_yes="-y"
-      break
-    fi
+  # parse args
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      -y|--yes)
+        auto_yes="-y"
+        shift
+        ;;
+      --run)
+        shift
+        ;;
+      *)
+        shift
+        ;;
+    esac
   done
 
   shell_name=$(basename "$SHELL")
@@ -63,13 +71,7 @@ install_bun() {
   # Check if curl is installed, install it otherwise.
   if ! _iscmd "curl"; then
     warn "curl is not installed. Installing it to proceed with Bun installation..."
-    if _iscmd "apt"; then
-      sudo apt update -y || true
-      sudo apt install curl -y || true
-    else
-      error "Could not find 'apt' package manager. Please manually install curl."
-      return 1
-    fi
+    _install "curl" "$auto_yes"
   fi
 
   # Install Bun using the official script.

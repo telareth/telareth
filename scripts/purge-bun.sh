@@ -15,17 +15,25 @@ fi
 purge_bun() {
   local auto_yes=""
 
-  # Check for both --yes and -y flags
-  for arg in "$@"; do
-    if [ "$arg" = "--yes" ] || [ "$arg" = "-y" ]; then
-      auto_yes="-y"
-      break
-    fi
+  # parse args
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      -y|--yes)
+        auto_yes="-y"
+        shift
+        ;;
+      --run)
+        shift
+        ;;
+      *)
+        shift
+        ;;
+    esac
   done
 
   # Check if bun is installed and confirm with the user
-  # Note: _iscmd has been corrected to _is_cmd
-  if ! _is_cmd "bun"; then
+  # Note: _iscmd has been corrected to _iscmd
+  if ! _iscmd "bun"; then
     info "Bun is not installed. Ignoring purge request."
     return 0
   fi
@@ -43,6 +51,10 @@ purge_bun() {
   # Remove global Bun binary
   _rmfile "/usr/local/bin/bun" || true
 
+  if ! _iscmd "grep sed"; then
+   _install "grep sed" "$auto_yes"
+  fi
+
   # Remove Bun lines from shell configs
   info "Removing Bun lines from shell configs..."
   for f in "$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.profile" "$HOME/.zprofile" "$HOME/.bash_profile"; do
@@ -55,7 +67,7 @@ purge_bun() {
   done
 
   info "Checking for leftovers..."
-  if _is_cmd "bun"; then
+  if _iscmd "bun"; then
     warn "Bun still exists at: $(which "bun")"
     warn "Purge completed with some leftovers. Manual cleanup may be required."
   else

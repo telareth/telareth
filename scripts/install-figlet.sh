@@ -30,15 +30,23 @@ purge_figlet() {
 install_figlet() {
   local auto_yes=""
 
-  # Check for both --yes and -y flags
-  for arg in "$@"; do
-    if [ "$arg" = "--yes" ] || [ "$arg" = "-y" ]; then
-      auto_yes="-y"
-      break
-    fi
+  # parse args
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      -y|--yes)
+        auto_yes="-y"
+        shift
+        ;;
+      --run)
+        shift
+        ;;
+      *)
+        shift
+        ;;
+    esac
   done
 
-  # Correct logical flow: check if figlet is installed first.
+  # Check if figlet is installed first.
   if _iscmd "figlet"; then
     if _confirm "figlet is already installed. Do you want to force re-install it?" "$auto_yes"; then
       purge_figlet

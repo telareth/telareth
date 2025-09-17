@@ -9,12 +9,20 @@ SCRIPT_DIR="$(dirname "$0")"
 update_tools() {
   local auto_yes=""
 
-  # Check for both --yes and -y flags
-  for arg in "$@"; do
-    if [ "$arg" = "--yes" ] || [ "$arg" = "-y" ]; then
-      auto_yes="-y"
-      break
-    fi
+  # parse args
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      -y|--yes)
+        auto_yes="-y"
+        shift
+        ;;
+      --run)
+        shift
+        ;;
+      *)
+        shift
+        ;;
+    esac
   done
 
   # Check for Node.js and npm
@@ -33,8 +41,7 @@ update_tools() {
 
   # Check for git
   if ! _iscmd "git"; then
-    error "Git is not installed. It is required to commit changes."
-    return 1
+    _install "git" "$auto_yes"
   fi
 
   # Check if we are in a Git repository

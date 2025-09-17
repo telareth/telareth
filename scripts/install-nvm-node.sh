@@ -15,12 +15,20 @@ fi
 install_nvm_node() {
   local auto_yes=""
 
-  # Check for both --yes and -y flags
-  for arg in "$@"; do
-    if [ "$arg" = "--yes" ] || [ "$arg" = "-y" ]; then
-      auto_yes="-y"
-      break
-    fi
+  # parse args
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      -y|--yes)
+        auto_yes="-y"
+        shift
+        ;;
+      --run)
+        shift
+        ;;
+      *)
+        shift
+        ;;
+    esac
   done
 
   # Check if Node.js is already installed
@@ -44,15 +52,9 @@ install_nvm_node() {
   fi
 
   # Check for required dependencies for the NVM installer
-  if ! _iscmd "git" || ! _iscmd "curl" || ! _iscmd "wget"; then
-    warn "Missing dependencies. Installing required packages..."
-    if _iscmd "apt"; then
-      sudo apt update -y || true
-      sudo apt install git curl wget -y || true
-    else
-      error "Could not find 'apt' package manager. Please manually install git and curl."
-      return 1
-    fi
+  if ! _iscmd "git curl wget"; then
+    warn "Installing dependencies..."
+    _install "git curl wget" "$auto_yes"
   fi
 
   info "Installing NVM..."

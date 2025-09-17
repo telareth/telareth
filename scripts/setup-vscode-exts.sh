@@ -14,12 +14,20 @@ fi
 setup_vscode_exts() {
   local auto_yes=""
 
-  # Check for both --yes and -y flags
-  for arg in "$@"; do
-    if [ "$arg" = "--yes" ] || [ "$arg" = "-y" ]; then
-      auto_yes="-y"
-      break
-    fi
+  # parse args
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      -y|--yes)
+        auto_yes="-y"
+        shift
+        ;;
+      --run)
+        shift
+        ;;
+      *)
+        shift
+        ;;
+    esac
   done
 
   info "Setting up VSCode Extentions"
@@ -39,12 +47,9 @@ setup_vscode_exts() {
     fi
   else
     info "Installing Shellcheck..."
-    if ! _iscmd "sudo"; then
-        error "Sudo is not installed. Please install it before running this script."
-        return 1
-    fi
-    sudo apt update -y || true
-    sudo apt install shellcheck -y
+
+    _install "shellcheck" "$auto_yes"
+
     ok "Shellcheck installed successfully."
   fi
 

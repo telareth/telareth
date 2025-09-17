@@ -30,7 +30,7 @@ install_redis() {
     esac
   done
 
-  if _iscmd redis-cli; then
+  if _iscmd "redis-cli"; then
     if ! _confirm "Redis is already installed. Do you want to proceed anyway?" "$auto_yes"; then
       info "Installation canceled by user."
       return 0
@@ -38,17 +38,12 @@ install_redis() {
   fi
 
   # Install core dependencies if missing
-  if ! _iscmd lsb-release || ! _iscmd curl || ! _iscmd gpg; then
-    sudo apt-get update
-    if [ -n "$auto_yes" ]; then
-      sudo apt-get install -y lsb-release curl gpg
-    else
-      sudo apt-get install lsb-release curl gpg
-    fi
+  if ! _iscmd "lsb-release curl gpg"; then
+    _install "lsb-release curl gpg" "$auto_yes"
   fi
 
   # Install Redis
-  sudo apt-get update
+  sudo apt-get update || true
 
     # Download and install Redis GPG key
   if [ -n "$auto_yes" ]; then
@@ -65,16 +60,10 @@ install_redis() {
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" \
     | sudo tee /etc/apt/sources.list.d/redis.list >/dev/null
 
-  sudo apt-get update
-  if [ -n "$auto_yes" ]; then
-    sudo apt-get install -y redis
-  else
-    sudo apt-get install redis
-  fi
+  _install "redis" "$auto_yes"
 
   # Enable Redis startup automatically at boot time
-  sudo systemctl enable redis-server
-  sudo systemctl start redis-server
+  _enable_service "redis-server"
 
   ok "Setup Complete"
 }
