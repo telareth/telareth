@@ -8,6 +8,8 @@ export type {
   EmailVerificationOutput,
 } from './email-verification.js';
 export { EmailVerificationSchema } from './email-verification.js';
+export type { Group, GroupInput, GroupOutput } from './group.js';
+export { GroupSchema } from './group.js';
 export type {
   Middleware,
   MiddlewareInput,

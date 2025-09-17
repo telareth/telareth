@@ -50,7 +50,7 @@ export type {
   PermissionOutput,
 } from './schemas/permission.js';
 export { PermissionKey, PermissionSchema } from './schemas/permission.js';
-export type { Role } from './schemas/role.js';
+export type { Role, RoleInput, RoleOutput } from './schemas/role.js';
 export { RoleSchema } from './schemas/role.js';
 export type {
   Service,
