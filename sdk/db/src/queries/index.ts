@@ -14,6 +14,8 @@ export { deleteMiddleware } from './middleware/delete.js';
 export { getMiddlewareById } from './middleware/get-by-id.js';
 export { listMiddlewares } from './middleware/list.js';
 export { updateMiddleware } from './middleware/update.js';
+export { createRole } from './role/create.js';
+export { getRoleById } from './role/get-by-id.js';
 export { createService } from './service/create-service.js';
 export { getServiceById } from './service/get-service-by-id.js';
 export { listServices } from './service/list-services.js';

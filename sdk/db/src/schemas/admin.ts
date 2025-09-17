@@ -1,12 +1,11 @@
 import { z } from 'zod';
 
-export const AdminRole = z.enum(['SUPERADMIN', 'ADMIN']);
-
 export const AdminSchema = z.object({
   id: z.uuid(),
   email: z.email(),
   password: z.string(),
-  roles: z.array(AdminRole).default(['ADMIN']),
+  roles: z.array(z.string()).default([]),
+  groups: z.array(z.string()).default([]),
   emailVerified: z.boolean().default(false),
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),

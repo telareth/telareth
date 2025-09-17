@@ -1,12 +1,12 @@
 import { z } from 'zod';
 
-import { PermissionKey } from './permission.js';
+import { PermissionKeySchema } from './permission.js';
 
 export const GroupSchema = z.object({
   id: z.uuid(),
   name: z.string(),
-  permissions: z.array(PermissionKey).default([]),
-  memberIds: z.array(z.uuid()).default([]), // admin IDs
+  permissions: z.array(PermissionKeySchema),
+  memberIds: z.array(z.uuid()),
 });
 
 export type Group = z.infer<typeof GroupSchema>;

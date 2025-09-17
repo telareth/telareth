@@ -15,5 +15,10 @@ export const TABLES = {
   EMAIL_VERIFICATION_PREFIX: 'email-verification:', // key prefix for tokens
 } as const;
 
+export const DEFAULT_ROLES = {
+  SUPERADMIN: 'SUPERADMIN',
+  ADMIN: 'ADMIN',
+} as const;
+
 export const JWT_SECRET = process.env.JWT_SECRET || 'supersecret';
 export const JWT_EXPIRES_IN = '1h';

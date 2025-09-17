@@ -1,11 +1,11 @@
 import { z } from 'zod';
 
-import { PermissionKey } from './permission.js';
+import { PermissionKeySchema } from './permission.js';
 
 export const RoleSchema = z.object({
   id: z.uuid(),
   name: z.string(), // e.g., 'ADMIN', 'CUSTOM_ROLE'
-  permissions: z.array(PermissionKey).default([]),
+  permissions: z.array(PermissionKeySchema),
   isDefault: z.boolean().default(false), // true for SUPERUSER, ADMIN
 });
 

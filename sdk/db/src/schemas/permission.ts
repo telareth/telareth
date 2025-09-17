@@ -1,10 +1,9 @@
 import { z } from 'zod';
 
 /**
- * Defines all possible permission keys.
- * You can expand this with service-specific permissions.
+ * Supported permission keys across the system.
  */
-export const PermissionKey = z.enum([
+export const PermissionKeySchema = z.enum([
   'SUPERUSER_CREATE',
   'SUPERUSER_UPDATE',
   'SUPERUSER_DELETE',
@@ -30,11 +29,6 @@ export const PermissionKey = z.enum([
   'SERVICE_APIKEYS_UPDATE',
 ]);
 
-export const PermissionSchema = z.object({
-  key: PermissionKey,
-  description: z.string().optional(),
-});
-
-export type Permission = z.infer<typeof PermissionSchema>;
-export type PermissionInput = z.input<typeof PermissionSchema>;
-export type PermissionOutput = z.infer<typeof PermissionSchema>;
+export type PermissionKey = z.infer<typeof PermissionKeySchema>;
+export type PermissionKeyInput = z.input<typeof PermissionKeySchema>;
+export type PermissionKeyOutput = z.output<typeof PermissionKeySchema>;
