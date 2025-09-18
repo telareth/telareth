@@ -11,12 +11,6 @@
     },
     {
       "path": "./tools/cli"
-    },
-    {
-      "path": "./sdk-reference"
-    },
-    {
-      "path": "./sdk/db"
     }
   ]
 }
