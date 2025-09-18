@@ -1,7 +1,9 @@
 {
   "name": "@telareth/gateway",
   "version": "0.0.1",
-  "private": true,
+  "description": "Telareth's Gateway SDK",
+  "license": "MIT",
+  "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -14,7 +16,64 @@
       "default": "./dist/index.js"
     }
   },
+  "files": [
+    "LICENSE",
+    "dist"
+  ],
   "dependencies": {
-    "tslib": "^2.3.0"
+    "@dotenvx/dotenvx": "^1.50.1",
+    "@telareth/core": "^0.0.1",
+    "express": "^5.1.0",
+    "tslib": "^2.3.0",
+    "zod": "^4.1.9"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^20.19.9",
+    "eslint": "^9.35.0",
+    "rimraf": "^6.0.1"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "nx": {
+    "tags": [
+      "scope:gateway",
+      "runtime:sdk"
+    ],
+    "targets": {
+      "clean": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk/gateway",
+          "commands": [
+            "rimraf dist"
+          ]
+        }
+      },
+      "install": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npm install"
+          ]
+        },
+        "dependsOn": [
+          "^clean"
+        ]
+      },
+      "lint:fmt": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": [
+            "eslint --fix ."
+          ]
+        },
+        "dependsOn": [
+          "^install"
+        ]
+      }
+    }
   }
 }

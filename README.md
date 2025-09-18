@@ -9,13 +9,18 @@ The Telareth Framework monorepo
 - [shellcheck](https://github.com/koalaman/shellcheck)
 - [shfmt](https://github.com/mvdan/sh)
 
-You can use the convenient script to install all VSCode dependencies automatically:
+### shellcheck
 
 ```bash
-make setup-vscode-exts
+sudo apt install shellcheck
+```
 
-# or
-./scripts/setup-vscode-exts.sh --run -y
+### shfmt
+
+Install shfmt though snapcraft in order match VS Code `foxundermoon.shell-format` extension settings.
+
+```bash
+sudo snap install shfmt
 ```
 
 ---
