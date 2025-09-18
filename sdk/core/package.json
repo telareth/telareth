@@ -1,0 +1,84 @@
+{
+  "name": "@telareth/core",
+  "version": "0.0.1",
+  "description": "Telareth's core SDK",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@telareth/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./helpers": {
+      "types": "./dist/helpers/index.d.ts",
+      "import": "./dist/helpers/index.js",
+      "default": "./dist//helpers/index.js"
+    },
+    "./schemas": {
+      "types": "./dist/schemas/index.d.ts",
+      "import": "./dist/schemas/index.js",
+      "default": "./dist//schemas/index.js"
+    }
+  },
+  "files": [
+    "LICENSE",
+    "dist"
+  ],
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "zod": "^4.1.9"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.9",
+    "rimraf": "^6.0.1"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "nx": {
+    "tags": [
+      "scope:core",
+      "runtime:sdk"
+    ],
+    "targets": {
+      "clean": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk/core",
+          "commands": [
+            "rimraf dist"
+          ]
+        }
+      },
+      "install": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npm install"
+          ]
+        },
+        "dependsOn": [
+          "^clean"
+        ]
+      },
+      "lint:fmt": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": [
+            "eslint --fix ."
+          ]
+        },
+        "dependsOn": [
+          "^install"
+        ]
+      }
+    }
+  }
+}
