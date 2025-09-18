@@ -22,7 +22,7 @@ install_golang() {
   # parse args
   while [ $# -gt 0 ]; do
     case "$1" in
-      -y|--yes)
+      -y | --yes)
         auto_yes="-y"
         shift
         ;;
