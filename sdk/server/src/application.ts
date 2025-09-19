@@ -1,7 +1,10 @@
 import type { Server } from 'http';
 
-import type { Application } from 'express';
+import cors from 'cors';
+import type { Application, Handler } from 'express';
 import express from 'express';
+import helmet from 'helmet';
+import morgan from 'morgan';
 
 import { createGracefulShutdown } from './helpers/create-graceful-shutdown.js';
 import { parseAppOptions } from './helpers/parse-app-options.js';
@@ -21,6 +24,16 @@ export class App {
   constructor(opts: ParsedAppOptions) {
     this.options = opts;
     this.app = express();
+
+    this.setupMiddlewares();
+  }
+
+  /**
+   * Public server instance getter.
+   * @returns The server instance or null.
+   */
+  public getServer() {
+    return this.server;
   }
 
   /**
@@ -57,11 +70,11 @@ export class App {
   }
 
   /**
-   * Public server instance getter.
-   * @returns The server instance or null.
+   * Inject one or more middlewares into the application.
+   * @param middlewares The array of middlewares to inject.
    */
-  public getServer() {
-    return this.server;
+  public injectMiddlewares(middlewares: Handler[]) {
+    this.app.use(...middlewares);
   }
 
   /**
@@ -73,5 +86,16 @@ export class App {
     process.on('SIGINT', () => shutdown('SIGINT'));
     process.on('SIGTERM', () => shutdown('SIGTERM'));
     process.on('SIGQUIT', () => shutdown('SIGQUIT'));
+  }
+
+  /**
+   * Register global middlewares.
+   */
+  private setupMiddlewares() {
+    this.app.use(helmet());
+    this.app.use(cors(this.options.cors));
+    this.app.use(morgan(this.options.logger.http));
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
   }
 }
