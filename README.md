@@ -39,6 +39,6 @@ sudo snap install shfmt
 
 ---
 
-## License
+## 📄 License
 
-Telareth is licensed under the MIT LICENSE.
+This repository is licensed under the MIT License.

@@ -54,5 +54,5 @@ export const PortSchema = z
   });
 
 export type Port = z.infer<typeof PortSchema>;
-export type PortInput = z.input<typeof PortSchema>;
-export type PortOutput = z.output<typeof PortSchema>;
+export type RawPort = z.input<typeof PortSchema>;
+export type ParsedPort = z.output<typeof PortSchema>;

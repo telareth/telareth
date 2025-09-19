@@ -1,56 +1,58 @@
-import dotenv from '@dotenvx/dotenvx';
-
-import type { Server } from 'http';
-
-import type { Application } from 'express';
-import express from 'express';
-
+import { App } from '@telareth/server';
 import { parseGatewayOptions } from './helpers/parse-gateway-options.js';
 import type {
-  GatewayOptionsInput,
-  GatewayOptionsOutput,
-} from './schemes/gateway-options.js';
+  ParsedGatewayOptions,
+  RawGatewayOptions,
+} from './schemas/gateway-options.js';
 
 /**
  * Gateway Factory class.
  */
 export class Gateway {
-  private readonly options: GatewayOptionsOutput;
-  private readonly app: Application;
-  private server: Server | null = null;
+  private readonly options: ParsedGatewayOptions;
+  private readonly app: App;
 
   /**
    * @param options The parsed gateway optyions object.
+   * @param app The App instance.
    */
-  constructor(options: GatewayOptionsOutput) {
+  constructor(options: ParsedGatewayOptions, app: App) {
     this.options = options;
-    this.app = express();
+    this.app = app;
   }
 
   /**
    * Async factory to create a Gateway instance.
    * @param rawOptions The object containing the Gateway options, usually coming from process.env.
-   * @returns The parsed Gateway options.
+   * @returns The Gateway instance.
    */
-  public static async create(
-    rawOptions: GatewayOptionsInput
-  ): Promise<Gateway | null> {
-    // Load and parse .env file
-    dotenv.config({ override: true, debug: false });
+  public static async create(rawOptions: RawGatewayOptions): Promise<Gateway> {
+    const optionsParser = await parseGatewayOptions(rawOptions);
 
-    const options = await parseGatewayOptions(rawOptions);
+    if (!optionsParser.success) {
+      console.error(optionsParser.error);
+      throw new Error('GatewayOptionsError', { cause: optionsParser.error });
+    }
 
-    return new Gateway(options);
+    const options = optionsParser.data;
+
+    // Use nullish coalescing for safety.
+    const app = await App.create({
+      name: options.name, // Default 'gateway'
+      port: options.port, // Default 4000
+    });
+
+    return new Gateway(options, app);
   }
 
   /**
    * Starts the gateway by initializing proxies and listening on the configured port.
    */
   public async start(): Promise<void> {
-    this.server = this.app.listen(this.options.GATEWAY_PORT, () => {
-      console.log(
-        `[INFO] Gateway started at http://localhost://${this.options.GATEWAY_PORT}`
-      );
-    });
+    await this.app.start();
+
+    // const server = this.app.getServer();
+    // if (server) {
+    // }
   }
 }

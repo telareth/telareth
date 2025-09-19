@@ -30,6 +30,6 @@ import { Gateway } from '@telareth/gateway';
 })();
 ```
 
-## License
+## 📄 License
 
-**@telareth/gateway** is licensed under the MIT license.
+This repository is licensed under the MIT License.

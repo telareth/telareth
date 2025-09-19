@@ -1,24 +1,25 @@
-import z from 'zod';
-
-import type {
-  GatewayOptionsInput,
-  GatewayOptionsOutput,
-} from '../schemes/gateway-options.js';
-import { GatewayOptionsSchema } from '../schemes/gateway-options.js';
+import type { RawGatewayOptions } from '../schemas/gateway-options.js';
+import { GatewayOptionsSchema } from '../schemas/gateway-options.js';
 
 /**
- * Asyncronously safe-parse Gateway options.
- * @param raw An object representing the Gateway options, some of them usualluy comes from process.env.
+ * Asyncronously safe-parse the Gateway options, usually coming from process.env.
+ * @param raw Raw Gateway options object.
+ * @returns A result object with a `success` boolean, and either the parsed data or an error.
+ * @example
+ * ```ts
+ * const result = await parseGatewayOptions({
+ *   name: 'my-gateway'
+ *   port: 4000
+ * })
+ *
+ * if (!result.success) {
+ *   console.error(result.error);
+ *   throw new Error("[FATAL] Failed to parse Gateway options")
+ * }
+ *
+ * const options = result.data;
+ * ```
  */
-export async function parseGatewayOptions(
-  raw: GatewayOptionsInput
-): Promise<GatewayOptionsOutput> {
-  const result = await GatewayOptionsSchema.safeParseAsync(raw);
-
-  if (!result.success) {
-    console.error(z.prettifyError(result.error));
-    process.exit(1);
-  }
-
-  return result.data;
+export async function parseGatewayOptions(raw: RawGatewayOptions) {
+  return await GatewayOptionsSchema.safeParseAsync(raw);
 }

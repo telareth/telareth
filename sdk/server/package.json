@@ -1,8 +1,7 @@
 {
-  "name": "@telareth/core",
+  "name": "@telareth/server",
   "version": "0.0.1",
-  "description": "Telareth's core SDK",
-  "license": "MIT",
+  "description": "Telareth Express App factory",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -18,12 +17,12 @@
     "./helpers": {
       "types": "./dist/helpers/index.d.ts",
       "import": "./dist/helpers/index.js",
-      "default": "./dist//helpers/index.js"
+      "default": "./dist/helpers/index.js"
     },
     "./schemas": {
       "types": "./dist/schemas/index.d.ts",
       "import": "./dist/schemas/index.js",
-      "default": "./dist//schemas/index.js"
+      "default": "./dist/schemas/index.js"
     }
   },
   "files": [
@@ -31,12 +30,13 @@
     "dist"
   ],
   "dependencies": {
+    "express": "^5.1.0",
     "tslib": "^2.3.0",
     "zod": "^4.1.9"
   },
   "devDependencies": {
-    "@types/node": "^20.19.9",
-    "rimraf": "^6.0.1"
+    "@types/express": "^5.0.3",
+    "@types/node": "^20.19.9"
   },
   "private": false,
   "publishConfig": {
@@ -44,14 +44,14 @@
   },
   "nx": {
     "tags": [
-      "scope:core",
+      "scope:server",
       "runtime:sdk"
     ],
     "targets": {
       "clean": {
         "executor": "nx:run-commands",
         "options": {
-          "cwd": "sdk/core",
+          "cwd": "sdk/server",
           "commands": [
             "rimraf dist"
           ]

@@ -16,7 +16,7 @@
       "path": "./sdk/gateway"
     },
     {
-      "path": "./sdk/core"
+      "path": "./sdk/server"
     }
   ]
 }
