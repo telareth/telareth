@@ -40,6 +40,9 @@ export class Gateway {
     const app = await App.create({
       name: options.name, // Default 'gateway'
       port: options.port, // Default 4000
+      helmet: options.helmet,
+      cors: options.cors,
+      logger: options.logger, // default to 'tiny'
     });
 
     return new Gateway(options, app);
