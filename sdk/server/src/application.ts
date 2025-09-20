@@ -89,7 +89,7 @@ export class App {
   }
 
   /**
-   * Inject one or more middlewares into the Express app.
+   * Injects one or more middlewares into the Express app.
    * @param middlewares Array of Express handlers to inject.
    */
   public injectMiddlewares(middlewares: Handler[]): void {
