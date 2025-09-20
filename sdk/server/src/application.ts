@@ -1,6 +1,7 @@
 import type { Server } from 'http';
 
 import type { Application, Handler } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import express from 'express';
 import helmet from 'helmet';
 
@@ -8,6 +9,8 @@ import { createGracefulShutdown } from './helpers/create-graceful-shutdown.js';
 import { parseAppOptions } from './helpers/parse-app-options.js';
 import type { ParsedAppOptions, RawAppOptions } from './schemas/app-options.js';
 import { cors } from './schemas/cors.js';
+import type { HttpLogger } from './schemas/http-logger.js';
+import { httpLogger } from './schemas/http-logger.js';
 import type { Logger } from './schemas/logger.js';
 import { logger } from './schemas/logger.js';
 
@@ -21,38 +24,38 @@ export class App {
   private log: Logger;
 
   /**
-   * @param opts The parsed App options.
+   * Creates a new App instance.
+   * @param opts Parsed application options.
    */
   constructor(opts: ParsedAppOptions) {
     this.options = opts;
     this.app = express();
 
     this.log = this.setupLogger();
-
     this.setupMiddlewares();
   }
 
   /**
-   * Public server instance getter.
-   * @returns The server instance or null.
+   * Get the server instance.
+   * @returns The HTTP server instance or null if not started.
    */
-  public getServer() {
+  public getServer(): Server | null {
     return this.server;
   }
 
   /**
-   * Public logger instance getter.
+   * Get the logger instance.
    * @returns The logger instance.
    */
-  public getLogger() {
+  public getLogger(): Logger {
     return this.log;
   }
 
   /**
-   * Async factory to create the App instance.
-   * @param rawOpts The raw App options opject.
-   * @throws
-   * @returns The App isntance if the parsing succeed.
+   * Async factory to create the App instance from raw options.
+   * @param rawOpts Raw application options.
+   * @throws Throws an error if parsing fails.
+   * @returns A new App instance.
    */
   public static async create(rawOpts: RawAppOptions): Promise<App> {
     const options = await parseAppOptions(rawOpts);
@@ -66,15 +69,15 @@ export class App {
   }
 
   /**
-   * Starts the server.
+   * Starts the HTTP server.
    */
   public async start(): Promise<void> {
     await new Promise<void>((resolve) => {
       this.server = this.app.listen(this.options.port, () => {
         console.log(
-          `[INFO] ${this.options.name} started at http://localhost://${this.options.port}`
+          `[INFO] ${this.options.name} started at http://localhost:${this.options.port}`
         );
-        resolve(); // Resolve the promise once the server is listening
+        resolve();
       });
     });
 
@@ -82,17 +85,17 @@ export class App {
   }
 
   /**
-   * Inject one or more middlewares into the application.
-   * @param middlewares The array of middlewares to inject.
+   * Inject one or more middlewares into the Express app.
+   * @param middlewares Array of Express handlers to inject.
    */
-  public injectMiddlewares(middlewares: Handler[]) {
+  public injectMiddlewares(middlewares: Handler[]): void {
     this.app.use(...middlewares);
   }
 
   /**
    * Registers handlers for graceful shutdown.
    */
-  private setupGracefulShutdown() {
+  private setupGracefulShutdown(): void {
     const shutdown = createGracefulShutdown(this.server);
 
     process.on('SIGINT', () => shutdown('SIGINT'));
@@ -101,19 +104,29 @@ export class App {
   }
 
   /**
-   * Configure the logger.
+   * Configure the logger instance.
    * @returns The logger instance.
    */
-  private setupLogger() {
-    const $log = logger(this.options.logger);
-
-    return $log;
+  private setupLogger(): Logger {
+    return logger(this.options.logger);
   }
 
   /**
    * Register global middlewares.
+   * HTTP logger runs first to capture all requests.
    */
-  private setupMiddlewares() {
+  private setupMiddlewares(): void {
+    if (this.options.httpLogger) {
+      // Cast pino-http to callable function returning Express middleware
+      const loggerMiddleware = httpLogger as unknown as (
+        opts: Parameters<HttpLogger>[0]
+      ) => (req: Request, res: Response, next: NextFunction) => void;
+
+      this.app.use(
+        loggerMiddleware(this.options.httpLogger as Parameters<HttpLogger>[0])
+      );
+    }
+
     this.app.use(helmet());
     this.app.use(cors(this.options.cors));
     this.app.use(express.json());

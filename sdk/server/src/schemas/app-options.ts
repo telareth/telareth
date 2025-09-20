@@ -2,6 +2,10 @@ import { z } from 'zod';
 
 import { CorsSchema } from './cors.js';
 import { HelmetOptionsSchema } from './helmet.js';
+import {
+  DEFAULT_HTTP_LOGGER_OPTIONS,
+  HttpLoggerOptionsSchema,
+} from './http-logger.js';
 import { LoggerOptionsSchema, LogLevelSchema } from './logger.js';
 import { PortSchema } from './port.js';
 
@@ -16,15 +20,22 @@ export const AppOptionsSchema = z.object({
     .union([z.boolean(), LoggerOptionsSchema])
     .optional()
     .default(true)
-    .transform((val) => {
-      if (typeof val === 'boolean') {
-        return {
-          level: val ? LogLevelSchema.enum.info : LogLevelSchema.enum.silent,
-        };
-      }
-
-      return val;
-    }),
+    .transform((val) =>
+      typeof val === 'boolean'
+        ? { level: val ? LogLevelSchema.enum.info : LogLevelSchema.enum.silent }
+        : val
+    ),
+  httpLogger: z
+    .union([z.boolean(), HttpLoggerOptionsSchema])
+    .optional()
+    .default(false)
+    .transform((val) =>
+      typeof val === 'boolean'
+        ? val
+          ? DEFAULT_HTTP_LOGGER_OPTIONS
+          : undefined
+        : val
+    ),
 });
 
 export type AppOptions = z.infer<typeof AppOptionsSchema>;
