@@ -30,6 +30,7 @@
     "dist"
   ],
   "dependencies": {
+    "@telareth/common": "^0.0.1",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
@@ -67,7 +68,7 @@
         "executor": "nx:run-commands",
         "options": {
           "commands": [
-            "npm install"
+            "npm install --ignore-scripts"
           ]
         },
         "dependsOn": [

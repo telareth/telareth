@@ -18,8 +18,9 @@ export const AppOptionsSchema = z.object({
     .default(true)
     .transform((val) => {
       if (typeof val === 'boolean') {
-        if (val) return { level: LogLevelSchema.enum.info };
-        return val; // false
+        return {
+          level: val ? LogLevelSchema.enum.info : LogLevelSchema.enum.silent,
+        };
       }
 
       return val;

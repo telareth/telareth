@@ -1,14 +1,15 @@
 import type { Server } from 'http';
 
-import cors from 'cors';
 import type { Application, Handler } from 'express';
 import express from 'express';
 import helmet from 'helmet';
-import morgan from 'morgan';
 
 import { createGracefulShutdown } from './helpers/create-graceful-shutdown.js';
 import { parseAppOptions } from './helpers/parse-app-options.js';
 import type { ParsedAppOptions, RawAppOptions } from './schemas/app-options.js';
+import { cors } from './schemas/cors.js';
+import type { Logger } from './schemas/logger.js';
+import { logger } from './schemas/logger.js';
 
 /**
  * Express Application Factory.
@@ -17,6 +18,7 @@ export class App {
   private readonly options: ParsedAppOptions;
   private readonly app: Application;
   private server: Server | null = null;
+  private log: Logger;
 
   /**
    * @param opts The parsed App options.
@@ -24,6 +26,8 @@ export class App {
   constructor(opts: ParsedAppOptions) {
     this.options = opts;
     this.app = express();
+
+    this.log = this.setupLogger();
 
     this.setupMiddlewares();
   }
@@ -89,12 +93,21 @@ export class App {
   }
 
   /**
+   * Configure the logger.
+   * @returns The logger instance.
+   */
+  private setupLogger() {
+    const $log = logger(this.options.logger);
+
+    return $log;
+  }
+
+  /**
    * Register global middlewares.
    */
   private setupMiddlewares() {
     this.app.use(helmet());
     this.app.use(cors(this.options.cors));
-    this.app.use(morgan(this.options.logger.http));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
   }

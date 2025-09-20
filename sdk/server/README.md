@@ -4,7 +4,7 @@ Factory function to spin up Express.js applications already configured.
 
 ---
 
-### Installation
+## Installation
 
 ```bash
 npm i @telareth/server
@@ -12,7 +12,7 @@ npm i @telareth/server
 
 ---
 
-### Usage
+## Usage
 
 ```typescript
 // Import the dotenvx configuration and the App class.
@@ -36,7 +36,7 @@ const NAME = process.env.NAME;
 })();
 ```
 
-### Notes on Usage
+## Notes on Usage
 
 - The `App.create` method **throws an error** if it fails to parse the provided options. You should wrap this call in a `try...catch` block to handle these errors gracefully.
 - The `app.start` method is **asynchronous**. You must use `await` to ensure the server starts before the application proceeds.
@@ -44,6 +44,6 @@ const NAME = process.env.NAME;
 
 ---
 
-### 📄 License
+## 📄 License
 
 This repository is licensed under the MIT License.

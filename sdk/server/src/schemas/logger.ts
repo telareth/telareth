@@ -1,8 +1,8 @@
 import type { Logger as Pino, LoggerOptions as PinoLoggerOptions } from 'pino';
-import pino from 'pino';
+import { default as logger } from 'pino';
 import { z } from 'zod';
 
-export const logger = pino();
+export { logger };
 
 export const LOG_LEVEL = [
   'fatal',
