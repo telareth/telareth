@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { CorsSchema } from './cors.js';
-import { HelmetOptionsSchema } from './helmet.js';
+import { HelmetSchema } from './helmet.js';
 import {
   DEFAULT_HTTP_LOGGER_OPTIONS,
   HttpLoggerOptionsSchema,
@@ -14,7 +14,7 @@ export const APP_NAME_REGEX = /^[a-z][a-z0-9-]*[a-z0-9]$/;
 export const AppOptionsSchema = z.object({
   name: z.string().regex(APP_NAME_REGEX),
   port: PortSchema,
-  helmet: HelmetOptionsSchema,
+  helmet: HelmetSchema,
   cors: CorsSchema,
   logger: z
     .union([z.boolean(), LoggerOptionsSchema])

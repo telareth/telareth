@@ -3,12 +3,12 @@ import type { Server } from 'http';
 import type { Application, Handler } from 'express';
 import type { NextFunction, Request, Response } from 'express';
 import express from 'express';
-import helmet from 'helmet';
 
 import { createGracefulShutdown } from './helpers/create-graceful-shutdown.js';
 import { parseAppOptions } from './helpers/parse-app-options.js';
 import type { ParsedAppOptions, RawAppOptions } from './schemas/app-options.js';
 import { cors } from './schemas/cors.js';
+import { helmet } from './schemas/helmet.js';
 import type { HttpLogger } from './schemas/http-logger.js';
 import { httpLogger } from './schemas/http-logger.js';
 import type { Logger } from './schemas/logger.js';
@@ -31,7 +31,11 @@ export class App {
     this.options = opts;
     this.app = express();
 
+    // Configures logger
     this.log = this.setupLogger();
+    this.app.set('logger', this.log);
+
+    // Configures global middlewares
     this.setupMiddlewares();
   }
 
@@ -116,8 +120,8 @@ export class App {
    * HTTP logger runs first to capture all requests.
    */
   private setupMiddlewares(): void {
+    // Sets up logger
     if (this.options.httpLogger) {
-      // Cast pino-http to callable function returning Express middleware
       const loggerMiddleware = httpLogger as unknown as (
         opts: Parameters<HttpLogger>[0]
       ) => (req: Request, res: Response, next: NextFunction) => void;
@@ -127,7 +131,7 @@ export class App {
       );
     }
 
-    this.app.use(helmet());
+    this.app.use(helmet(this.options.helmet));
     this.app.use(cors(this.options.cors));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
