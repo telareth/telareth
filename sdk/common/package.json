@@ -1,8 +1,7 @@
 {
-  "name": "@telareth/gateway",
+  "name": "@telareth/common",
   "version": "0.0.1",
-  "description": "Telareth's Gateway SDK",
-  "license": "MIT",
+  "description": "Telareth SDK commons utilities, costs, schemas and types",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -14,6 +13,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./schemas": {
+      "types": "./dist/schemas/index.d.ts",
+      "import": "./dist/schemas/index.js",
+      "default": "./dist/schemas/index.js"
     }
   },
   "files": [
@@ -21,16 +25,11 @@
     "dist"
   ],
   "dependencies": {
-    "@dotenvx/dotenvx": "^1.50.1",
-    "@telareth/server": "^0.0.1",
-    "express": "^5.1.0",
     "tslib": "^2.3.0",
     "zod": "^4.1.9"
   },
   "devDependencies": {
-    "@types/express": "^5.0.3",
     "@types/node": "^20.19.9",
-    "eslint": "^9.35.0",
     "rimraf": "^6.0.1"
   },
   "private": false,
@@ -39,14 +38,14 @@
   },
   "nx": {
     "tags": [
-      "scope:gateway",
+      "scope:common",
       "runtime:sdk"
     ],
     "targets": {
       "clean": {
         "executor": "nx:run-commands",
         "options": {
-          "cwd": "sdk/gateway",
+          "cwd": "sdk/common",
           "commands": [
             "rimraf dist"
           ]

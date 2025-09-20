@@ -41,6 +41,14 @@ export class App {
   }
 
   /**
+   * Public logger instance getter.
+   * @returns The logger instance.
+   */
+  public getLogger() {
+    return this.log;
+  }
+
+  /**
    * Async factory to create the App instance.
    * @param rawOpts The raw App options opject.
    * @throws

@@ -17,6 +17,9 @@
     },
     {
       "path": "./sdk/server"
+    },
+    {
+      "path": "./sdk/common"
     }
   ]
 }

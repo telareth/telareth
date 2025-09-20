@@ -72,7 +72,7 @@
         "executor": "nx:run-commands",
         "options": {
           "commands": [
-            "npm install"
+            "npm install --ignore-scripts"
           ]
         },
         "dependesOn": [
