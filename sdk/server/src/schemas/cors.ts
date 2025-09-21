@@ -2,7 +2,7 @@ import type { CorsOptions } from 'cors';
 import { default as cors } from 'cors';
 import { z } from 'zod';
 
-import { StringOrArraySchema, StringOrRegExpSchema } from '@telareth/common';
+import { StringOrArraySchema } from '@telareth/common/schemas';
 
 export { cors };
 export { type CorsOptions };
@@ -18,7 +18,10 @@ export const HTTP_METHOD = [
 
 export const HttpMethodSchema = z.enum(HTTP_METHOD);
 
-const OriginArraySchema = z.array(StringOrRegExpSchema);
+// AGGIUSTATO: Inclusione di z.boolean() per compatibilità
+const OriginArraySchema = z.array(
+  z.union([z.string(), z.instanceof(RegExp), z.boolean()])
+);
 
 const OriginCallbackSchema = z.function({
   input: [
@@ -43,27 +46,26 @@ const OriginSchema = z.union([
   OriginCallbackSchema,
 ]);
 
-export const DEFAULT_CORS_OPTIONS = {
+// AGGIUSTATO: z.looseObject è stato deprecato e rimosso in Zod v4
+export const CorsOptionsSchema = z.looseObject({
+  origin: OriginSchema.optional(),
+  methods: StringOrArraySchema.optional(),
+  exposedHeaders: StringOrArraySchema.optional(),
+  credentials: z.boolean().optional(),
+  maxAge: z.number().optional(),
+  preflightContinue: z.boolean().optional(),
+  optionsSuccessStatus: z.number().optional(),
+});
+
+export type RawCorsOptions = z.input<typeof CorsOptionsSchema>;
+export type ParsedCorsOptions = z.output<typeof CorsOptionsSchema>;
+
+/**
+ * Default options (safe values).
+ */
+export const DEFAULT_CORS_OPTIONS: CorsOptions = {
   origin: '*', // Allows all origins
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Explicitly list common methods
   preflightContinue: false,
   optionsSuccessStatus: 204, // Some legacy browsers choke on 204
 };
-
-export const CorsSchema = z
-  .looseObject({
-    origin: OriginSchema.optional(),
-    methods: StringOrArraySchema.optional(),
-    exposedHeaders: StringOrArraySchema.optional(),
-    credentials: z.boolean().optional(),
-    maxAge: z.number().optional(),
-    preflightContinue: z.boolean().optional(),
-    optionsSuccessStatus: z.number().optional(),
-  })
-  .optional()
-  .default(DEFAULT_CORS_OPTIONS)
-  .transform((val) => val as CorsOptions);
-
-export type Cors = z.infer<typeof CorsSchema>;
-export type RawCors = z.input<typeof CorsSchema>;
-export type ParsedCors = z.output<typeof CorsSchema>;

@@ -63,24 +63,20 @@ const PermittedCrossDomainPoliciesSchema = z.object({
     .optional(),
 });
 
-// referrerPolicy
+const ReferrerPolicyTokens = z.enum([
+  'no-referrer',
+  'no-referrer-when-downgrade',
+  'same-origin',
+  'origin',
+  'strict-origin',
+  'origin-when-cross-origin',
+  'strict-origin-when-cross-origin',
+  'unsafe-url',
+]);
+
 const ReferrerPolicySchema = z.object({
   policy: z
-    .union([
-      z.string(),
-      z.array(
-        z.enum([
-          'no-referrer',
-          'no-referrer-when-downgrade',
-          'same-origin',
-          'origin',
-          'strict-origin',
-          'origin-when-cross-origin',
-          'strict-origin-when-cross-origin',
-          'unsafe-url',
-        ])
-      ),
-    ])
+    .union([ReferrerPolicyTokens, z.array(ReferrerPolicyTokens)])
     .optional(),
 });
 
@@ -91,40 +87,35 @@ const HidePoweredBySchema = z.object({
 
 const BooleanConfigSchema = z.boolean();
 
-const $HelmetSchema = z
-  .looseObject({
-    contentSecurityPolicy: z
-      .union([ContentSecurityPolicySchema, z.boolean()])
-      .optional(),
-    crossOriginEmbedderPolicy: z
-      .union([CrossOriginEmbedderPolicySchema, z.boolean()])
-      .optional(),
-    crossOriginOpenerPolicy: z
-      .union([CrossOriginOpenerPolicySchema, z.boolean()])
-      .optional(),
-    crossOriginResourcePolicy: z
-      .union([CrossOriginResourcePolicySchema, z.boolean()])
-      .optional(),
-    dnsPrefetchControl: z
-      .union([DnsPrefetchControlSchema, z.boolean()])
-      .optional(),
-    expectCt: z.union([ExpectCtSchema, z.boolean()]).optional(),
-    frameguard: z.union([FrameguardSchema, z.boolean()]).optional(),
-    hidePoweredBy: z.union([HidePoweredBySchema, z.boolean()]).optional(),
-    hsts: z.union([HstsSchema, z.boolean()]).optional(),
-    ieNoOpen: BooleanConfigSchema.optional(),
-    noSniff: BooleanConfigSchema.optional(),
-    originAgentCluster: BooleanConfigSchema.optional(),
-    permittedCrossDomainPolicies: z
-      .union([PermittedCrossDomainPoliciesSchema, z.boolean()])
-      .optional(),
-    referrerPolicy: z.union([ReferrerPolicySchema, z.boolean()]).optional(),
-    xssFilter: BooleanConfigSchema.optional(),
-  })
-  .transform((val) => val as HelmetOptions);
+export const HelmetOptionsSchema = z.looseObject({
+  contentSecurityPolicy: z
+    .union([ContentSecurityPolicySchema, z.boolean()])
+    .optional(),
+  crossOriginEmbedderPolicy: z
+    .union([CrossOriginEmbedderPolicySchema, z.boolean()])
+    .optional(),
+  crossOriginOpenerPolicy: z
+    .union([CrossOriginOpenerPolicySchema, z.boolean()])
+    .optional(),
+  crossOriginResourcePolicy: z
+    .union([CrossOriginResourcePolicySchema, z.boolean()])
+    .optional(),
+  dnsPrefetchControl: z
+    .union([DnsPrefetchControlSchema, z.boolean()])
+    .optional(),
+  expectCt: z.union([ExpectCtSchema, z.boolean()]).optional(),
+  frameguard: z.union([FrameguardSchema, z.boolean()]).optional(),
+  hidePoweredBy: z.union([HidePoweredBySchema, z.boolean()]).optional(),
+  hsts: z.union([HstsSchema, z.boolean()]).optional(),
+  ieNoOpen: BooleanConfigSchema.optional(),
+  noSniff: BooleanConfigSchema.optional(),
+  originAgentCluster: BooleanConfigSchema.optional(),
+  permittedCrossDomainPolicies: z
+    .union([PermittedCrossDomainPoliciesSchema, z.boolean()])
+    .optional(),
+  referrerPolicy: z.union([ReferrerPolicySchema, z.boolean()]).optional(),
+  xssFilter: BooleanConfigSchema.optional(),
+});
 
-export const HelmetSchema = $HelmetSchema as z.ZodType<HelmetOptions>;
-
-export type Helmet = z.infer<typeof HelmetSchema>;
-export type RawHelmet = z.input<typeof HelmetSchema>;
-export type ParsedHelmet = z.output<typeof HelmetSchema>;
+export type RawHelmetOptions = z.input<typeof HelmetOptionsSchema>;
+export type ParsedHelmetOptions = z.output<typeof HelmetOptionsSchema>;

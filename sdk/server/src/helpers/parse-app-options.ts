@@ -1,5 +1,5 @@
-import type { RawAppOptions } from '../schemas/app-options.js';
-import { AppOptionsSchema } from '../schemas/app-options.js';
+import type { RawAppOptions } from '../schemas/app.js';
+import { AppOptionsSchema } from '../schemas/app.js';
 
 /**
  * Asyncronously safe-parse the App options, usually coming from process.env.PORT.

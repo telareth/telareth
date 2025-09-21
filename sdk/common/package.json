@@ -25,10 +25,12 @@
     "dist"
   ],
   "dependencies": {
+    "express": "^5.1.0",
     "tslib": "^2.3.0",
     "zod": "^4.1.9"
   },
   "devDependencies": {
+    "@types/express": "^5.0.3",
     "@types/node": "^20.19.9",
     "rimraf": "^6.0.1"
   },

@@ -1,8 +1,9 @@
-import type { Logger, LoggerOptions as PinoLoggerOptions } from 'pino';
+import type { Logger, LoggerOptions } from 'pino';
 import { default as pino } from 'pino';
 import { z } from 'zod';
 
 export { pino as logger };
+export type { Logger, LoggerOptions };
 
 export const LOG_LEVEL = [
   'fatal',
@@ -15,6 +16,14 @@ export const LOG_LEVEL = [
 ] as const;
 
 export const LogLevelSchema = z.enum(LOG_LEVEL);
+
+export const INFO_LOGGER_OPTIONS: LoggerOptions = {
+  level: LogLevelSchema.enum.info,
+};
+
+export const SILENT_LOGGER_OPTIONS: LoggerOptions = {
+  level: LogLevelSchema.enum.silent,
+};
 
 export const LoggerOptionsSchema = z
   .looseObject({
@@ -114,13 +123,8 @@ export const LoggerOptionsSchema = z
       .optional(),
   })
   .optional()
-  .default({
-    level: LogLevelSchema.enum.info,
-  })
-  .transform((val) => val as PinoLoggerOptions);
+  .transform((val) => val as LoggerOptions);
 
-export { type Logger };
 export type LogLevel = z.infer<typeof LogLevelSchema>;
-export type LoggerOptions = z.infer<typeof LoggerOptionsSchema>;
 export type RawLoggerOptions = z.input<typeof LoggerOptionsSchema>;
 export type ParsedLoggerOptions = z.output<typeof LoggerOptionsSchema>;

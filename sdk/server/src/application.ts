@@ -1,16 +1,15 @@
 import type { Server } from 'http';
 
 import type { Application, Handler } from 'express';
-import type { NextFunction, Request, Response } from 'express';
 import express from 'express';
 
 import { createGracefulShutdown } from './helpers/create-graceful-shutdown.js';
 import { parseAppOptions } from './helpers/parse-app-options.js';
-import type { ParsedAppOptions, RawAppOptions } from './schemas/app-options.js';
-import { cors } from './schemas/cors.js';
-import { helmet } from './schemas/helmet.js';
-import type { HttpLogger } from './schemas/http-logger.js';
-import { httpLogger } from './schemas/http-logger.js';
+import { setupCorsMiddleware } from './middlewares/cors.js';
+import { setupHelmetMiddleware } from './middlewares/helmet.js';
+import { setupHttpLoggerMiddleware } from './middlewares/http-logger.js';
+import { setupRateLimitMiddleware } from './middlewares/rate-limit.js';
+import type { ParsedAppOptions, RawAppOptions } from './schemas/app.js';
 import type { Logger } from './schemas/logger.js';
 import { logger } from './schemas/logger.js';
 
@@ -120,19 +119,14 @@ export class App {
    * HTTP logger runs first to capture all requests.
    */
   private setupMiddlewares(): void {
-    // Sets up logger
-    if (this.options.httpLogger) {
-      const loggerMiddleware = httpLogger as unknown as (
-        opts: Parameters<HttpLogger>[0]
-      ) => (req: Request, res: Response, next: NextFunction) => void;
+    const app = this.app;
+    const options = this.options;
 
-      this.app.use(
-        loggerMiddleware(this.options.httpLogger as Parameters<HttpLogger>[0])
-      );
-    }
+    setupHttpLoggerMiddleware(app, options);
+    setupHelmetMiddleware(app, options);
+    setupCorsMiddleware(app, options);
+    setupRateLimitMiddleware(app, options);
 
-    this.app.use(helmet(this.options.helmet));
-    this.app.use(cors(this.options.cors));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
   }

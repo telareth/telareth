@@ -7,68 +7,46 @@ import { z } from 'zod';
 
 import { LoggerOptionsSchema, LogLevelSchema } from './logger.js';
 
+/**
+ * Re-exports the pino-http middleware for use in the application.
+ */
 export { pinoHttp as httpLogger };
 export type { HttpLogger };
 
 /**
- * TelarethRequest extends IncomingMessage to include the `id` property
- * injected by pino-http. The type matches ReqId from pino-http
- * (string | number | object).
+ * Extends IncomingMessage to include the `id` property injected by pino-http.
  */
 export type TelarethRequest = IncomingMessage & { id?: ReqId };
 
-const GenReqIdSchema = z.union([
-  z.function({ output: z.string() }),
-  z.function({ output: z.number() }),
-  z.string(),
-]);
-
-const PinoLogFnSchema = z.function({
-  input: z.tuple([]).rest(z.unknown()),
-  output: z.void(),
+const GenReqIdSchema = z.function({
+  input: [z.custom<IncomingMessage>()],
+  output: z.union([z.string(), z.number()]),
 });
 
-const PinoLoggerSchema = z.object({
-  fatal: PinoLogFnSchema,
-  error: PinoLogFnSchema,
-  warn: PinoLogFnSchema,
-  info: PinoLogFnSchema,
-  debug: PinoLogFnSchema,
-  trace: PinoLogFnSchema,
-  silent: PinoLogFnSchema,
+const CustomSuccessMessageArgsSchema = [
+  z.custom<IncomingMessage>(),
+  z.custom<ServerResponse>(),
+  z.number(),
+] as const;
 
-  level: z.string(),
-  levels: z.object({
-    labels: z.record(z.string(), z.string()),
-    values: z.record(z.string(), z.number()),
-  }),
-  isLevelEnabled: z.function({
-    input: z.tuple([z.string()]),
-    output: z.boolean(),
-  }),
-  version: z.string(),
-  stdSerializers: z.object({
-    req: z.function(),
-    res: z.function(),
-    err: z.function(),
-  }),
-  flush: z.function({ output: z.void() }),
-  onChild: z.function({ output: z.void() }),
-  child: z.function({
-    input: z.tuple([z.record(z.string(), z.unknown())]),
-    output: z.any(),
-  }),
-  bindings: z.function({
-    input: z.tuple([]),
-    output: z.record(z.string(), z.unknown()),
-  }),
-});
+const CustomErrorMessageArgsSchema = [
+  z.custom<IncomingMessage>(),
+  z.custom<ServerResponse>(),
+  z.custom<Error>(),
+] as const;
 
-export const DEFAULT_HTTP_LOGGER_OPTIONS: HttpLoggerOptions = {
+const CustomPropsArgsSchema = [
+  z.custom<IncomingMessage>(),
+  z.custom<ServerResponse>(),
+] as const;
+
+/**
+ * Default configuration for the HTTP logger middleware.
+ */
+export const DEFAULT_HTTP_LOGGER_OPTIONS: Options = {
   /**
-   * Generate or reuse a request ID.
-   * @param req Incoming HTTP request with optional id.
-   * @returns Unique request ID.
+   * Generates or reuses a request ID.
+   * @param req The Incoming HTTP request.
    */
   genReqId: (req: TelarethRequest): string =>
     req.headers['x-request-id']?.toString() ??
@@ -76,11 +54,10 @@ export const DEFAULT_HTTP_LOGGER_OPTIONS: HttpLoggerOptions = {
     crypto.randomUUID(),
 
   /**
-   * Decide the log level based on response or error.
-   * @param _req Incoming HTTP request (unused).
+   * Decides the log level based on response or error.
+   * @param _req Incoming HTTP request.
    * @param res HTTP response.
    * @param err Optional error object.
-   * @returns Log level string.
    */
   customLogLevel: (_req: TelarethRequest, res: ServerResponse, err?: Error) =>
     res.statusCode >= 500 || err
@@ -90,20 +67,23 @@ export const DEFAULT_HTTP_LOGGER_OPTIONS: HttpLoggerOptions = {
         : 'info',
 
   /**
-   * Build success message.
-   * @param _req Incoming HTTP request (unused).
+   * Builds the success message.
+   * @param _req Incoming HTTP request.
    * @param res HTTP response.
-   * @returns Success log message.
+   * @param responseTime The response time in milliseconds.
    */
-  customSuccessMessage: (_req: TelarethRequest, res: ServerResponse): string =>
-    `Request completed with status ${res.statusCode}`,
+  customSuccessMessage: (
+    _req: TelarethRequest,
+    res: ServerResponse,
+    responseTime: number
+  ): string =>
+    `Request completed with status ${res.statusCode} in ${responseTime}ms`,
 
   /**
-   * Build error message.
-   * @param _req Incoming HTTP request (unused).
+   * Builds the error message.
+   * @param _req Incoming HTTP request.
    * @param res HTTP response.
-   * @param err Error object.
-   * @returns Error log message.
+   * @param err The error object.
    */
   customErrorMessage: (
     _req: TelarethRequest,
@@ -113,9 +93,8 @@ export const DEFAULT_HTTP_LOGGER_OPTIONS: HttpLoggerOptions = {
     `Request errored with status ${res.statusCode}: ${err?.message ?? 'unknown error'}`,
 
   /**
-   * Build message for received request.
-   * @param req Incoming HTTP request.
-   * @returns Received log message.
+   * Builds the message for a received request.
+   * @param req The Incoming HTTP request.
    */
   customReceivedMessage: (req: TelarethRequest): string =>
     `Request received: ${req.method} ${req.url}`,
@@ -124,10 +103,9 @@ export const DEFAULT_HTTP_LOGGER_OPTIONS: HttpLoggerOptions = {
   quietReqLogger: true,
 
   /**
-   * Add custom properties to the log.
-   * @param req Incoming HTTP request with optional id.
-   * @param res HTTP response.
-   * @returns Object containing additional log properties.
+   * Adds custom properties to the log.
+   * @param req The Incoming HTTP request.
+   * @param res The HTTP response.
    */
   customProps: (req: TelarethRequest, res: ServerResponse) => ({
     requestId: req.id,
@@ -137,34 +115,68 @@ export const DEFAULT_HTTP_LOGGER_OPTIONS: HttpLoggerOptions = {
   }),
 };
 
+/**
+ * Zod schema for validating HttpLoggerOptions.
+ */
 export const HttpLoggerOptionsSchema = z
   .looseObject({
-    logger: PinoLoggerSchema.optional(),
     genReqId: GenReqIdSchema.optional(),
-    customLogLevel: z.function({ output: LogLevelSchema }).optional(),
-    customSuccessMessage: z.function({ output: z.string() }).optional(),
-    customErrorMessage: z.function({ output: z.string() }).optional(),
-    customReceivedMessage: z.function({ output: z.string() }).optional(),
+    customLogLevel: z
+      .function({
+        input: [
+          z.custom<IncomingMessage>(),
+          z.custom<ServerResponse>(),
+          z.custom<Error>().optional(),
+        ] as const,
+        output: LogLevelSchema,
+      })
+      .optional(),
+    customSuccessMessage: z
+      .function({ input: CustomSuccessMessageArgsSchema, output: z.string() })
+      .optional(),
+    customErrorMessage: z
+      .function({ input: CustomErrorMessageArgsSchema, output: z.string() })
+      .optional(),
+    customReceivedMessage: z
+      .function({
+        input: [z.custom<IncomingMessage>()] as const,
+        output: z.string(),
+      })
+      .optional(),
     customReceivedObject: z
-      .function({ output: z.record(z.string(), z.unknown()) })
+      .function({
+        input: [z.custom<IncomingMessage>()] as const,
+        output: z.record(z.string(), z.unknown()),
+      })
       .optional(),
     customSuccessObject: z
-      .function({ output: z.record(z.string(), z.unknown()) })
+      .function({
+        input: CustomPropsArgsSchema,
+        output: z.record(z.string(), z.unknown()),
+      })
       .optional(),
     customErrorObject: z
-      .function({ output: z.record(z.string(), z.unknown()) })
+      .function({
+        input: CustomPropsArgsSchema,
+        output: z.record(z.string(), z.unknown()),
+      })
       .optional(),
     autoLogging: z.boolean().optional(),
     quietReqLogger: z.boolean().optional(),
     customProps: z
-      .function({ output: z.record(z.string(), z.unknown()) })
+      .function({
+        input: CustomPropsArgsSchema,
+        output: z.record(z.string(), z.unknown()),
+      })
       .optional(),
   })
-  .optional()
-  .transform((val) => val as Options);
+  .optional();
 
-export const PinoHttpOptionsSchema = z
-  .union([z.boolean(), LoggerOptionsSchema, HttpLoggerOptionsSchema])
+/**
+ * Union schema for all accepted logger middleware options.
+ */
+export const PinoHttpMiddlewareOptionsSchema = z
+  .union([z.boolean(), HttpLoggerOptionsSchema, LoggerOptionsSchema])
   .optional();
 
 export type HttpLoggerOptions = z.infer<typeof HttpLoggerOptionsSchema>;

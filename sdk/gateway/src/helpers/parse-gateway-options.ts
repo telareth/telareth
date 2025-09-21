@@ -1,5 +1,5 @@
-import type { RawGatewayOptions } from '../schemas/gateway-options.js';
-import { GatewayOptionsSchema } from '../schemas/gateway-options.js';
+import type { RawGatewayOptions } from '../schemas/gateway.js';
+import { GatewayOptionsSchema } from '../schemas/gateway.js';
 
 /**
  * Asyncronously safe-parse the Gateway options, usually coming from process.env.
