@@ -16,17 +16,10 @@ import '@dotenvx/dotenvx/config';
 import { Gateway } from '@telareth/gateway';
 
 (async () => {
-  try {
-    const gateway = await Gateway.create({
-      GATEWAY_PORT = process.env.GATEWAY_PORT, // Optional, default to 4000
-    });
-
-    if (gateway) {
-      await gateway.start();
-    }
-  } catch (err) {
-    console.error('[ERROR] Failed to start gateway, continuing anyway:', err);
-  }
+  const gateway = new Gateway({
+    GATEWAY_PORT = process.env.GATEWAY_PORT, // Optional, default to 4000
+  });
+  await gateway.start();
 })();
 ```
 

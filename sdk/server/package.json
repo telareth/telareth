@@ -19,11 +19,6 @@
       "import": "./dist/helpers/index.js",
       "default": "./dist/helpers/index.js"
     },
-    "./middlewares": {
-      "types": "./dist/middlewares/index.d.ts",
-      "import": "./dist/middlewares/index.js",
-      "default": "./dist/middlewares/index.js"
-    },
     "./schemas": {
       "types": "./dist/schemas/index.d.ts",
       "import": "./dist/schemas/index.js",
@@ -44,6 +39,7 @@
     "pino-http": "^10.5.0",
     "pino-pretty": "^13.1.1",
     "tslib": "^2.3.0",
+    "unique-names-generator": "^4.7.1",
     "zod": "^4.1.9"
   },
   "devDependencies": {

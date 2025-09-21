@@ -1,25 +1,22 @@
+import type z from 'zod';
+
 import type { RawAppOptions } from '../schemas/app.js';
 import { AppOptionsSchema } from '../schemas/app.js';
 
 /**
- * Asyncronously safe-parse the App options, usually coming from process.env.PORT.
- * @param raw Raw App options object.
- * @returns A result object with a `success` boolean, and either the parsed data or an error.
- * @example
- * ```ts
- * const result = await parseAppOptions({
- *   name: 'my-app1'
- *   port: 4000
- * })
- *
- * if (!result.success) {
- *   console.error(result.error);
- *   throw new Error("[FATAL] Failed to parse App options")
- * }
- *
- * const options = result.data;
- * ```
+ * Parses the raw/unsafe App options.
+ * @param raw The raw/unsafe App options.
+ * @returns The parsed options.
+ * @throws "Invalid application options" if options do not meet requirements.
  */
-export async function parseAppOptions(raw: RawAppOptions) {
-  return await AppOptionsSchema.safeParseAsync(raw);
+export function parseAppOptions(
+  raw?: RawAppOptions
+): z.output<typeof AppOptionsSchema> {
+  const result = AppOptionsSchema.safeParse(raw);
+
+  if (!result.success) {
+    throw new Error('Invalid application options', { cause: result.error });
+  }
+
+  return result.data;
 }

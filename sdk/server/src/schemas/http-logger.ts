@@ -2,15 +2,10 @@ import crypto from 'crypto';
 import type { IncomingMessage, ServerResponse } from 'http';
 
 import type { HttpLogger, Options, ReqId } from 'pino-http';
-import pinoHttp from 'pino-http';
 import { z } from 'zod';
 
-import { LoggerOptionsSchema, LogLevelSchema } from './logger.js';
+import { $LoggerOptionsSchema, LogLevelSchema } from './logger.js';
 
-/**
- * Re-exports the pino-http middleware for use in the application.
- */
-export { pinoHttp as httpLogger };
 export type { HttpLogger };
 
 /**
@@ -118,67 +113,61 @@ export const DEFAULT_HTTP_LOGGER_OPTIONS: Options = {
 /**
  * Zod schema for validating HttpLoggerOptions.
  */
+export const $HttpLoggerOptionsSchema = z.looseObject({
+  genReqId: GenReqIdSchema.optional(),
+  customLogLevel: z
+    .function({
+      input: [
+        z.custom<IncomingMessage>(),
+        z.custom<ServerResponse>(),
+        z.custom<Error>().optional(),
+      ] as const,
+      output: LogLevelSchema,
+    })
+    .optional(),
+  customSuccessMessage: z
+    .function({ input: CustomSuccessMessageArgsSchema, output: z.string() })
+    .optional(),
+  customErrorMessage: z
+    .function({ input: CustomErrorMessageArgsSchema, output: z.string() })
+    .optional(),
+  customReceivedMessage: z
+    .function({
+      input: [z.custom<IncomingMessage>()] as const,
+      output: z.string(),
+    })
+    .optional(),
+  customReceivedObject: z
+    .function({
+      input: [z.custom<IncomingMessage>()] as const,
+      output: z.record(z.string(), z.unknown()),
+    })
+    .optional(),
+  customSuccessObject: z
+    .function({
+      input: CustomPropsArgsSchema,
+      output: z.record(z.string(), z.unknown()),
+    })
+    .optional(),
+  customErrorObject: z
+    .function({
+      input: CustomPropsArgsSchema,
+      output: z.record(z.string(), z.unknown()),
+    })
+    .optional(),
+  autoLogging: z.boolean().optional(),
+  quietReqLogger: z.boolean().optional(),
+  customProps: z
+    .function({
+      input: CustomPropsArgsSchema,
+      output: z.record(z.string(), z.unknown()),
+    })
+    .optional(),
+});
+
 export const HttpLoggerOptionsSchema = z
-  .looseObject({
-    genReqId: GenReqIdSchema.optional(),
-    customLogLevel: z
-      .function({
-        input: [
-          z.custom<IncomingMessage>(),
-          z.custom<ServerResponse>(),
-          z.custom<Error>().optional(),
-        ] as const,
-        output: LogLevelSchema,
-      })
-      .optional(),
-    customSuccessMessage: z
-      .function({ input: CustomSuccessMessageArgsSchema, output: z.string() })
-      .optional(),
-    customErrorMessage: z
-      .function({ input: CustomErrorMessageArgsSchema, output: z.string() })
-      .optional(),
-    customReceivedMessage: z
-      .function({
-        input: [z.custom<IncomingMessage>()] as const,
-        output: z.string(),
-      })
-      .optional(),
-    customReceivedObject: z
-      .function({
-        input: [z.custom<IncomingMessage>()] as const,
-        output: z.record(z.string(), z.unknown()),
-      })
-      .optional(),
-    customSuccessObject: z
-      .function({
-        input: CustomPropsArgsSchema,
-        output: z.record(z.string(), z.unknown()),
-      })
-      .optional(),
-    customErrorObject: z
-      .function({
-        input: CustomPropsArgsSchema,
-        output: z.record(z.string(), z.unknown()),
-      })
-      .optional(),
-    autoLogging: z.boolean().optional(),
-    quietReqLogger: z.boolean().optional(),
-    customProps: z
-      .function({
-        input: CustomPropsArgsSchema,
-        output: z.record(z.string(), z.unknown()),
-      })
-      .optional(),
-  })
+  .union([z.boolean(), $LoggerOptionsSchema])
   .optional();
 
-/**
- * Union schema for all accepted logger middleware options.
- */
-export const PinoHttpMiddlewareOptionsSchema = z
-  .union([z.boolean(), HttpLoggerOptionsSchema, LoggerOptionsSchema])
-  .optional();
-
-export type HttpLoggerOptions = z.infer<typeof HttpLoggerOptionsSchema>;
 export type RawHttpLoggerOptions = z.input<typeof HttpLoggerOptionsSchema>;
 export type ParsedHttpLoggerOptions = z.output<typeof HttpLoggerOptionsSchema>;

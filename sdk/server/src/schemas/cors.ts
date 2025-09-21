@@ -18,17 +18,16 @@ export const HTTP_METHOD = [
 
 export const HttpMethodSchema = z.enum(HTTP_METHOD);
 
-// AGGIUSTATO: Inclusione di z.boolean() per compatibilità
 const OriginArraySchema = z.array(
   z.union([z.string(), z.instanceof(RegExp), z.boolean()])
 );
 
 const OriginCallbackSchema = z.function({
   input: [
-    z.union([z.null(), z.string()]).optional(),
+    z.string().optional(),
     z.function({
       input: [
-        z.union([z.instanceof(Error), z.null()]),
+        z.instanceof(Error).nullable(),
         z.union([z.string(), z.boolean()]).optional(),
       ],
       output: z.void(),
@@ -46,8 +45,7 @@ const OriginSchema = z.union([
   OriginCallbackSchema,
 ]);
 
-// AGGIUSTATO: z.looseObject è stato deprecato e rimosso in Zod v4
-export const CorsOptionsSchema = z.looseObject({
+export const $CorsOptionsSchema = z.looseObject({
   origin: OriginSchema.optional(),
   methods: StringOrArraySchema.optional(),
   exposedHeaders: StringOrArraySchema.optional(),
@@ -57,13 +55,17 @@ export const CorsOptionsSchema = z.looseObject({
   optionsSuccessStatus: z.number().optional(),
 });
 
+export const CorsOptionsSchema = z
+  .union([z.boolean(), $CorsOptionsSchema])
+  .optional();
+
 export type RawCorsOptions = z.input<typeof CorsOptionsSchema>;
 export type ParsedCorsOptions = z.output<typeof CorsOptionsSchema>;
 
 /**
  * Default options (safe values).
  */
-export const DEFAULT_CORS_OPTIONS: CorsOptions = {
+export const DEFAULT_CORS_OPTIONS: RawCorsOptions = {
   origin: '*', // Allows all origins
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Explicitly list common methods
   preflightContinue: false,

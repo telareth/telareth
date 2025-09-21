@@ -80,14 +80,7 @@ const ReferrerPolicySchema = z.object({
     .optional(),
 });
 
-// hidePoweredBy, ieNoOpen, noSniff, originAgentCluster, xssFilter → boolean flags o strutture molto semplici
-const HidePoweredBySchema = z.object({
-  setTo: z.string().optional(),
-});
-
-const BooleanConfigSchema = z.boolean();
-
-export const HelmetOptionsSchema = z.looseObject({
+const $HelmetOptionsSchema = z.looseObject({
   contentSecurityPolicy: z
     .union([ContentSecurityPolicySchema, z.boolean()])
     .optional(),
@@ -105,17 +98,21 @@ export const HelmetOptionsSchema = z.looseObject({
     .optional(),
   expectCt: z.union([ExpectCtSchema, z.boolean()]).optional(),
   frameguard: z.union([FrameguardSchema, z.boolean()]).optional(),
-  hidePoweredBy: z.union([HidePoweredBySchema, z.boolean()]).optional(),
+  hidePoweredBy: z.boolean().optional(), // ← solo boolean!
   hsts: z.union([HstsSchema, z.boolean()]).optional(),
-  ieNoOpen: BooleanConfigSchema.optional(),
-  noSniff: BooleanConfigSchema.optional(),
-  originAgentCluster: BooleanConfigSchema.optional(),
+  ieNoOpen: z.boolean().optional(),
+  noSniff: z.boolean().optional(),
+  originAgentCluster: z.boolean().optional(),
   permittedCrossDomainPolicies: z
     .union([PermittedCrossDomainPoliciesSchema, z.boolean()])
     .optional(),
   referrerPolicy: z.union([ReferrerPolicySchema, z.boolean()]).optional(),
-  xssFilter: BooleanConfigSchema.optional(),
+  xssFilter: z.boolean().optional(),
 });
+
+export const HelmetOptionsSchema = z
+  .union([z.boolean(), $HelmetOptionsSchema])
+  .optional();
 
 export type RawHelmetOptions = z.input<typeof HelmetOptionsSchema>;
 export type ParsedHelmetOptions = z.output<typeof HelmetOptionsSchema>;

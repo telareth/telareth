@@ -4,12 +4,10 @@ import type {
   Store,
   ValueDeterminingMiddleware,
 } from 'express-rate-limit';
-import rateLimit from 'express-rate-limit';
 import { z } from 'zod';
 
 import { HandlerFnSchema } from '@telareth/common';
 
-export { rateLimit };
 export { type RateLimitOptions };
 
 /**
@@ -106,7 +104,7 @@ const Ipv6FnSchema = z.function({
   ]),
 });
 
-export const RateLimitOptionsSchema = z.object({
+export const $RateLimitOptionsSchema = z.object({
   windowMs: z.number().optional(),
   limit: z.union([z.number(), LimitFnSchema]).optional(),
   message: z
@@ -132,6 +130,10 @@ export const RateLimitOptionsSchema = z.object({
     .union([z.boolean(), z.record(z.string(), z.unknown())])
     .optional(),
 });
+
+export const RateLimitOptionsSchema = z
+  .union([z.boolean(), $RateLimitOptionsSchema])
+  .optional();
 
 export type RawRateLimitOptions = z.input<typeof RateLimitOptionsSchema>;
 export type ParsedRateLimitOptions = z.output<typeof RateLimitOptionsSchema>;

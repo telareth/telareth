@@ -4,14 +4,14 @@ import type { Application, Handler } from 'express';
 import express from 'express';
 
 import { createGracefulShutdown } from './helpers/create-graceful-shutdown.js';
-import { parseAppOptions } from './helpers/parse-app-options.js';
-import { setupCorsMiddleware } from './middlewares/cors.js';
-import { setupHelmetMiddleware } from './middlewares/helmet.js';
-import { setupHttpLoggerMiddleware } from './middlewares/http-logger.js';
-import { setupRateLimitMiddleware } from './middlewares/rate-limit.js';
-import type { ParsedAppOptions, RawAppOptions } from './schemas/app.js';
+import { setupAppOptions } from './helpers/setup-app-options.js';
+import { setupCorsMiddleware } from './helpers/setup-cors-middleware.js';
+import { setupHelmetMiddleware } from './helpers/setup-helmet-middleware.js';
+import { setupHttpLoggerMiddleware } from './helpers/setup-http-logger-middleware.js';
+import { setupLogger } from './helpers/setup-logger.js';
+import { setupRateLimitMiddleware } from './helpers/setup-rate-limit-middleware.js';
+import type { ParsedAppOptions } from './schemas/app.js';
 import type { Logger } from './schemas/logger.js';
-import { logger } from './schemas/logger.js';
 
 /**
  * Express Application Factory.
@@ -20,19 +20,19 @@ export class App {
   private readonly options: ParsedAppOptions;
   private readonly app: Application;
   private server: Server | null = null;
-  private log: Logger;
+  private logger: Logger;
 
   /**
    * Creates a new App instance.
    * @param opts Parsed application options.
    */
-  constructor(opts: ParsedAppOptions) {
-    this.options = opts;
+  constructor(opts?: ParsedAppOptions) {
+    this.options = setupAppOptions(opts);
     this.app = express();
 
     // Configures logger
-    this.log = this.setupLogger();
-    this.app.set('logger', this.log);
+    this.logger = setupLogger(this.options);
+    this.app.set('logger', this.logger);
 
     // Configures global middlewares
     this.setupMiddlewares();
@@ -51,35 +51,19 @@ export class App {
    * @returns The logger instance.
    */
   public getLogger(): Logger {
-    return this.log;
-  }
-
-  /**
-   * Async factory to create the App instance from raw options.
-   * @param rawOpts Raw application options.
-   * @throws Throws an error if parsing fails.
-   * @returns A new App instance.
-   */
-  public static async create(rawOpts: RawAppOptions): Promise<App> {
-    const options = await parseAppOptions(rawOpts);
-
-    if (!options.success) {
-      console.error(options.error);
-      throw new Error('AppOptionsError', { cause: options.error });
-    }
-
-    return new App(options.data);
+    return this.logger;
   }
 
   /**
    * Starts the HTTP server.
    */
   public async start(): Promise<void> {
+    const { port, name } = this.options;
+
     await new Promise<void>((resolve) => {
-      this.server = this.app.listen(this.options.port, () => {
-        console.log(
-          `[INFO] ${this.options.name} started at http://localhost:${this.options.port}`
-        );
+      this.server = this.app.listen(port, () => {
+        // TODO: configure server host hostname, ...
+        this.logger.info(`${name} started at http://localhost:${port}`);
         resolve();
       });
     });
@@ -99,19 +83,11 @@ export class App {
    * Registers handlers for graceful shutdown.
    */
   private setupGracefulShutdown(): void {
-    const shutdown = createGracefulShutdown(this.server);
+    const shutdown = createGracefulShutdown(this.logger, this.server);
 
     process.on('SIGINT', () => shutdown('SIGINT'));
     process.on('SIGTERM', () => shutdown('SIGTERM'));
     process.on('SIGQUIT', () => shutdown('SIGQUIT'));
-  }
-
-  /**
-   * Configure the logger instance.
-   * @returns The logger instance.
-   */
-  private setupLogger(): Logger {
-    return logger(this.options.logger);
   }
 
   /**
@@ -122,10 +98,10 @@ export class App {
     const app = this.app;
     const options = this.options;
 
-    setupHttpLoggerMiddleware(app, options);
-    setupHelmetMiddleware(app, options);
-    setupCorsMiddleware(app, options);
-    setupRateLimitMiddleware(app, options);
+    setupHttpLoggerMiddleware(app, options?.httpLogger);
+    setupHelmetMiddleware(app, options?.helmet);
+    setupCorsMiddleware(app, options?.cors);
+    setupRateLimitMiddleware(app, options?.rateLimit);
 
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
