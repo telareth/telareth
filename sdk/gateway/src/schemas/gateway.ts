@@ -12,7 +12,7 @@ import {
 export const GatewayOptionsSchema = AppOptionsSchema.extend({
   name: z.string().regex(APP_NAME_REGEX).default('gateway'),
   port: PortSchema.default(4000),
-  helmet: AppOptionsSchema.shape.helmet.default(undefined), // disable by default
+  helmet: AppOptionsSchema.shape.helmet,
   cors: AppOptionsSchema.shape.cors.default(DEFAULT_CORS_OPTIONS),
   logger: AppOptionsSchema.shape.logger.default(INFO_LOGGER_OPTIONS),
   httpLogger: AppOptionsSchema.shape.httpLogger.default(false), // disable by default
