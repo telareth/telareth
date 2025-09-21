@@ -21,6 +21,7 @@
     "@eslint/js": "^9.35.0",
     "@eslint/json": "^0.13.2",
     "@eslint/markdown": "^7.2.0",
+    "@nx/esbuild": "21.5.2",
     "@nx/eslint": "21.5.2",
     "@nx/eslint-plugin": "21.5.2",
     "@nx/js": "21.5.2",
@@ -38,6 +39,7 @@
     "commitizen": "^4.3.1",
     "cors": "^2.8.5",
     "cz-conventional-changelog": "^3.3.0",
+    "esbuild": "^0.19.2",
     "eslint": "^9.35.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
@@ -70,11 +72,13 @@
   },
   "workspaces": [
     "tools/*",
-    "sdk/*"
+    "sdk/*",
+    "apps/*"
   ],
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "dependencies": {}
 }

@@ -1,4 +1,5 @@
 import { App } from '@telareth/server';
+import type { Logger } from '@telareth/server/schemas';
 import { parseGatewayOptions } from './helpers/parse-gateway-options.js';
 import type {
   ParsedGatewayOptions,
@@ -11,14 +12,15 @@ import type {
 export class Gateway {
   private readonly options: ParsedGatewayOptions;
   private readonly app: App;
+  private logger: Logger;
 
   /**
-   * @param options The parsed gateway options object used to configure the gateway.
-   * @param app The underlying App instance that runs the HTTP server.
+   * @param options The raw/unsafe gateway options.
    */
-  constructor(options: RawGatewayOptions, app: App) {
+  constructor(options?: RawGatewayOptions) {
     this.options = parseGatewayOptions(options);
-    this.app = app;
+    this.app = new App(this.options.server);
+    this.logger = this.app.getLogger();
   }
 
   /**
@@ -27,6 +29,14 @@ export class Gateway {
    */
   public getOptions(): ParsedGatewayOptions {
     return this.options;
+  }
+
+  /**
+   * Public Logger getter.
+   * @returns The Logger instance.
+   */
+  public getLogger() {
+    return this.logger;
   }
 
   /**

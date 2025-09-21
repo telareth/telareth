@@ -22,25 +22,14 @@ import { App } from '@telareth/server';
 const NAME = process.env.NAME;
 
 (async () => {
-  try {
-    const app = await App.create({
-      name: NAME,
-      port: process.env.APP_PORT, // Optional, defaults to 4000
-    });
+  const app = new App({
+    name: NAME,
+    port: process.env.APP_PORT, // Optional, defaults to 4000
+  });
 
-    await app.start();
-  } catch (err) {
-    console.error(`[ERROR] Failed to start ${NAME}:`, err);
-    process.exit(1);
-  }
+  await app.start();
 })();
 ```
-
-## Notes on Usage
-
-- The `App.create` method **throws an error** if it fails to parse the provided options. You should wrap this call in a `try...catch` block to handle these errors gracefully.
-- The `app.start` method is **asynchronous**. You must use `await` to ensure the server starts before the application proceeds.
-- The `App` class is a singleton factory. It's designed to be the single entry point for creating and managing your application.
 
 ---
 
