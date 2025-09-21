@@ -6,7 +6,7 @@
     "postinstall": "chmod +x ./scripts/safe-build.sh && ./scripts/safe-build.sh --run",
     "build:all": "nx run-many -t build --exclude @telareth/sdk-reference",
     "build:tools": "nx run-many -t build --projects=tag:runtime:devtool",
-    "build:sdk": "nx run -t build --projects=tag:runtime:sdk",
+    "build:sdk": "nx run-many -t build --projects=tag:runtime:sdk",
     "release": "nx release --first-release --yes --verbose",
     "postrelease": "chmod +x ./scripts/update-tools.sh && ./scripts/update-tools.sh",
     "db:docker:up": "nx run @telareth/sdk:db:docker:up",
@@ -37,7 +37,6 @@
     "commitizen": "^4.3.1",
     "cors": "^2.8.5",
     "cz-conventional-changelog": "^3.3.0",
-    "dotenv": "^17.2.2",
     "eslint": "^9.35.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
@@ -45,7 +44,6 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "express": "^5.1.0",
     "express-rate-limit": "^8.1.0",
-    "figlet": "^1.9.1",
     "globals": "^16.4.0",
     "helmet": "^8.1.0",
     "http-proxy-middleware": "^3.0.5",
@@ -69,8 +67,7 @@
   },
   "workspaces": [
     "tools/*",
-    "sdk/*",
-    "sdk-reference"
+    "sdk/*"
   ],
   "config": {
     "commitizen": {

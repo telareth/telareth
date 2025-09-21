@@ -10,6 +10,7 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
@@ -18,6 +19,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
+    "forceConsistentCasingInFileNames": true,
     "customConditions": ["@telareth/source"]
   }
 }
