@@ -1,0 +1,81 @@
+{
+  "name": "@telareth/common",
+  "version": "0.0.1",
+  "description": "Telareth SDK commons utilities, costs, schemas and types",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@telareth/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./schemas": {
+      "types": "./dist/schemas/index.d.ts",
+      "import": "./dist/schemas/index.js",
+      "default": "./dist/schemas/index.js"
+    }
+  },
+  "files": [
+    "LICENSE",
+    "dist"
+  ],
+  "dependencies": {
+    "express": "^5.1.0",
+    "tslib": "^2.3.0",
+    "zod": "^4.1.9"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^20.19.9",
+    "rimraf": "^6.0.1"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "nx": {
+    "name": "common",
+    "tags": [
+      "scope:common",
+      "runtime:sdk"
+    ],
+    "targets": {
+      "clean": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk/common",
+          "commands": [
+            "rimraf dist"
+          ]
+        }
+      },
+      "install": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npm install --ignore-scripts"
+          ]
+        },
+        "dependsOn": [
+          "^clean"
+        ]
+      },
+      "lint:fmt": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": [
+            "eslint --fix ."
+          ]
+        },
+        "dependsOn": [
+          "^install"
+        ]
+      }
+    }
+  }
+}

@@ -13,10 +13,19 @@
       "path": "./tools/cli"
     },
     {
-      "path": "./sdk-reference"
+      "path": "./sdk/gateway"
     },
     {
-      "path": "./sdk/db"
+      "path": "./sdk/server"
+    },
+    {
+      "path": "./sdk/common"
+    },
+    {
+      "path": "./apps/gateway"
+    },
+    {
+      "path": "./sdk/dsrc"
     }
   ]
 }

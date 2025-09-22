@@ -21,6 +21,9 @@
     "ms-vscode.makefile-tools",
     "mads-hartmann.bash-ide-vscode",
     "eliostruyf.vscode-typescript-exportallmodules",
-    "sonarsource.sonarlint-vscode"
-  ]
+    "sonarsource.sonarlint-vscode",
+    "ms-vscode-remote.remote-wsl",
+    "coderabbit.coderabbit-vscode"
+  ],
+  "unwantedRecommendations": ["DavidAnson.vscode-markdownlint"]
 }

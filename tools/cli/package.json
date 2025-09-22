@@ -53,6 +53,7 @@
     "@types/node": "20.19.9"
   },
   "nx": {
+    "name": "cli",
     "tags": [
       "scope:tools",
       "type:cli",
@@ -72,7 +73,7 @@
         "executor": "nx:run-commands",
         "options": {
           "commands": [
-            "npm install"
+            "npm install --ignore-scripts"
           ]
         },
         "dependesOn": [

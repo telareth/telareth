@@ -1,0 +1,66 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_PSQL_URL")
+  schemas  = ["account"]
+}
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/client"
+}
+
+/// Account information
+model Account {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime
+
+  isActive Boolean @default(true)
+
+  emails     AccountEmail[]
+  password   AccountPassword @relation(fields: [passwordId], references: [id])
+  passwordId String          @unique
+
+  @@schema("account")
+}
+
+/// Account emails
+model AccountEmail {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  email     String  @unique
+  /// If true the email is used to login
+  isPrimary Boolean @default(false)
+
+  account        Account?                  @relation(fields: [accountId], references: [id])
+  accountId      String?                   @db.Uuid
+  verification   AccountEmailVerification? @relation(fields: [verificationId], references: [id])
+  verificationId String?                   @unique
+
+  @@schema("account")
+}
+
+/// Email verification entity
+model AccountEmailVerification {
+  id        String        @id @default(uuid()) @db.Uuid
+  createdAt DateTime      @default(now())
+  email     AccountEmail?
+
+  @@schema("account")
+}
+
+/// Account password
+model AccountPassword {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  password String
+
+  account Account?
+
+  @@schema("account")
+}

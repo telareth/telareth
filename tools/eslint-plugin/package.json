@@ -66,6 +66,7 @@
     "rimraf": "^6.0.1"
   },
   "nx": {
+    "name": "eslint-plugin",
     "tags": [
       "scope:tools",
       "type:devtool",
@@ -86,7 +87,7 @@
         "executor": "nx:run-commands",
         "options": {
           "commands": [
-            "npm install"
+            "npm install --ignore-scripts"
           ]
         },
         "dependesOn": [
