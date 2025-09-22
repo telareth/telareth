@@ -21,6 +21,7 @@ export class App {
   private readonly app: Application;
   private server: Server | null = null;
   private logger: Logger;
+  private shutdownRegistered = false;
 
   /**
    * Creates a new App instance.
@@ -30,16 +31,13 @@ export class App {
     this.options = setupAppOptions(opts);
     this.app = express();
 
-    // Configures logger
     this.logger = setupLogger(this.options);
     this.app.set('logger', this.logger);
 
-    // Configures global middlewares
     this.setupMiddlewares();
   }
 
   /**
-   * Get the server instance.
    * @returns The HTTP server instance or null if not started.
    */
   public getServer(): Server | null {
@@ -47,7 +45,6 @@ export class App {
   }
 
   /**
-   * Get the logger instance.
    * @returns The logger instance.
    */
   public getLogger(): Logger {
@@ -62,7 +59,6 @@ export class App {
 
     await new Promise<void>((resolve) => {
       this.server = this.app.listen(port, () => {
-        // TODO: configure server host hostname, ...
         this.logger.info(`${name} started at http://localhost:${port}`);
         resolve();
       });
@@ -80,18 +76,44 @@ export class App {
   }
 
   /**
-   * Registers handlers for graceful shutdown.
+   * Registers listeners for graceful shutdown.
+   * Handles termination signals, Ctrl+Z safely, and Nx/watch environments.
    */
   private setupGracefulShutdown(): void {
-    const shutdown = createGracefulShutdown(this.logger, this.server);
+    if (this.shutdownRegistered) return;
+    this.shutdownRegistered = true;
 
-    process.on('SIGINT', () => shutdown('SIGINT'));
-    process.on('SIGTERM', () => shutdown('SIGTERM'));
-    process.on('SIGQUIT', () => shutdown('SIGQUIT'));
+    /**
+     * Optional cleanup function to gracefully close resources before shutdown.
+     * Closes DB connections, cache clients, etc.
+     */
+    const cleanup = async (): Promise<void> => {
+      // TODO
+    };
+
+    const shutdown = createGracefulShutdown(this.logger, this.server, cleanup);
+
+    // Termination signals
+    process.on('SIGINT', () => shutdown('SIGINT')); // Ctrl+C
+    process.on('SIGTERM', () => shutdown('SIGTERM')); // kill
+    process.on('SIGQUIT', () => shutdown('SIGQUIT')); // Ctrl+\
+
+    // Ctrl+Z (SIGTSTP) safely
+    process.on('SIGTSTP', () => {
+      this.logger.info('Caught SIGTSTP (Ctrl+Z), ignoring suspend...');
+    });
+
+    // Fallback for Nx/watch or indirect terminations
+    process.on('beforeExit', (code) => {
+      this.logger.info(`Process beforeExit, code: ${code}`);
+    });
+    process.on('exit', (code) => {
+      this.logger.info(`Process exit, code: ${code}`);
+    });
   }
 
   /**
-   * Register global middlewares.
+   * Registers global middlewares.
    * HTTP logger runs first to capture all requests.
    */
   private setupMiddlewares(): void {
@@ -103,7 +125,7 @@ export class App {
     setupCorsMiddleware(app, options?.cors);
     setupRateLimitMiddleware(app, options?.rateLimit);
 
-    this.app.use(express.json());
-    this.app.use(express.urlencoded({ extended: true }));
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
   }
 }

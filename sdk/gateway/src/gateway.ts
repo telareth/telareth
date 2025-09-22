@@ -7,7 +7,7 @@ import type {
 } from './schemas/gateway.js';
 
 /**
- * Gateway Factory class.
+ * Gateway Factory.
  */
 export class Gateway {
   private readonly options: ParsedGatewayOptions;
@@ -15,7 +15,7 @@ export class Gateway {
   private logger: Logger;
 
   /**
-   * @param options The raw/unsafe gateway options.
+   * @param options The raw/unsafe App options.
    */
   constructor(options?: RawGatewayOptions) {
     this.options = parseGatewayOptions(options);
@@ -24,18 +24,16 @@ export class Gateway {
   }
 
   /**
-   * Public Gateway options getter.
-   * @returns The parsed Gateway options.
+   * @returns Parsed gateway options.
    */
   public getOptions(): ParsedGatewayOptions {
     return this.options;
   }
 
   /**
-   * Public Logger getter.
-   * @returns The Logger instance.
+   * @returns The logger instance.
    */
-  public getLogger() {
+  public getLogger(): Logger {
     return this.logger;
   }
 
