@@ -1,9 +1,13 @@
-import { defineConfig } from 'eslint/config';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import nx from '@nx/eslint-plugin';
 
 import telareth from '@telareth/eslint-plugin';
 
 export default defineConfig([
+  globalIgnores(
+    ['sdk/dsrc/src/client/', 'sdk/dsrc/src/openapi/', 'sdk/dsrc/src/schemas/'],
+    'Prisma generated content'
+  ),
   ...telareth.configs.ignores,
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],

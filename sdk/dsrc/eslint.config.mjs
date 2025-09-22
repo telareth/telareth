@@ -1,8 +1,9 @@
-import { defineConfig } from 'eslint/config';
+import { defineConfig, globalIgnores } from 'eslint/config';
 
 import baseConfig from '../../eslint.config.mjs';
 
 export default defineConfig([
+  globalIgnores(['src/schemas']),
   ...baseConfig,
   {
     files: ['**/*.json'],
