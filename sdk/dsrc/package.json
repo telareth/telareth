@@ -1,0 +1,80 @@
+{
+  "name": "@telareth/dsrc",
+  "version": "0.0.1",
+  "description": "Telareth's Gateway Datasource SDK",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@telareth/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "LICENSE",
+    "prisma"
+  ],
+  "dependencies": {
+    "@prisma/client": "^6.16.2",
+    "tslib": "^2.3.0",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.9",
+    "eslint": "^9.36.0",
+    "jsonc-eslint-parser": "^2.4.1",
+    "prisma": "^6.16.2",
+    "prisma-openapi": "^1.3.6",
+    "prisma-zod-generator": "^1.21.3"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "nx": {
+    "name": "dsrc",
+    "tags": [
+      "scope:dsrc",
+      "runtime:sdk"
+    ],
+    "targets": {
+      "clean": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk/dsrc",
+          "commands": [
+            "rimraf dist"
+          ]
+        }
+      },
+      "install": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npm install --ignore-scripts"
+          ]
+        },
+        "dependsOn": [
+          "^clean"
+        ]
+      },
+      "lint:fmt": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": [
+            "eslint --fix ."
+          ]
+        },
+        "dependsOn": [
+          "^install"
+        ]
+      }
+    }
+  }
+}
