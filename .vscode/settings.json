@@ -144,6 +144,8 @@
 
   "nxConsole.generateAiAgentRules": true,
 
+  "coderabbit.autoReviewMode": "auto",
+
   "sonarlint.connectedMode.project": {
     "connectionId": "telareth",
     "projectKey": "telareth_telareth"
