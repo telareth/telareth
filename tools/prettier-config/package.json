@@ -59,6 +59,7 @@
     "prettier-plugin-toml": "^2.0.6"
   },
   "nx": {
+    "name": "prettier-config",
     "tags": [
       "scope:tools",
       "type:devtool",

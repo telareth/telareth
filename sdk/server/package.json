@@ -52,6 +52,7 @@
     "access": "public"
   },
   "nx": {
+    "name": "server",
     "tags": [
       "scope:server",
       "runtime:sdk"

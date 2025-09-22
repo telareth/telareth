@@ -39,6 +39,7 @@
     "access": "public"
   },
   "nx": {
+    "name": "common",
     "tags": [
       "scope:common",
       "runtime:sdk"
