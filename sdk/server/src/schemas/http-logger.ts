@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 import { $LoggerOptionsSchema, LogLevelSchema } from './logger.js';
 
-export type { HttpLogger };
+export type { HttpLogger, Options as HttpOptions };
 
 /**
  * Extends IncomingMessage to include the `id` property injected by pino-http.

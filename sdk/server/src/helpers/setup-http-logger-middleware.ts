@@ -1,10 +1,13 @@
 import type { Application } from 'express';
+import { pinoHttp } from 'pino-http';
 
-import type { RawHttpLoggerOptions } from '../schemas/http-logger.js';
+import type {
+  HttpLogger,
+  RawHttpLoggerOptions,
+} from '../schemas/http-logger.js';
 import { parseHttpLoggerOptions } from './parse-http-logger-options.js';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const httpLogger = require('pino-http')();
+const httpLogger = pinoHttp;
 
 /**
  * Configues the Http-Logger.
@@ -20,6 +23,6 @@ export function setupHttpLoggerMiddleware(
   if (httpLoggerOptions === undefined || httpLoggerOptions === true) {
     app.use(httpLogger()); // default
   } else if (httpLoggerOptions) {
-    app.use(httpLogger(httpLoggerOptions)); // user options
+    app.use(httpLogger(httpLoggerOptions as unknown as HttpLogger)); // user options
   }
 }
