@@ -1,0 +1,16 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  namae-no-eda:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dcdavidev/namae-no-eda@1efbbafcc0aa2f4f7e6599f9f9c2be3561497fd8
+        with:
+          allowed: 'feat/*,fix/*,chore/*,docs/*,refactor/*,test/*,perf/*'
+          exclude: 'main,release/*'

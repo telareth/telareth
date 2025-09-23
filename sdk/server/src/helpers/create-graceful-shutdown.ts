@@ -39,9 +39,14 @@ export function createGracefulShutdown(
 
           server.close((err) => {
             clearTimeout(timer);
-            if (err instanceof Error) reject(err);
-            else if (err != null) reject(new Error(String(err)));
-            else resolve();
+
+            if (!err) {
+              resolve();
+            } else if (err instanceof Error) {
+              reject(err);
+            } else {
+              reject(new Error(String(err)));
+            }
           });
         });
       }
