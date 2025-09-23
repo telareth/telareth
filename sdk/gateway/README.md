@@ -13,17 +13,22 @@ npm i @telareth/gateway
 ```ts
 // Required for correctly loading and parsing .env
 import '@dotenvx/dotenvx/config';
+
 import { Gateway } from '@telareth/gateway';
 
-(async () => {
-  const gateway = new Gateway({
-    server: {
-      name: 'gateway',
-      port: 4000,
-    },
-  });
+const gateway = new Gateway({
+  server: {
+    name: 'gateway',
+    port: 4000,
+  },
+});
+
+try {
   await gateway.start();
-})();
+} catch (error) {
+  console.error(error);
+  process.exit(1);
+}
 ```
 
 ## 📄 License
