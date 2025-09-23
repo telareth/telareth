@@ -97,7 +97,4 @@ export const rulesImportsExports: Linter.RulesRecord = {
 
   // Sort export statements
   'simple-import-sort/exports': 'error',
-
-  // Prefer top-level type imports
-  'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
 };
