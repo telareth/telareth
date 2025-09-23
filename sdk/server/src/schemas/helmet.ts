@@ -1,9 +1,7 @@
-import type { HelmetOptions } from 'helmet';
-import { default as helmet } from 'helmet';
 import { z } from 'zod';
 
-export { helmet };
-export { type HelmetOptions };
+export { default as helmet } from 'helmet';
+export { type HelmetOptions } from 'helmet';
 
 // contentSecurityPolicy
 const ContentSecurityPolicySchema = z.object({

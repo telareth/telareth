@@ -9,11 +9,9 @@ export const RESERVED_PORTS: Record<number, string> = {
   27018: 'MongoDB shard/replica',
   9200: 'Elasticsearch',
   5601: 'Kibana',
-
   // Dev tools
   5173: 'Vite default port',
   8888: 'Jupyter Notebook',
-
   // AI / ML servers
   6006: 'TensorBoard',
   5000: 'MLflow (also common for Flask)',
@@ -24,22 +22,22 @@ export const RESERVED_PORTS: Record<number, string> = {
 
 export const ALLOWED_PORTS = new Set([3000, 8000, 8080]);
 
-// Schema puro: accetta stringhe numeric o numeri, senza trasformazioni
+// Schema: accepts numeric strings or numbers without transformations
 export const PortSchema = z
   .union([z.string().regex(/^\d{4,5}$/), z.number().int().min(3000).max(65535)])
   .optional();
 
 export type RawPort = z.input<typeof PortSchema>;
-export type ParsedPort = number;
 
 /**
- * Parses a raw port value and returns a valid port.
+ * Parses a raw port value and returns a valid port as number.
  * - If undefined, uses 4000 as default.
  * - Skips reserved ports if needed.
  * - Ensures the port is within 3000–65535.
- * @param raw The raw string to parse.
+ * @param raw The raw string or number to parse.
+ * @returns The validated port number.
  */
-export function parsePort(raw?: RawPort): ParsedPort {
+export function parsePort(raw?: RawPort): number {
   let port: number;
 
   if (raw === undefined) {

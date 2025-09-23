@@ -1,5 +1,4 @@
 import type {
-  Logger,
   LoggerOptions,
   TransportMultiOptions,
   TransportPipelineOptions,
@@ -7,8 +6,9 @@ import type {
 } from 'pino';
 import { z } from 'zod';
 
-export type { Logger, LoggerOptions };
+export type { Logger, LoggerOptions } from 'pino';
 
+// Log levels
 export const LOG_LEVEL = [
   'fatal',
   'error',
@@ -21,6 +21,7 @@ export const LOG_LEVEL = [
 
 export const LogLevelSchema = z.enum(LOG_LEVEL);
 
+// Preconfigured log options
 export const INFO_LOGGER_OPTIONS: LoggerOptions = {
   level: LogLevelSchema.enum.info,
 };
@@ -29,6 +30,7 @@ export const SILENT_LOGGER_OPTIONS: LoggerOptions = {
   level: LogLevelSchema.enum.silent,
 };
 
+// Zod schema for logger options
 export const $LoggerOptionsSchema = z.looseObject({
   level: LogLevelSchema.optional().default('info'),
   name: z.string().optional(),
@@ -123,6 +125,7 @@ export const LoggerOptionsSchema = z
   .union([z.boolean(), $LoggerOptionsSchema])
   .optional();
 
+// Types
 export type LogLevel = z.infer<typeof LogLevelSchema>;
 export type RawLoggerOptions = z.input<typeof LoggerOptionsSchema>;
 export type ParsedLoggerOptions = z.output<typeof LoggerOptionsSchema>;

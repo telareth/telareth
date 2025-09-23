@@ -15,15 +15,13 @@ export function setupHelmetMiddleware(
 ) {
   const helmetOptions = parseHelmetOptions(options);
 
-  if (helmetOptions === undefined) {
-    app.use(helmet());
-  } else {
-    if (helmetOptions) {
-      if (helmetOptions === true) {
-        app.use(helmet());
-      } else {
-        app.use(helmet(helmetOptions));
-      }
-    }
-  }
+  // Convert false to undefined for helmet()
+  const appliedOptions =
+    helmetOptions === undefined ||
+    helmetOptions === true ||
+    helmetOptions === false
+      ? undefined
+      : helmetOptions;
+
+  app.use(helmet(appliedOptions));
 }

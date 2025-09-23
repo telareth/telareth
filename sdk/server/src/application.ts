@@ -1,4 +1,4 @@
-import type { Server } from 'http';
+import type { Server } from 'node:http';
 
 import type { Application, Handler } from 'express';
 import express from 'express';
@@ -19,8 +19,8 @@ import type { Logger } from './schemas/logger.js';
 export class App {
   private readonly options: ParsedAppOptions;
   private readonly app: Application;
+  private readonly logger: Logger;
   private server: Server | null = null;
-  private logger: Logger;
   private shutdownRegistered = false;
 
   /**

@@ -30,6 +30,7 @@ sudo snap install shfmt
 [![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-highlight.svg)](https://sonarcloud.io/summary/new_code?id=telareth_telareth)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=telareth_telareth&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=telareth_telareth)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/telareth/telareth?utm_source=oss&utm_medium=github&utm_campaign=telareth%2Ftelareth&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=telareth_telareth&metric=bugs)](https://sonarcloud.io/summary/new_code?id=telareth_telareth)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=telareth_telareth&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=telareth_telareth)

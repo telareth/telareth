@@ -18,19 +18,17 @@ export function setupCorsMiddleware(
 
   if (!defaultCorsOptions || defaultCorsOptions === true) {
     throw new Error(
-      'DEFAULT_CORS_OPTIONS should bed a valid CorsOptions object.'
+      'DEFAULT_CORS_OPTIONS should be a valid CorsOptions object.'
     );
   }
 
-  if (corsOptions === undefined) {
-    app.use(cors(defaultCorsOptions));
-  } else {
-    if (corsOptions) {
-      if (corsOptions === true) {
-        app.use(cors(defaultCorsOptions));
-      } else {
-        app.use(cors(corsOptions));
-      }
-    }
+  // Use default if undefined or true
+  const appliedOptions =
+    corsOptions === undefined || corsOptions === true
+      ? defaultCorsOptions
+      : corsOptions;
+
+  if (appliedOptions) {
+    app.use(cors(appliedOptions));
   }
 }

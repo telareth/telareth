@@ -1,4 +1,4 @@
-import { generateRandomName } from '@telareth/server/helpers';
+import { generateRandomName } from '@telareth/common/helpers';
 import type { GatewayOptions, RawGatewayOptions } from '../schemas/gateway.js';
 import { parseGatewayOptions } from './parse-gateway-options.js';
 

@@ -17,18 +17,20 @@ npm i @telareth/server
 ```typescript
 // Import the dotenvx configuration and the App class.
 import '@dotenvx/dotenvx/config';
+
 import { App } from '@telareth/server';
 
-const NAME = process.env.NAME;
+const app = new App({
+  name: process.env.NAME,
+  port: process.env.PORT, // Optional, defaults to 4000
+});
 
-(async () => {
-  const app = new App({
-    name: NAME,
-    port: process.env.APP_PORT, // Optional, defaults to 4000
-  });
-
+try {
   await app.start();
-})();
+} catch (err) {
+  console.error(err);
+  process.exit(1);
+}
 ```
 
 ---

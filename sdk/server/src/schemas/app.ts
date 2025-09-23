@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
+import { NameSchema } from '@telareth/common/schemas';
 import { CorsOptionsSchema } from './cors.js';
 import { HelmetOptionsSchema } from './helmet.js';
 import { HttpLoggerOptionsSchema } from './http-logger.js';
 import { LoggerOptionsSchema } from './logger.js';
-import { NameSchema } from './name.js';
 import { PortSchema } from './port.js';
 import { RateLimitOptionsSchema } from './rate-limiter.js';
 
