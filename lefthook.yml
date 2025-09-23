@@ -34,13 +34,4 @@ pre-commit:
 pre-push:
   commands:
     branch-name-check:
-      run: |
-        BRANCH="$(git symbolic-ref --short HEAD)"
-        PATTERN='^(feat|fix|chore|docs|refactor|test|perf)\/[a-z0-9._-]+(-[a-z0-9._-]+)*$'
-        if ! echo "$BRANCH" | grep -Eq "$PATTERN"; then
-          echo "✖ Invalid branch name: $BRANCH"
-          echo "  Expected format: <type>/<scope>[-<short-description>]"
-          echo "  Allowed types: feat, fix, chore, docs, refactor, test, perf"
-          exit 1
-        fi
-        echo "✅ Branch name ok: $BRANCH"
+      run: npx commitlint --verbose --branch
