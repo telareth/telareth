@@ -1,0 +1,4 @@
+{
+  "pattern": "^(main)$|^(release/.+)$|^(feat|fix|chore|docs|refactor|test|perf)/[a-z0-9._-]+(-[a-z0-9._-]+)*$",
+  "errorMsg": "✖ Invalid branch name. Please use the format <type>/<scope>[-<short-description>].\nAllowed types: feat, fix, chore, docs, refactor, test, perf\nExamples: feat/login-page, fix/typo, docs/readme-update\nSpecial branches 'main' or 'release/*' are exempt from this check."
+}

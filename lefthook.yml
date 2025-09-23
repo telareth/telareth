@@ -32,6 +32,7 @@ pre-commit:
             stage_fixed: true
 
 pre-push:
-  commands:
-    branch-name-check:
-      run: npx commitlint --verbose --branch
+  jobs:
+    - name: Validate branch name
+      run: |
+        npx validate-branch-name
