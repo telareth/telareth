@@ -12,7 +12,7 @@ import type {
 export class Gateway {
   private readonly options: ParsedGatewayOptions;
   private readonly app: App;
-  private logger: Logger;
+  private readonly logger: Logger;
 
   /**
    * @param options The raw/unsafe App options.
