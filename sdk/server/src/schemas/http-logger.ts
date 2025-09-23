@@ -1,12 +1,13 @@
-import crypto from 'crypto';
-import type { IncomingMessage, ServerResponse } from 'http';
+import crypto from 'node:crypto';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import type { HttpLogger, Options, ReqId } from 'pino-http';
+import type { ReqId } from 'pino-http';
+import type { Options as HttpOptions } from 'pino-http';
 import { z } from 'zod';
 
 import { $LoggerOptionsSchema, LogLevelSchema } from './logger.js';
 
-export type { HttpLogger, Options as HttpOptions };
+export type { HttpLogger, Options as HttpOptions } from 'pino-http';
 
 /**
  * Extends IncomingMessage to include the `id` property injected by pino-http.
@@ -38,7 +39,7 @@ const CustomPropsArgsSchema = [
 /**
  * Default configuration for the HTTP logger middleware.
  */
-export const DEFAULT_HTTP_LOGGER_OPTIONS: Options = {
+export const DEFAULT_HTTP_LOGGER_OPTIONS: HttpOptions = {
   /**
    * Generates or reuses a request ID.
    * @param req The Incoming HTTP request.

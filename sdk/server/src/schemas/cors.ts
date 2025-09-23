@@ -1,11 +1,9 @@
-import type { CorsOptions } from 'cors';
-import { default as cors } from 'cors';
 import { z } from 'zod';
 
 import { StringOrArraySchema } from '@telareth/common/schemas';
 
-export { cors };
-export { type CorsOptions };
+export type { CorsOptions } from 'cors';
+export { default as cors } from 'cors';
 
 export const HTTP_METHOD = [
   'GET',

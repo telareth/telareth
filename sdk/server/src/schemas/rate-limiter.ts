@@ -8,7 +8,7 @@ import { z } from 'zod';
 
 import { HandlerFnSchema } from '@telareth/common';
 
-export { type RateLimitOptions };
+export type { Options as RateLimitOptions } from 'express-rate-limit';
 
 /**
  * Limit function.
