@@ -14,7 +14,7 @@ export function parseLoggerOptions(raw: RawLoggerOptions): ParsedLoggerOptions {
   const result = LoggerOptionsSchema.safeParse(raw);
 
   if (!result.success) {
-    throw (new Error('Invalid Logger options'), { cause: result.error });
+    throw new Error('Invalid Logger options', { cause: result.error });
   }
 
   return result.data;
