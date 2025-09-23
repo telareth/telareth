@@ -1,8 +1,7 @@
 import crypto from 'node:crypto';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import type { ReqId } from 'pino-http';
-import type { Options as HttpOptions } from 'pino-http';
+import type { Options as HttpOptions, ReqId } from 'pino-http';
 import { z } from 'zod';
 
 import { $LoggerOptionsSchema, LogLevelSchema } from './logger.js';
