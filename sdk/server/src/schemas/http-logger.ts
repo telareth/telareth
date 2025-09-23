@@ -13,11 +13,13 @@ export type { HttpLogger, Options as HttpOptions } from 'pino-http';
  */
 export type TelarethRequest = IncomingMessage & { id?: ReqId };
 
+// Generate request ID schema
 const GenReqIdSchema = z.function({
   input: [z.custom<IncomingMessage>()],
   output: z.union([z.string(), z.number()]),
 });
 
+// Zod tuples for function inputs
 const CustomSuccessMessageArgsSchema = [
   z.custom<IncomingMessage>(),
   z.custom<ServerResponse>(),
@@ -35,13 +37,24 @@ const CustomPropsArgsSchema = [
   z.custom<ServerResponse>(),
 ] as const;
 
-/**
- * Default configuration for the HTTP logger middleware.
- */
+// Predefined log levels
+export const LOG_LEVEL = [
+  'fatal',
+  'error',
+  'warn',
+  'info',
+  'debug',
+  'trace',
+  'silent',
+] as const;
+export type LogLevel = (typeof LOG_LEVEL)[number];
+
+// Default configuration for HTTP logger
 export const DEFAULT_HTTP_LOGGER_OPTIONS: HttpOptions = {
   /**
    * Generates or reuses a request ID.
-   * @param req The Incoming HTTP request.
+   * @param req The incoming HTTP request.
+   * @returns A string or numeric request ID.
    */
   genReqId: (req: TelarethRequest): string =>
     req.headers['x-request-id']?.toString() ??
@@ -49,23 +62,28 @@ export const DEFAULT_HTTP_LOGGER_OPTIONS: HttpOptions = {
     crypto.randomUUID(),
 
   /**
-   * Decides the log level based on response or error.
-   * @param _req Incoming HTTP request.
-   * @param res HTTP response.
-   * @param err Optional error object.
+   * Determines the log level based on response status or presence of error.
+   * @param _req The incoming HTTP request.
+   * @param res The HTTP response object.
+   * @param err Optional error object if an error occurred.
+   * @returns The log level string.
    */
-  customLogLevel: (_req: TelarethRequest, res: ServerResponse, err?: Error) =>
-    res.statusCode >= 500 || err
-      ? 'error'
-      : res.statusCode >= 400
-        ? 'warn'
-        : 'info',
+  customLogLevel: (
+    _req: TelarethRequest,
+    res: ServerResponse,
+    err?: Error
+  ): LogLevel => {
+    if (res.statusCode >= 500 || err) return 'error';
+    if (res.statusCode >= 400) return 'warn';
+    return 'info';
+  },
 
   /**
-   * Builds the success message.
-   * @param _req Incoming HTTP request.
-   * @param res HTTP response.
-   * @param responseTime The response time in milliseconds.
+   * Builds the success message for completed requests.
+   * @param _req The incoming HTTP request.
+   * @param res The HTTP response object.
+   * @param responseTime Time taken to process the request in milliseconds.
+   * @returns A formatted success message string.
    */
   customSuccessMessage: (
     _req: TelarethRequest,
@@ -75,10 +93,11 @@ export const DEFAULT_HTTP_LOGGER_OPTIONS: HttpOptions = {
     `Request completed with status ${res.statusCode} in ${responseTime}ms`,
 
   /**
-   * Builds the error message.
-   * @param _req Incoming HTTP request.
-   * @param res HTTP response.
+   * Builds the error message for failed requests.
+   * @param _req The incoming HTTP request.
+   * @param res The HTTP response object.
    * @param err The error object.
+   * @returns A formatted error message string.
    */
   customErrorMessage: (
     _req: TelarethRequest,
@@ -88,8 +107,9 @@ export const DEFAULT_HTTP_LOGGER_OPTIONS: HttpOptions = {
     `Request errored with status ${res.statusCode}: ${err?.message ?? 'unknown error'}`,
 
   /**
-   * Builds the message for a received request.
-   * @param req The Incoming HTTP request.
+   * Builds a message for a newly received request.
+   * @param req The incoming HTTP request.
+   * @returns A formatted received message string.
    */
   customReceivedMessage: (req: TelarethRequest): string =>
     `Request received: ${req.method} ${req.url}`,
@@ -98,9 +118,10 @@ export const DEFAULT_HTTP_LOGGER_OPTIONS: HttpOptions = {
   quietReqLogger: true,
 
   /**
-   * Adds custom properties to the log.
-   * @param req The Incoming HTTP request.
-   * @param res The HTTP response.
+   * Adds custom properties to the log entry.
+   * @param req The incoming HTTP request.
+   * @param res The HTTP response object.
+   * @returns A record of custom log properties.
    */
   customProps: (req: TelarethRequest, res: ServerResponse) => ({
     requestId: req.id,
@@ -110,9 +131,7 @@ export const DEFAULT_HTTP_LOGGER_OPTIONS: HttpOptions = {
   }),
 };
 
-/**
- * Zod schema for validating HttpLoggerOptions.
- */
+// Zod schema for HTTP logger options
 export const $HttpLoggerOptionsSchema = z.looseObject({
   genReqId: GenReqIdSchema.optional(),
   customLogLevel: z
