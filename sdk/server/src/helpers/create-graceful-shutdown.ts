@@ -30,7 +30,6 @@ export function createGracefulShutdown(
     logger.info(`Caught ${signal}, shutting down gracefully...`);
 
     try {
-      // Close the HTTP server
       if (server) {
         await new Promise<void>((resolve, reject) => {
           const timer = setTimeout(
@@ -40,13 +39,13 @@ export function createGracefulShutdown(
 
           server.close((err) => {
             clearTimeout(timer);
-            if (err) reject(err);
+            if (err instanceof Error) reject(err);
+            else if (err != null) reject(new Error(String(err)));
             else resolve();
           });
         });
       }
 
-      // Run optional cleanup (DB connections, cache, etc)
       if (cleanup) {
         await cleanup();
       }
