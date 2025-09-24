@@ -7,7 +7,10 @@
     "build:all": "nx run-many -t build",
     "build:tools": "nx run-many -t build --projects=tag:runtime:devtool",
     "build:sdk": "nx run-many -t build --projects=tag:runtime:sdk",
-    "release": "nx release --first-release --yes --verbose"
+    "release": "nx release --first-release --yes --verbose",
+    "psql:up": "nx run dsrc:psql:up",
+    "psql:down": "nx run dsrc:psql:down",
+    "migrate:dev:psql": "nx run dsrc:migrate:dev:psql"
   },
   "private": true,
   "devDependencies": {

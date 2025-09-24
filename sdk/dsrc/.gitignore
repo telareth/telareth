@@ -3,7 +3,9 @@ node_modules
 .env*
 !.env
 
+# Prisma migrations
+psql/migrations
+
 # Prisma generators output
 src/client
-src/schemas
-src/openapi
+

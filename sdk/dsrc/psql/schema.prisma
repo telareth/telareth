@@ -20,7 +20,7 @@ model Account {
 
   emails     AccountEmail[]
   password   AccountPassword @relation(fields: [passwordId], references: [id])
-  passwordId String          @unique
+  passwordId String          @unique @db.Uuid
 
   @@schema("account")
 }
@@ -38,7 +38,7 @@ model AccountEmail {
   account        Account?                  @relation(fields: [accountId], references: [id])
   accountId      String?                   @db.Uuid
   verification   AccountEmailVerification? @relation(fields: [verificationId], references: [id])
-  verificationId String?                   @unique
+  verificationId String?                   @unique @db.Uuid
 
   @@schema("account")
 }

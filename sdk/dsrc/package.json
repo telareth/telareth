@@ -33,8 +33,7 @@
   },
   "files": [
     "LICENSE",
-    "psql",
-    "zod-generator.config.json"
+    "psql"
   ],
   "dependencies": {
     "@prisma/client": "^6.16.2",
@@ -89,12 +88,41 @@
           "^install"
         ]
       },
+      "psql:up": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk/dsrc",
+          "commands": [
+            "docker compose -f ./psql/docker-compose.yml up -d"
+          ]
+        }
+      },
+      "psql:down": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk/dsrc",
+          "commands": [
+            "docker compose -f ./psql/docker-compose.yml down"
+          ]
+        }
+      },
       "generate:psql": {
         "executor": "nx:run-commands",
         "options": {
           "cwd": "sdk/dsrc",
           "commands": [
             "prisma generate --schema psql/schema.prisma"
+          ]
+        }
+      },
+      "migrate:dev:psql": {
+        "executor": "nx:run-commands",
+        "parallel": false,
+        "options": {
+          "cwd": "sdk/dsrc",
+          "commands": [
+            "npm i -g @telareth/cli@latest",
+            "prisma migrate dev --name \"$(telareth g name -t 3 -s '-')\" --schema psql/schema.prisma"
           ]
         }
       }
