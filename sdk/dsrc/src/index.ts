@@ -1,3 +1,3 @@
-import { PrismaClient } from './client/client.js';
-
-export const client = new PrismaClient();
+export * from './queries/health/create.js';
+export * from './queries/health/find-first.js';
+export * from './queries/health/update.js';

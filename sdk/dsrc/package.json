@@ -1,7 +1,7 @@
 {
   "name": "@telareth/dsrc",
   "version": "0.0.1",
-  "description": "Telareth's Gateway Datasource SDK",
+  "description": "Telareth's Gateway datasource SDK",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -87,44 +87,6 @@
         "dependsOn": [
           "^install"
         ]
-      },
-      "psql:up": {
-        "executor": "nx:run-commands",
-        "options": {
-          "cwd": "sdk/dsrc",
-          "commands": [
-            "docker compose -f ./psql/docker-compose.yml up -d"
-          ]
-        }
-      },
-      "psql:down": {
-        "executor": "nx:run-commands",
-        "options": {
-          "cwd": "sdk/dsrc",
-          "commands": [
-            "docker compose -f ./psql/docker-compose.yml down"
-          ]
-        }
-      },
-      "generate:psql": {
-        "executor": "nx:run-commands",
-        "options": {
-          "cwd": "sdk/dsrc",
-          "commands": [
-            "prisma generate --schema psql/schema.prisma"
-          ]
-        }
-      },
-      "migrate:dev:psql": {
-        "executor": "nx:run-commands",
-        "parallel": false,
-        "options": {
-          "cwd": "sdk/dsrc",
-          "commands": [
-            "npm i -g @telareth/cli@latest",
-            "prisma migrate dev --name \"$(telareth g name -t 3 -s '-')\" --schema psql/schema.prisma"
-          ]
-        }
       }
     }
   }
