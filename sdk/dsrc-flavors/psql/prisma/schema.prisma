@@ -1,12 +1,25 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DB_PSQL_URL")
-  schemas  = ["account", "knots"]
+  url      = env("DATABASE_PSQL_URL")
+  schemas  = ["accounts", "knots"]
 }
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src"
+  provider               = "prisma-client"
+  output                 = "../src/dsrc"
+  moduleFormat           = "esm"
+  generatedFileExtension = "ts"
+  importFileExtension    = "js"
+}
+
+generator zod {
+  provider                  = "prisma-zod-generator"
+  output                    = "../src/schemas"
+  config                    = "./zod-generator.config.json"
+  safetyAllowDangerousPaths = true
+  mode                      = "full"
+  useMultipleFiles          = false
+  singleFileName            = "index.ts"
 }
 
 /// Account information
@@ -22,7 +35,7 @@ model Account {
   password   AccountPassword @relation(fields: [passwordId], references: [id])
   passwordId String          @unique @db.Uuid
 
-  @@schema("account")
+  @@schema("accounts")
 }
 
 /// Account emails
@@ -40,7 +53,7 @@ model AccountEmail {
   verification   AccountEmailVerification? @relation(fields: [verificationId], references: [id])
   verificationId String?                   @unique @db.Uuid
 
-  @@schema("account")
+  @@schema("accounts")
 }
 
 /// Email verification entity
@@ -49,7 +62,7 @@ model AccountEmailVerification {
   createdAt DateTime      @default(now())
   email     AccountEmail?
 
-  @@schema("account")
+  @@schema("accounts")
 }
 
 /// Account password
@@ -62,7 +75,7 @@ model AccountPassword {
 
   account Account?
 
-  @@schema("account")
+  @@schema("accounts")
 }
 
 model Health {

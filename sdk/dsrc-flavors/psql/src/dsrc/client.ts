@@ -40,7 +40,7 @@ export { Prisma }
 
 // file annotations for bundling tools to include these files
 path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node")
-path.join(process.cwd(), "src/libquery_engine-debian-openssl-3.0.x.so.node")
+path.join(process.cwd(), "src/dsrc/libquery_engine-debian-openssl-3.0.x.so.node")
 
 /**
  * Model Account

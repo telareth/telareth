@@ -5,7 +5,7 @@ import telareth from '@telareth/eslint-plugin';
 
 export default defineConfig([
   globalIgnores(
-    ['sdk/dsrc/src/client/', 'sdk/dsrc/src/openapi/', 'sdk/dsrc/src/schemas/'],
+    ['sdk/dsrc-flavors/**/src/dsrc/**', 'sdk/dsrc-flavors/**/src/schemas/**'],
     'Prisma generated content'
   ),
   ...telareth.configs.ignores,

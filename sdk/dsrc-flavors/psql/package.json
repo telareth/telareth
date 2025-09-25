@@ -4,34 +4,37 @@
   "description": "Telareth's Gateway postgresql datasource SDK",
   "license": "MIT",
   "type": "module",
-  "main": "./dist/client.js",
-  "module": "./dist/client.js",
-  "types": "./dist/client.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "@telareth/source": "./src/client.ts",
-      "types": "./dist/client.d.ts",
-      "import": "./dist/client.js",
-      "default": "./dist/client.js"
+      "@telareth/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     }
   },
   "files": [
     "LICENSE",
     "dist",
-    "schema",
+    "prisma",
     ".env",
     "docker-compose.yml",
     "prisma.config.ts"
   ],
   "dependencies": {
     "@prisma/client": "^6.16.2",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "zod": "^4.1.11"
   },
   "devDependencies": {
+    "@dotenvx/dotenvx": "^1.51.0",
     "eslint": "^9.36.0",
     "jsonc-eslint-parser": "^2.4.1",
-    "prisma": "^6.16.2"
+    "prisma": "^6.16.2",
+    "prisma-zod-generator": "^1.21.3"
   },
   "private": false,
   "publishConfig": {
@@ -48,7 +51,7 @@
       "clean": {
         "executor": "nx:run-commands",
         "options": {
-          "cwd": "sdk/dsrc",
+          "cwd": "sdk/dsrc-flavors/psql",
           "commands": [
             "rimraf dist"
           ]
@@ -99,7 +102,7 @@
         "options": {
           "cwd": "sdk/dsrc-flavors/psql",
           "commands": [
-            "prisma generate"
+            "dotenvx run -- prisma generate"
           ]
         }
       },
@@ -110,7 +113,7 @@
           "cwd": "sdk/dsrc-flavors/psql",
           "commands": [
             "npm i -g @telareth/cli@latest",
-            "prisma migrate dev --name \"$(telareth g name -t 3 -s '_')\""
+            "dotenvx run -- prisma migrate dev --name \"$(telareth g name -t 3 -s '_')\""
           ]
         }
       }

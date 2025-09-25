@@ -36,15 +36,13 @@
     "psql"
   ],
   "dependencies": {
-    "@prisma/client": "^6.16.2",
-    "tslib": "^2.3.0",
-    "zod": "^4.1.11"
+    "@telareth/dsrc-psql": "^0.0.1",
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@types/node": "^20.19.9",
     "eslint": "^9.36.0",
-    "jsonc-eslint-parser": "^2.4.1",
-    "prisma": "^6.16.2"
+    "jsonc-eslint-parser": "^2.4.1"
   },
   "private": false,
   "publishConfig": {
