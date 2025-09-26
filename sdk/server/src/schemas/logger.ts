@@ -6,20 +6,9 @@ import type {
 } from 'pino';
 import { z } from 'zod';
 
+import { LogLevelSchema } from '@telareth/common';
+
 export type { Logger, LoggerOptions } from 'pino';
-
-// Log levels
-export const LOG_LEVEL = [
-  'fatal',
-  'error',
-  'warn',
-  'info',
-  'debug',
-  'trace',
-  'silent',
-] as const;
-
-export const LogLevelSchema = z.enum(LOG_LEVEL);
 
 // Preconfigured log options
 export const INFO_LOGGER_OPTIONS: LoggerOptions = {

@@ -4,7 +4,9 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Options as HttpOptions, ReqId } from 'pino-http';
 import { z } from 'zod';
 
-import { $LoggerOptionsSchema, LogLevelSchema } from './logger.js';
+import type { LogLevel } from '@telareth/common';
+import { LogLevelSchema } from '@telareth/common';
+import { $LoggerOptionsSchema } from './logger.js';
 
 export type { HttpLogger, Options as HttpOptions } from 'pino-http';
 
@@ -36,18 +38,6 @@ const CustomPropsArgsSchema = [
   z.custom<IncomingMessage>(),
   z.custom<ServerResponse>(),
 ] as const;
-
-// Predefined log levels
-export const LOG_LEVEL = [
-  'fatal',
-  'error',
-  'warn',
-  'info',
-  'debug',
-  'trace',
-  'silent',
-] as const;
-export type LogLevel = (typeof LOG_LEVEL)[number];
 
 // Default configuration for HTTP logger
 export const DEFAULT_HTTP_LOGGER_OPTIONS: HttpOptions = {

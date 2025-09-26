@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { StringOrArraySchema } from '@telareth/common/schemas';
+import { StringOrArraySchema } from '@telareth/common';
 
 export type { CorsOptions } from 'cors';
 export { default as cors } from 'cors';

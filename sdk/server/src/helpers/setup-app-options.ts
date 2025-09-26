@@ -1,5 +1,5 @@
+import { generateRandomName } from '@telareth/common';
 import type { AppOptions, RawAppOptions } from '../schemas/app.js';
-import { generateRandomName } from './generate-random-name.js';
 import { parseAppOptions } from './parse-app-options.js';
 
 /**

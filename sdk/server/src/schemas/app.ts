@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { NameSchema } from '@telareth/common/schemas';
+import { NameSchema } from '@telareth/common';
 import { CorsOptionsSchema } from './cors.js';
 import { HelmetOptionsSchema } from './helmet.js';
 import { HttpLoggerOptionsSchema } from './http-logger.js';

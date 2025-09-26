@@ -1214,7 +1214,9 @@ const healthwhereinputSchema = z
         z.lazy(() => HealthWhereInputObjectSchema).array(),
       ])
       .optional(),
-    id: z.union([z.lazy(() => UuidFilterObjectSchema), z.string()]).optional(),
+    id: z
+      .union([z.lazy(() => IntFilterObjectSchema), z.number().int()])
+      .optional(),
     status: z
       .union([
         z.lazy(() => EnumHealthStatusFilterObjectSchema),
@@ -1269,7 +1271,7 @@ export const HealthOrderByWithRelationInputObjectZodSchema =
 const __makeSchema_HealthWhereUniqueInput_schema = () =>
   z
     .object({
-      id: z.string().optional(),
+      id: z.number().int().optional(),
     })
     .strict()
     .superRefine((obj, ctx) => {
@@ -1348,8 +1350,10 @@ const __makeSchema_HealthOrderByWithAggregationInput_schema = () =>
       _count: z
         .lazy(() => HealthCountOrderByAggregateInputObjectSchema)
         .optional(),
+      _avg: z.lazy(() => HealthAvgOrderByAggregateInputObjectSchema).optional(),
       _max: z.lazy(() => HealthMaxOrderByAggregateInputObjectSchema).optional(),
       _min: z.lazy(() => HealthMinOrderByAggregateInputObjectSchema).optional(),
+      _sum: z.lazy(() => HealthSumOrderByAggregateInputObjectSchema).optional(),
     })
     .strict();
 export const HealthOrderByWithAggregationInputObjectSchema: z.ZodType<Prisma.HealthOrderByWithAggregationInput> =
@@ -1378,7 +1382,10 @@ const healthscalarwherewithaggregatesinputSchema = z
       ])
       .optional(),
     id: z
-      .union([z.lazy(() => UuidWithAggregatesFilterObjectSchema), z.string()])
+      .union([
+        z.lazy(() => IntWithAggregatesFilterObjectSchema),
+        z.number().int(),
+      ])
       .optional(),
     status: z
       .union([
@@ -2706,7 +2713,7 @@ export const AccountPasswordUncheckedUpdateManyInputObjectZodSchema =
 const __makeSchema_HealthCreateInput_schema = () =>
   z
     .object({
-      id: z.string().optional(),
+      id: z.number().int().optional(),
       status: HealthStatusSchema.optional(),
       metadata: z
         .union([NullableJsonNullValueInputSchema, jsonSchema])
@@ -2726,7 +2733,7 @@ export const HealthCreateInputObjectZodSchema =
 const __makeSchema_HealthUncheckedCreateInput_schema = () =>
   z
     .object({
-      id: z.string().optional(),
+      id: z.number().int().optional(),
       status: HealthStatusSchema.optional(),
       metadata: z
         .union([NullableJsonNullValueInputSchema, jsonSchema])
@@ -2748,8 +2755,8 @@ const __makeSchema_HealthUpdateInput_schema = () =>
     .object({
       id: z
         .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
+          z.number().int(),
+          z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
       status: z
@@ -2790,8 +2797,8 @@ const __makeSchema_HealthUncheckedUpdateInput_schema = () =>
     .object({
       id: z
         .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
+          z.number().int(),
+          z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
       status: z
@@ -2830,7 +2837,7 @@ export const HealthUncheckedUpdateInputObjectZodSchema =
 const __makeSchema_HealthCreateManyInput_schema = () =>
   z
     .object({
-      id: z.string().optional(),
+      id: z.number().int().optional(),
       status: HealthStatusSchema.optional(),
       lastChecked: z
         .string()
@@ -2860,8 +2867,8 @@ const __makeSchema_HealthUpdateManyMutationInput_schema = () =>
     .object({
       id: z
         .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
+          z.number().int(),
+          z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
       status: z
@@ -2902,8 +2909,8 @@ const __makeSchema_HealthUncheckedUpdateManyInput_schema = () =>
     .object({
       id: z
         .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
+          z.number().int(),
+          z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
       status: z
@@ -3680,6 +3687,30 @@ export const AccountPasswordMinOrderByAggregateInputObjectSchema: z.ZodType<Pris
 export const AccountPasswordMinOrderByAggregateInputObjectZodSchema =
   __makeSchema_AccountPasswordMinOrderByAggregateInput_schema();
 
+// File: IntFilter.schema.ts
+
+/**
+ *
+ */
+const __makeSchema_IntFilter_schema = () =>
+  z
+    .object({
+      equals: z.number().int().optional(),
+      in: z.number().int().array().optional(),
+      notIn: z.number().int().array().optional(),
+      lt: z.number().int().optional(),
+      lte: z.number().int().optional(),
+      gt: z.number().int().optional(),
+      gte: z.number().int().optional(),
+      not: z
+        .union([z.number().int(), z.lazy(() => NestedIntFilterObjectSchema)])
+        .optional(),
+    })
+    .strict();
+export const IntFilterObjectSchema: z.ZodType<Prisma.IntFilter> =
+  __makeSchema_IntFilter_schema() as unknown as z.ZodType<Prisma.IntFilter>;
+export const IntFilterObjectZodSchema = __makeSchema_IntFilter_schema();
+
 // File: EnumHealthStatusFilter.schema.ts
 
 /**
@@ -3752,6 +3783,22 @@ export const HealthCountOrderByAggregateInputObjectSchema: z.ZodType<Prisma.Heal
 export const HealthCountOrderByAggregateInputObjectZodSchema =
   __makeSchema_HealthCountOrderByAggregateInput_schema();
 
+// File: HealthAvgOrderByAggregateInput.schema.ts
+
+/**
+ *
+ */
+const __makeSchema_HealthAvgOrderByAggregateInput_schema = () =>
+  z
+    .object({
+      id: SortOrderSchema.optional(),
+    })
+    .strict();
+export const HealthAvgOrderByAggregateInputObjectSchema: z.ZodType<Prisma.HealthAvgOrderByAggregateInput> =
+  __makeSchema_HealthAvgOrderByAggregateInput_schema() as unknown as z.ZodType<Prisma.HealthAvgOrderByAggregateInput>;
+export const HealthAvgOrderByAggregateInputObjectZodSchema =
+  __makeSchema_HealthAvgOrderByAggregateInput_schema();
+
 // File: HealthMaxOrderByAggregateInput.schema.ts
 
 /**
@@ -3787,6 +3834,55 @@ export const HealthMinOrderByAggregateInputObjectSchema: z.ZodType<Prisma.Health
   __makeSchema_HealthMinOrderByAggregateInput_schema() as unknown as z.ZodType<Prisma.HealthMinOrderByAggregateInput>;
 export const HealthMinOrderByAggregateInputObjectZodSchema =
   __makeSchema_HealthMinOrderByAggregateInput_schema();
+
+// File: HealthSumOrderByAggregateInput.schema.ts
+
+/**
+ *
+ */
+const __makeSchema_HealthSumOrderByAggregateInput_schema = () =>
+  z
+    .object({
+      id: SortOrderSchema.optional(),
+    })
+    .strict();
+export const HealthSumOrderByAggregateInputObjectSchema: z.ZodType<Prisma.HealthSumOrderByAggregateInput> =
+  __makeSchema_HealthSumOrderByAggregateInput_schema() as unknown as z.ZodType<Prisma.HealthSumOrderByAggregateInput>;
+export const HealthSumOrderByAggregateInputObjectZodSchema =
+  __makeSchema_HealthSumOrderByAggregateInput_schema();
+
+// File: IntWithAggregatesFilter.schema.ts
+
+/**
+ *
+ */
+const __makeSchema_IntWithAggregatesFilter_schema = () =>
+  z
+    .object({
+      equals: z.number().int().optional(),
+      in: z.number().int().array().optional(),
+      notIn: z.number().int().array().optional(),
+      lt: z.number().int().optional(),
+      lte: z.number().int().optional(),
+      gt: z.number().int().optional(),
+      gte: z.number().int().optional(),
+      not: z
+        .union([
+          z.number().int(),
+          z.lazy(() => NestedIntWithAggregatesFilterObjectSchema),
+        ])
+        .optional(),
+      _count: z.lazy(() => NestedIntFilterObjectSchema).optional(),
+      _avg: z.lazy(() => NestedFloatFilterObjectSchema).optional(),
+      _sum: z.lazy(() => NestedIntFilterObjectSchema).optional(),
+      _min: z.lazy(() => NestedIntFilterObjectSchema).optional(),
+      _max: z.lazy(() => NestedIntFilterObjectSchema).optional(),
+    })
+    .strict();
+export const IntWithAggregatesFilterObjectSchema: z.ZodType<Prisma.IntWithAggregatesFilter> =
+  __makeSchema_IntWithAggregatesFilter_schema() as unknown as z.ZodType<Prisma.IntWithAggregatesFilter>;
+export const IntWithAggregatesFilterObjectZodSchema =
+  __makeSchema_IntWithAggregatesFilter_schema();
 
 // File: EnumHealthStatusWithAggregatesFilter.schema.ts
 
@@ -4864,6 +4960,26 @@ export const AccountUncheckedUpdateOneWithoutPasswordNestedInputObjectSchema: z.
 export const AccountUncheckedUpdateOneWithoutPasswordNestedInputObjectZodSchema =
   __makeSchema_AccountUncheckedUpdateOneWithoutPasswordNestedInput_schema();
 
+// File: IntFieldUpdateOperationsInput.schema.ts
+
+/**
+ *
+ */
+const __makeSchema_IntFieldUpdateOperationsInput_schema = () =>
+  z
+    .object({
+      set: z.number().int().optional(),
+      increment: z.number().int().optional(),
+      decrement: z.number().int().optional(),
+      multiply: z.number().int().optional(),
+      divide: z.number().int().optional(),
+    })
+    .strict();
+export const IntFieldUpdateOperationsInputObjectSchema: z.ZodType<Prisma.IntFieldUpdateOperationsInput> =
+  __makeSchema_IntFieldUpdateOperationsInput_schema() as unknown as z.ZodType<Prisma.IntFieldUpdateOperationsInput>;
+export const IntFieldUpdateOperationsInputObjectZodSchema =
+  __makeSchema_IntFieldUpdateOperationsInput_schema();
+
 // File: EnumHealthStatusFieldUpdateOperationsInput.schema.ts
 
 /**
@@ -5290,6 +5406,55 @@ export const NestedEnumHealthStatusFilterObjectSchema: z.ZodType<Prisma.NestedEn
   nestedenumhealthstatusfilterSchema as unknown as z.ZodType<Prisma.NestedEnumHealthStatusFilter>;
 export const NestedEnumHealthStatusFilterObjectZodSchema =
   nestedenumhealthstatusfilterSchema;
+
+// File: NestedIntWithAggregatesFilter.schema.ts
+
+const nestedintwithaggregatesfilterSchema = z
+  .object({
+    equals: z.number().int().optional(),
+    in: z.number().int().array().optional(),
+    notIn: z.number().int().array().optional(),
+    lt: z.number().int().optional(),
+    lte: z.number().int().optional(),
+    gt: z.number().int().optional(),
+    gte: z.number().int().optional(),
+    not: z
+      .union([
+        z.number().int(),
+        z.lazy(() => NestedIntWithAggregatesFilterObjectSchema),
+      ])
+      .optional(),
+    _count: z.lazy(() => NestedIntFilterObjectSchema).optional(),
+    _avg: z.lazy(() => NestedFloatFilterObjectSchema).optional(),
+    _sum: z.lazy(() => NestedIntFilterObjectSchema).optional(),
+    _min: z.lazy(() => NestedIntFilterObjectSchema).optional(),
+    _max: z.lazy(() => NestedIntFilterObjectSchema).optional(),
+  })
+  .strict();
+export const NestedIntWithAggregatesFilterObjectSchema: z.ZodType<Prisma.NestedIntWithAggregatesFilter> =
+  nestedintwithaggregatesfilterSchema as unknown as z.ZodType<Prisma.NestedIntWithAggregatesFilter>;
+export const NestedIntWithAggregatesFilterObjectZodSchema =
+  nestedintwithaggregatesfilterSchema;
+
+// File: NestedFloatFilter.schema.ts
+
+const nestedfloatfilterSchema = z
+  .object({
+    equals: z.number().optional(),
+    in: z.number().array().optional(),
+    notIn: z.number().array().optional(),
+    lt: z.number().optional(),
+    lte: z.number().optional(),
+    gt: z.number().optional(),
+    gte: z.number().optional(),
+    not: z
+      .union([z.number(), z.lazy(() => NestedFloatFilterObjectSchema)])
+      .optional(),
+  })
+  .strict();
+export const NestedFloatFilterObjectSchema: z.ZodType<Prisma.NestedFloatFilter> =
+  nestedfloatfilterSchema as unknown as z.ZodType<Prisma.NestedFloatFilter>;
+export const NestedFloatFilterObjectZodSchema = nestedfloatfilterSchema;
 
 // File: NestedEnumHealthStatusWithAggregatesFilter.schema.ts
 
@@ -7392,6 +7557,38 @@ export const HealthCountAggregateInputObjectSchema: z.ZodType<Prisma.HealthCount
   __makeSchema_HealthCountAggregateInput_schema() as unknown as z.ZodType<Prisma.HealthCountAggregateInputType>;
 export const HealthCountAggregateInputObjectZodSchema =
   __makeSchema_HealthCountAggregateInput_schema();
+
+// File: HealthAvgAggregateInput.schema.ts
+
+/**
+ *
+ */
+const __makeSchema_HealthAvgAggregateInput_schema = () =>
+  z
+    .object({
+      id: z.literal(true).optional(),
+    })
+    .strict();
+export const HealthAvgAggregateInputObjectSchema: z.ZodType<Prisma.HealthAvgAggregateInputType> =
+  __makeSchema_HealthAvgAggregateInput_schema() as unknown as z.ZodType<Prisma.HealthAvgAggregateInputType>;
+export const HealthAvgAggregateInputObjectZodSchema =
+  __makeSchema_HealthAvgAggregateInput_schema();
+
+// File: HealthSumAggregateInput.schema.ts
+
+/**
+ *
+ */
+const __makeSchema_HealthSumAggregateInput_schema = () =>
+  z
+    .object({
+      id: z.literal(true).optional(),
+    })
+    .strict();
+export const HealthSumAggregateInputObjectSchema: z.ZodType<Prisma.HealthSumAggregateInputType> =
+  __makeSchema_HealthSumAggregateInput_schema() as unknown as z.ZodType<Prisma.HealthSumAggregateInputType>;
+export const HealthSumAggregateInputObjectZodSchema =
+  __makeSchema_HealthSumAggregateInput_schema();
 
 // File: HealthMinAggregateInput.schema.ts
 
@@ -10139,6 +10336,8 @@ export const HealthAggregateSchema: z.ZodType<Prisma.HealthAggregateArgs> = z
       .optional(),
     _min: HealthMinAggregateInputObjectSchema.optional(),
     _max: HealthMaxAggregateInputObjectSchema.optional(),
+    _avg: HealthAvgAggregateInputObjectSchema.optional(),
+    _sum: HealthSumAggregateInputObjectSchema.optional(),
   })
   .strict() as unknown as z.ZodType<Prisma.HealthAggregateArgs>;
 
@@ -10159,6 +10358,8 @@ export const HealthAggregateZodSchema = z
       .optional(),
     _min: HealthMinAggregateInputObjectSchema.optional(),
     _max: HealthMaxAggregateInputObjectSchema.optional(),
+    _avg: HealthAvgAggregateInputObjectSchema.optional(),
+    _sum: HealthSumAggregateInputObjectSchema.optional(),
   })
   .strict();
 
@@ -10182,6 +10383,8 @@ export const HealthGroupBySchema: z.ZodType<Prisma.HealthGroupByArgs> = z
       .optional(),
     _min: HealthMinAggregateInputObjectSchema.optional(),
     _max: HealthMaxAggregateInputObjectSchema.optional(),
+    _avg: HealthAvgAggregateInputObjectSchema.optional(),
+    _sum: HealthSumAggregateInputObjectSchema.optional(),
   })
   .strict() as unknown as z.ZodType<Prisma.HealthGroupByArgs>;
 
@@ -10203,6 +10406,8 @@ export const HealthGroupByZodSchema = z
       .optional(),
     _min: HealthMinAggregateInputObjectSchema.optional(),
     _max: HealthMaxAggregateInputObjectSchema.optional(),
+    _avg: HealthAvgAggregateInputObjectSchema.optional(),
+    _sum: HealthSumAggregateInputObjectSchema.optional(),
   })
   .strict();
 
@@ -10937,7 +11142,7 @@ export const AccountPasswordCountResultSchema = z.number();
 // File: HealthFindUniqueResult.schema.ts
 export const HealthFindUniqueResultSchema = z.nullable(
   z.object({
-    id: z.string(),
+    id: z.number().int(),
     status: z.unknown(),
     lastChecked: z.date(),
     metadata: z.unknown().optional(),
@@ -10947,7 +11152,7 @@ export const HealthFindUniqueResultSchema = z.nullable(
 // File: HealthFindFirstResult.schema.ts
 export const HealthFindFirstResultSchema = z.nullable(
   z.object({
-    id: z.string(),
+    id: z.number().int(),
     status: z.unknown(),
     lastChecked: z.date(),
     metadata: z.unknown().optional(),
@@ -10958,7 +11163,7 @@ export const HealthFindFirstResultSchema = z.nullable(
 export const HealthFindManyResultSchema = z.object({
   data: z.array(
     z.object({
-      id: z.string(),
+      id: z.number().int(),
       status: z.unknown(),
       lastChecked: z.date(),
       metadata: z.unknown().optional(),
@@ -10976,7 +11181,7 @@ export const HealthFindManyResultSchema = z.object({
 
 // File: HealthCreateResult.schema.ts
 export const HealthCreateResultSchema = z.object({
-  id: z.string(),
+  id: z.number().int(),
   status: z.unknown(),
   lastChecked: z.date(),
   metadata: z.unknown().optional(),
@@ -10990,7 +11195,7 @@ export const HealthCreateManyResultSchema = z.object({
 // File: HealthUpdateResult.schema.ts
 export const HealthUpdateResultSchema = z.nullable(
   z.object({
-    id: z.string(),
+    id: z.number().int(),
     status: z.unknown(),
     lastChecked: z.date(),
     metadata: z.unknown().optional(),
@@ -11004,7 +11209,7 @@ export const HealthUpdateManyResultSchema = z.object({
 
 // File: HealthUpsertResult.schema.ts
 export const HealthUpsertResultSchema = z.object({
-  id: z.string(),
+  id: z.number().int(),
   status: z.unknown(),
   lastChecked: z.date(),
   metadata: z.unknown().optional(),
@@ -11013,7 +11218,7 @@ export const HealthUpsertResultSchema = z.object({
 // File: HealthDeleteResult.schema.ts
 export const HealthDeleteResultSchema = z.nullable(
   z.object({
-    id: z.string(),
+    id: z.number().int(),
     status: z.unknown(),
     lastChecked: z.date(),
     metadata: z.unknown().optional(),
@@ -11035,16 +11240,28 @@ export const HealthAggregateResultSchema = z.object({
       metadata: z.number(),
     })
     .optional(),
+  _sum: z
+    .object({
+      id: z.number().nullable(),
+    })
+    .nullable()
+    .optional(),
+  _avg: z
+    .object({
+      id: z.number().nullable(),
+    })
+    .nullable()
+    .optional(),
   _min: z
     .object({
-      id: z.string().nullable(),
+      id: z.number().int().nullable(),
       lastChecked: z.date().nullable(),
     })
     .nullable()
     .optional(),
   _max: z
     .object({
-      id: z.string().nullable(),
+      id: z.number().int().nullable(),
       lastChecked: z.date().nullable(),
     })
     .nullable()
@@ -11054,7 +11271,7 @@ export const HealthAggregateResultSchema = z.object({
 // File: HealthGroupByResult.schema.ts
 export const HealthGroupByResultSchema = z.array(
   z.object({
-    id: z.string(),
+    id: z.number().int(),
     lastChecked: z.date(),
     metadata: z.unknown(),
     _count: z
@@ -11065,16 +11282,28 @@ export const HealthGroupByResultSchema = z.array(
         metadata: z.number(),
       })
       .optional(),
+    _sum: z
+      .object({
+        id: z.number().nullable(),
+      })
+      .nullable()
+      .optional(),
+    _avg: z
+      .object({
+        id: z.number().nullable(),
+      })
+      .nullable()
+      .optional(),
     _min: z
       .object({
-        id: z.string().nullable(),
+        id: z.number().int().nullable(),
         lastChecked: z.date().nullable(),
       })
       .nullable()
       .optional(),
     _max: z
       .object({
-        id: z.string().nullable(),
+        id: z.number().int().nullable(),
         lastChecked: z.date().nullable(),
       })
       .nullable()
@@ -11189,7 +11418,7 @@ export type AccountPasswordType = z.infer<typeof AccountPasswordModel>;
 // File: health-model.ts
 
 export const HealthModel = z.object({
-  id: z.string(),
+  id: z.number().int(),
   status: HealthStatusSchema.default('OK'),
   lastChecked: z
     .string()

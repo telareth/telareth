@@ -15,14 +15,22 @@
       "default": "./dist/index.js"
     },
     "./helpers": {
+      "development": "./src/helpers/index.ts",
       "types": "./dist/helpers/index.d.ts",
       "import": "./dist/helpers/index.js",
       "default": "./dist/helpers/index.js"
     },
     "./schemas": {
+      "development": "./src/schemas/index.ts",
       "types": "./dist/schemas/index.d.ts",
       "import": "./dist/schemas/index.js",
       "default": "./dist/schemas/index.js"
+    },
+    "./types": {
+      "development": "./src/types/index.ts",
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js",
+      "default": "./dist/types/index.js"
     }
   },
   "files": [
