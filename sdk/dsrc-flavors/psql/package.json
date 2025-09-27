@@ -1,12 +1,10 @@
 {
   "name": "@telareth/dsrc-psql",
   "version": "0.0.1",
+  "private": false,
   "description": "Telareth's Gateway postgresql datasource SDK",
   "license": "MIT",
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -22,6 +20,9 @@
       "default": "./dist/schemas/index.js"
     }
   },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "LICENSE",
     "dist",
@@ -44,9 +45,8 @@
     "eslint": "^9.36.0",
     "jsonc-eslint-parser": "^2.4.1",
     "prisma": "^6.16.2",
-    "prisma-zod-generator": "^1.21.3"
+    "prisma-zod-generator": "^1.22.1"
   },
-  "private": false,
   "publishConfig": {
     "access": "public"
   },

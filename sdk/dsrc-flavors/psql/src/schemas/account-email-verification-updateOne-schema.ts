@@ -1,0 +1,11 @@
+import type { Prisma } from '../dsrc/client';
+import { z } from 'zod';
+import { AccountEmailVerificationSelectObjectSchema as AccountEmailVerificationSelectObjectSchema } from './objects/account-email-verification-select-AccountEmailVerificationSelect-input.js';
+import { AccountEmailVerificationIncludeObjectSchema as AccountEmailVerificationIncludeObjectSchema } from './objects/account-email-verification-include-AccountEmailVerificationInclude-input.js';
+import { AccountEmailVerificationUpdateInputObjectSchema as AccountEmailVerificationUpdateInputObjectSchema } from './objects/account-email-verification-AccountEmailVerificationUpdateInput-input.js';
+import { AccountEmailVerificationUncheckedUpdateInputObjectSchema as AccountEmailVerificationUncheckedUpdateInputObjectSchema } from './objects/account-email-verification-AccountEmailVerificationUncheckedUpdateInput-input.js';
+import { AccountEmailVerificationWhereUniqueInputObjectSchema as AccountEmailVerificationWhereUniqueInputObjectSchema } from './objects/account-email-verification-AccountEmailVerificationWhereUniqueInput-input.js';
+
+export const AccountEmailVerificationUpdateOneSchema: z.ZodType<Prisma.AccountEmailVerificationUpdateArgs> = z.object({ select: AccountEmailVerificationSelectObjectSchema.optional(), include: AccountEmailVerificationIncludeObjectSchema.optional(), data: z.union([AccountEmailVerificationUpdateInputObjectSchema, AccountEmailVerificationUncheckedUpdateInputObjectSchema]), where: AccountEmailVerificationWhereUniqueInputObjectSchema }).strict() as unknown as z.ZodType<Prisma.AccountEmailVerificationUpdateArgs>;
+
+export const AccountEmailVerificationUpdateOneSchemaZodSchema = z.object({ select: AccountEmailVerificationSelectObjectSchema.optional(), include: AccountEmailVerificationIncludeObjectSchema.optional(), data: z.union([AccountEmailVerificationUpdateInputObjectSchema, AccountEmailVerificationUncheckedUpdateInputObjectSchema]), where: AccountEmailVerificationWhereUniqueInputObjectSchema }).strict();

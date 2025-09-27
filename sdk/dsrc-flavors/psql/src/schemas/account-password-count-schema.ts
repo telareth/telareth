@@ -1,0 +1,10 @@
+import type { Prisma } from '../dsrc/client';
+import { z } from 'zod';
+import { AccountPasswordOrderByWithRelationInputObjectSchema as AccountPasswordOrderByWithRelationInputObjectSchema } from './objects/account-password-AccountPasswordOrderByWithRelationInput-input.js';
+import { AccountPasswordWhereInputObjectSchema as AccountPasswordWhereInputObjectSchema } from './objects/account-password-AccountPasswordWhereInput-input.js';
+import { AccountPasswordWhereUniqueInputObjectSchema as AccountPasswordWhereUniqueInputObjectSchema } from './objects/account-password-AccountPasswordWhereUniqueInput-input.js';
+import { AccountPasswordCountAggregateInputObjectSchema as AccountPasswordCountAggregateInputObjectSchema } from './objects/account-password-AccountPasswordCountAggregateInput-input.js';
+
+export const AccountPasswordCountSchema: z.ZodType<Prisma.AccountPasswordCountArgs> = z.object({ orderBy: z.union([AccountPasswordOrderByWithRelationInputObjectSchema, AccountPasswordOrderByWithRelationInputObjectSchema.array()]).optional(), where: AccountPasswordWhereInputObjectSchema.optional(), cursor: AccountPasswordWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), select: z.union([ z.literal(true), AccountPasswordCountAggregateInputObjectSchema ]).optional() }).strict() as unknown as z.ZodType<Prisma.AccountPasswordCountArgs>;
+
+export const AccountPasswordCountSchemaZodSchema = z.object({ orderBy: z.union([AccountPasswordOrderByWithRelationInputObjectSchema, AccountPasswordOrderByWithRelationInputObjectSchema.array()]).optional(), where: AccountPasswordWhereInputObjectSchema.optional(), cursor: AccountPasswordWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), select: z.union([ z.literal(true), AccountPasswordCountAggregateInputObjectSchema ]).optional() }).strict();

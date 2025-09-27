@@ -1,0 +1,15 @@
+import type { Prisma } from '../dsrc/client';
+import { z } from 'zod';
+import { HealthWhereInputObjectSchema as HealthWhereInputObjectSchema } from './objects/health-HealthWhereInput-input.js';
+import { HealthOrderByWithAggregationInputObjectSchema as HealthOrderByWithAggregationInputObjectSchema } from './objects/health-HealthOrderByWithAggregationInput-input.js';
+import { HealthScalarWhereWithAggregatesInputObjectSchema as HealthScalarWhereWithAggregatesInputObjectSchema } from './objects/health-HealthScalarWhereWithAggregatesInput-input.js';
+import { HealthScalarFieldEnum } from './enums/health-scalar-field-enum-enum.js';
+import { HealthCountAggregateInputObjectSchema as HealthCountAggregateInputObjectSchema } from './objects/health-HealthCountAggregateInput-input.js';
+import { HealthMinAggregateInputObjectSchema as HealthMinAggregateInputObjectSchema } from './objects/health-HealthMinAggregateInput-input.js';
+import { HealthMaxAggregateInputObjectSchema as HealthMaxAggregateInputObjectSchema } from './objects/health-HealthMaxAggregateInput-input.js';
+import { HealthAvgAggregateInputObjectSchema as HealthAvgAggregateInputObjectSchema } from './objects/health-HealthAvgAggregateInput-input.js';
+import { HealthSumAggregateInputObjectSchema as HealthSumAggregateInputObjectSchema } from './objects/health-HealthSumAggregateInput-input.js';
+
+export const HealthGroupBySchema: z.ZodType<Prisma.HealthGroupByArgs> = z.object({ where: HealthWhereInputObjectSchema.optional(), orderBy: z.union([HealthOrderByWithAggregationInputObjectSchema, HealthOrderByWithAggregationInputObjectSchema.array()]).optional(), having: HealthScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(HealthScalarFieldEnum), _count: z.union([ z.literal(true), HealthCountAggregateInputObjectSchema ]).optional(), _min: HealthMinAggregateInputObjectSchema.optional(), _max: HealthMaxAggregateInputObjectSchema.optional(), _avg: HealthAvgAggregateInputObjectSchema.optional(), _sum: HealthSumAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.HealthGroupByArgs>;
+
+export const HealthGroupBySchemaZodSchema = z.object({ where: HealthWhereInputObjectSchema.optional(), orderBy: z.union([HealthOrderByWithAggregationInputObjectSchema, HealthOrderByWithAggregationInputObjectSchema.array()]).optional(), having: HealthScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(HealthScalarFieldEnum), _count: z.union([ z.literal(true), HealthCountAggregateInputObjectSchema ]).optional(), _min: HealthMinAggregateInputObjectSchema.optional(), _max: HealthMaxAggregateInputObjectSchema.optional(), _avg: HealthAvgAggregateInputObjectSchema.optional(), _sum: HealthSumAggregateInputObjectSchema.optional() }).strict();

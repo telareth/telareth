@@ -15,11 +15,11 @@
       "exportNamePattern": "{Model}Model"
     },
     "schema": {
-      "filePattern": "{kebab}-schema.ts",
-      "exportNamePattern": "{Model}Schema"
+      "filePattern": "{kebab}-{operation}-schema.ts",
+      "exportNamePattern": "{Model}{Operation}Schema"
     },
     "input": {
-      "filePattern": "{kebab}-input.ts",
+      "filePattern": "{kebab}-{InputType}-input.ts",
       "exportNamePattern": "{Model}{InputType}"
     },
     "enum": {

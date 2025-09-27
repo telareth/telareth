@@ -17,9 +17,6 @@ generator zod {
   output                    = "../src/schemas"
   config                    = "./zod-generator.config.json"
   safetyAllowDangerousPaths = true
-  mode                      = "full"
-  useMultipleFiles          = false
-  singleFileName            = "index.ts"
 }
 
 /// Account information
