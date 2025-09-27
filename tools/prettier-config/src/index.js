@@ -7,6 +7,7 @@ const config = {
     'prettier-plugin-sh',
     'prettier-plugin-toml',
     'prettier-plugin-prisma',
+    'prettier-plugin-packagejson',
   ],
 
   trailingComma: 'es5',

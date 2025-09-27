@@ -22,9 +22,6 @@
       "path": "./sdk/common"
     },
     {
-      "path": "./apps/gateway"
-    },
-    {
       "path": "./sdk/dsrc"
     },
     {
