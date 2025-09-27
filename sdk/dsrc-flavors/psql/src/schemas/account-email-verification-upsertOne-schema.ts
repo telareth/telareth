@@ -1,0 +1,13 @@
+import type { Prisma } from '../dsrc/client';
+import { z } from 'zod';
+import { AccountEmailVerificationSelectObjectSchema as AccountEmailVerificationSelectObjectSchema } from './objects/account-email-verification-select-AccountEmailVerificationSelect-input.js';
+import { AccountEmailVerificationIncludeObjectSchema as AccountEmailVerificationIncludeObjectSchema } from './objects/account-email-verification-include-AccountEmailVerificationInclude-input.js';
+import { AccountEmailVerificationWhereUniqueInputObjectSchema as AccountEmailVerificationWhereUniqueInputObjectSchema } from './objects/account-email-verification-AccountEmailVerificationWhereUniqueInput-input.js';
+import { AccountEmailVerificationCreateInputObjectSchema as AccountEmailVerificationCreateInputObjectSchema } from './objects/account-email-verification-AccountEmailVerificationCreateInput-input.js';
+import { AccountEmailVerificationUncheckedCreateInputObjectSchema as AccountEmailVerificationUncheckedCreateInputObjectSchema } from './objects/account-email-verification-AccountEmailVerificationUncheckedCreateInput-input.js';
+import { AccountEmailVerificationUpdateInputObjectSchema as AccountEmailVerificationUpdateInputObjectSchema } from './objects/account-email-verification-AccountEmailVerificationUpdateInput-input.js';
+import { AccountEmailVerificationUncheckedUpdateInputObjectSchema as AccountEmailVerificationUncheckedUpdateInputObjectSchema } from './objects/account-email-verification-AccountEmailVerificationUncheckedUpdateInput-input.js';
+
+export const AccountEmailVerificationUpsertOneSchema: z.ZodType<Prisma.AccountEmailVerificationUpsertArgs> = z.object({ select: AccountEmailVerificationSelectObjectSchema.optional(), include: AccountEmailVerificationIncludeObjectSchema.optional(), where: AccountEmailVerificationWhereUniqueInputObjectSchema, create: z.union([ AccountEmailVerificationCreateInputObjectSchema, AccountEmailVerificationUncheckedCreateInputObjectSchema ]), update: z.union([ AccountEmailVerificationUpdateInputObjectSchema, AccountEmailVerificationUncheckedUpdateInputObjectSchema ]) }).strict() as unknown as z.ZodType<Prisma.AccountEmailVerificationUpsertArgs>;
+
+export const AccountEmailVerificationUpsertOneSchemaZodSchema = z.object({ select: AccountEmailVerificationSelectObjectSchema.optional(), include: AccountEmailVerificationIncludeObjectSchema.optional(), where: AccountEmailVerificationWhereUniqueInputObjectSchema, create: z.union([ AccountEmailVerificationCreateInputObjectSchema, AccountEmailVerificationUncheckedCreateInputObjectSchema ]), update: z.union([ AccountEmailVerificationUpdateInputObjectSchema, AccountEmailVerificationUncheckedUpdateInputObjectSchema ]) }).strict();

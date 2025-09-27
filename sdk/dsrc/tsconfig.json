@@ -4,6 +4,12 @@
   "include": [],
   "references": [
     {
+      "path": "../dsrc-flavors/psql"
+    },
+    {
+      "path": "../common"
+    },
+    {
       "path": "./tsconfig.lib.json"
     }
   ]

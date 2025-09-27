@@ -1,0 +1,132 @@
+{
+  "name": "@telareth/dsrc-psql",
+  "version": "0.0.1",
+  "private": false,
+  "description": "Telareth's Gateway postgresql datasource SDK",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@telareth/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./schemas": {
+      "development": "./src/schemas/index.ts",
+      "types": "./dist/schemas/index.d.ts",
+      "import": "./dist/schemas/index.js",
+      "default": "./dist/schemas/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "LICENSE",
+    "dist",
+    "prisma",
+    ".env",
+    "docker-compose.yml",
+    "prisma.config.ts"
+  ],
+  "dependencies": {
+    "@prisma/client": "^6.16.2",
+    "@telareth/common": "^0.0.1",
+    "express": "^5.1.0",
+    "tslib": "^2.3.0",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "@dotenvx/dotenvx": "^1.51.0",
+    "@types/express": "^5.0.3",
+    "@types/node": "^20.19.9",
+    "eslint": "^9.36.0",
+    "jsonc-eslint-parser": "^2.4.1",
+    "prisma": "^6.16.2",
+    "prisma-zod-generator": "^1.22.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "nx": {
+    "name": "dsrc-psql",
+    "tags": [
+      "scope:dsrc",
+      "flavor:psql",
+      "runtime:sdk"
+    ],
+    "targets": {
+      "clean": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk/dsrc-flavors/psql",
+          "commands": [
+            "rimraf dist"
+          ]
+        }
+      },
+      "install": {
+        "executor": "nx:run-commands",
+        "options": {
+          "commands": [
+            "npm install --ignore-scripts"
+          ]
+        },
+        "dependsOn": [
+          "^clean"
+        ]
+      },
+      "lint:fmt": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": [
+            "eslint --fix ."
+          ]
+        },
+        "dependsOn": [
+          "^install"
+        ]
+      },
+      "up": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk/dsrc-flavors/psql",
+          "commands": [
+            "docker compose up -d"
+          ]
+        }
+      },
+      "down": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk/dsrc-flavors/psql",
+          "commands": [
+            "docker compose  down"
+          ]
+        }
+      },
+      "generate": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "sdk/dsrc-flavors/psql",
+          "commands": [
+            "dotenvx run -- prisma generate"
+          ]
+        }
+      },
+      "migrate:dev": {
+        "executor": "nx:run-commands",
+        "parallel": false,
+        "options": {
+          "cwd": "sdk/dsrc-flavors/psql",
+          "commands": [
+            "npm i -g @telareth/cli@latest",
+            "dotenvx run -- prisma migrate dev --name \"$(telareth g name -t 3 -s '_')\""
+          ]
+        }
+      }
+    }
+  }
+}

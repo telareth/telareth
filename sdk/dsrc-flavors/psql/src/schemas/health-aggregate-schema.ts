@@ -1,0 +1,14 @@
+import type { Prisma } from '../dsrc/client';
+import { z } from 'zod';
+import { HealthOrderByWithRelationInputObjectSchema as HealthOrderByWithRelationInputObjectSchema } from './objects/health-HealthOrderByWithRelationInput-input.js';
+import { HealthWhereInputObjectSchema as HealthWhereInputObjectSchema } from './objects/health-HealthWhereInput-input.js';
+import { HealthWhereUniqueInputObjectSchema as HealthWhereUniqueInputObjectSchema } from './objects/health-HealthWhereUniqueInput-input.js';
+import { HealthCountAggregateInputObjectSchema as HealthCountAggregateInputObjectSchema } from './objects/health-HealthCountAggregateInput-input.js';
+import { HealthMinAggregateInputObjectSchema as HealthMinAggregateInputObjectSchema } from './objects/health-HealthMinAggregateInput-input.js';
+import { HealthMaxAggregateInputObjectSchema as HealthMaxAggregateInputObjectSchema } from './objects/health-HealthMaxAggregateInput-input.js';
+import { HealthAvgAggregateInputObjectSchema as HealthAvgAggregateInputObjectSchema } from './objects/health-HealthAvgAggregateInput-input.js';
+import { HealthSumAggregateInputObjectSchema as HealthSumAggregateInputObjectSchema } from './objects/health-HealthSumAggregateInput-input.js';
+
+export const HealthAggregateSchema: z.ZodType<Prisma.HealthAggregateArgs> = z.object({ orderBy: z.union([HealthOrderByWithRelationInputObjectSchema, HealthOrderByWithRelationInputObjectSchema.array()]).optional(), where: HealthWhereInputObjectSchema.optional(), cursor: HealthWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), HealthCountAggregateInputObjectSchema ]).optional(), _min: HealthMinAggregateInputObjectSchema.optional(), _max: HealthMaxAggregateInputObjectSchema.optional(), _avg: HealthAvgAggregateInputObjectSchema.optional(), _sum: HealthSumAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.HealthAggregateArgs>;
+
+export const HealthAggregateSchemaZodSchema = z.object({ orderBy: z.union([HealthOrderByWithRelationInputObjectSchema, HealthOrderByWithRelationInputObjectSchema.array()]).optional(), where: HealthWhereInputObjectSchema.optional(), cursor: HealthWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), HealthCountAggregateInputObjectSchema ]).optional(), _min: HealthMinAggregateInputObjectSchema.optional(), _max: HealthMaxAggregateInputObjectSchema.optional(), _avg: HealthAvgAggregateInputObjectSchema.optional(), _sum: HealthSumAggregateInputObjectSchema.optional() }).strict();

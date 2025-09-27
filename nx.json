@@ -31,6 +31,49 @@
       }
     }
   ],
+  "generators": {
+    "@nx/plugin:plugin": {
+      "linter": "eslint",
+      "unitTestRunner": "none",
+      "compiler": "tsc",
+      "e2eTestRunner": "none",
+      "publishable": false
+    },
+    "@nx/plugin:generator": {
+      "unitTestRunner": "none"
+    },
+    "@nx/plugin:executor": {
+      "unitTestRunner": "none"
+    },
+    "@nx/js:library": {
+      "bundler": "tsc",
+      "linter": "eslint",
+      "publishable": false,
+      "unitTestRunner": "none",
+      "includeBabelRc": true,
+      "js": false,
+      "minimal": true
+    },
+    "@nx/node:library": {
+      "buildable": true,
+      "compiler": "tsc",
+      "linter": "eslint",
+      "publishable": false,
+      "unitTestRunner": "none",
+      "js": false,
+      "strict": true
+    },
+    "@nx/node:app": {
+      "bundler": "webpack",
+      "e2eTestRunner": "none",
+      "framework": "none",
+      "linter": "eslint",
+      "unitTestRunner": "none",
+      "docker": false,
+      "js": false,
+      "port": 4000
+    }
+  },
   "targetDefaults": {
     "build": {
       "dependsOn": ["^clean", "clean", "^build"]

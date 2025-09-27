@@ -1,0 +1,10 @@
+import type { Prisma } from '../dsrc/client';
+import { z } from 'zod';
+import { AccountEmailVerificationOrderByWithRelationInputObjectSchema as AccountEmailVerificationOrderByWithRelationInputObjectSchema } from './objects/account-email-verification-AccountEmailVerificationOrderByWithRelationInput-input.js';
+import { AccountEmailVerificationWhereInputObjectSchema as AccountEmailVerificationWhereInputObjectSchema } from './objects/account-email-verification-AccountEmailVerificationWhereInput-input.js';
+import { AccountEmailVerificationWhereUniqueInputObjectSchema as AccountEmailVerificationWhereUniqueInputObjectSchema } from './objects/account-email-verification-AccountEmailVerificationWhereUniqueInput-input.js';
+import { AccountEmailVerificationCountAggregateInputObjectSchema as AccountEmailVerificationCountAggregateInputObjectSchema } from './objects/account-email-verification-AccountEmailVerificationCountAggregateInput-input.js';
+
+export const AccountEmailVerificationCountSchema: z.ZodType<Prisma.AccountEmailVerificationCountArgs> = z.object({ orderBy: z.union([AccountEmailVerificationOrderByWithRelationInputObjectSchema, AccountEmailVerificationOrderByWithRelationInputObjectSchema.array()]).optional(), where: AccountEmailVerificationWhereInputObjectSchema.optional(), cursor: AccountEmailVerificationWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), select: z.union([ z.literal(true), AccountEmailVerificationCountAggregateInputObjectSchema ]).optional() }).strict() as unknown as z.ZodType<Prisma.AccountEmailVerificationCountArgs>;
+
+export const AccountEmailVerificationCountSchemaZodSchema = z.object({ orderBy: z.union([AccountEmailVerificationOrderByWithRelationInputObjectSchema, AccountEmailVerificationOrderByWithRelationInputObjectSchema.array()]).optional(), where: AccountEmailVerificationWhereInputObjectSchema.optional(), cursor: AccountEmailVerificationWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), select: z.union([ z.literal(true), AccountEmailVerificationCountAggregateInputObjectSchema ]).optional() }).strict();

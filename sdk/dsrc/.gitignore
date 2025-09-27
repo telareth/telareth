@@ -1,9 +1,0 @@
-node_modules
-
-.env*
-!.env
-
-# Prisma generators output
-src/client
-src/schemas
-src/openapi

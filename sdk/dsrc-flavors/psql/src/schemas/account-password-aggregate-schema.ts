@@ -1,0 +1,12 @@
+import type { Prisma } from '../dsrc/client';
+import { z } from 'zod';
+import { AccountPasswordOrderByWithRelationInputObjectSchema as AccountPasswordOrderByWithRelationInputObjectSchema } from './objects/account-password-AccountPasswordOrderByWithRelationInput-input.js';
+import { AccountPasswordWhereInputObjectSchema as AccountPasswordWhereInputObjectSchema } from './objects/account-password-AccountPasswordWhereInput-input.js';
+import { AccountPasswordWhereUniqueInputObjectSchema as AccountPasswordWhereUniqueInputObjectSchema } from './objects/account-password-AccountPasswordWhereUniqueInput-input.js';
+import { AccountPasswordCountAggregateInputObjectSchema as AccountPasswordCountAggregateInputObjectSchema } from './objects/account-password-AccountPasswordCountAggregateInput-input.js';
+import { AccountPasswordMinAggregateInputObjectSchema as AccountPasswordMinAggregateInputObjectSchema } from './objects/account-password-AccountPasswordMinAggregateInput-input.js';
+import { AccountPasswordMaxAggregateInputObjectSchema as AccountPasswordMaxAggregateInputObjectSchema } from './objects/account-password-AccountPasswordMaxAggregateInput-input.js';
+
+export const AccountPasswordAggregateSchema: z.ZodType<Prisma.AccountPasswordAggregateArgs> = z.object({ orderBy: z.union([AccountPasswordOrderByWithRelationInputObjectSchema, AccountPasswordOrderByWithRelationInputObjectSchema.array()]).optional(), where: AccountPasswordWhereInputObjectSchema.optional(), cursor: AccountPasswordWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), AccountPasswordCountAggregateInputObjectSchema ]).optional(), _min: AccountPasswordMinAggregateInputObjectSchema.optional(), _max: AccountPasswordMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.AccountPasswordAggregateArgs>;
+
+export const AccountPasswordAggregateSchemaZodSchema = z.object({ orderBy: z.union([AccountPasswordOrderByWithRelationInputObjectSchema, AccountPasswordOrderByWithRelationInputObjectSchema.array()]).optional(), where: AccountPasswordWhereInputObjectSchema.optional(), cursor: AccountPasswordWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), AccountPasswordCountAggregateInputObjectSchema ]).optional(), _min: AccountPasswordMinAggregateInputObjectSchema.optional(), _max: AccountPasswordMaxAggregateInputObjectSchema.optional() }).strict();

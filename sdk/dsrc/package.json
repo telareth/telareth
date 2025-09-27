@@ -1,7 +1,7 @@
 {
   "name": "@telareth/dsrc",
   "version": "0.0.1",
-  "description": "Telareth's Gateway Datasource SDK",
+  "description": "Telareth's Gateway datasource SDK",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -14,38 +14,21 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
-    },
-    "./models": {
-      "types": "./dist/client/models.d.ts",
-      "import": "./dist/client/models.js",
-      "default": "./dist/client/models.js"
-    },
-    "./browser": {
-      "types": "./dist/client/browser.d.ts",
-      "import": "./dist/client/browser.js",
-      "default": "./dist/client/browser.js"
-    },
-    "./client": {
-      "types": "./dist/client/client.d.ts",
-      "import": "./dist/client/client.js",
-      "default": "./dist/client/client.js"
     }
   },
   "files": [
     "LICENSE",
-    "psql",
-    "zod-generator.config.json"
+    "psql"
   ],
   "dependencies": {
-    "@prisma/client": "^6.16.2",
-    "tslib": "^2.3.0",
-    "zod": "^4.1.11"
+    "@telareth/common": "^0.0.1",
+    "@telareth/dsrc-psql": "^0.0.1",
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@types/node": "^20.19.9",
     "eslint": "^9.36.0",
-    "jsonc-eslint-parser": "^2.4.1",
-    "prisma": "^6.16.2"
+    "jsonc-eslint-parser": "^2.4.1"
   },
   "private": false,
   "publishConfig": {
@@ -88,15 +71,6 @@
         "dependsOn": [
           "^install"
         ]
-      },
-      "generate:psql": {
-        "executor": "nx:run-commands",
-        "options": {
-          "cwd": "sdk/dsrc",
-          "commands": [
-            "prisma generate --schema psql/schema.prisma"
-          ]
-        }
       }
     }
   }

@@ -22,10 +22,10 @@
       "path": "./sdk/common"
     },
     {
-      "path": "./apps/gateway"
+      "path": "./sdk/dsrc"
     },
     {
-      "path": "./sdk/dsrc"
+      "path": "./sdk/dsrc-flavors/psql"
     }
   ]
 }

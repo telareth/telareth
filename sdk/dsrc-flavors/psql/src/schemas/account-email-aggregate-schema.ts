@@ -1,0 +1,12 @@
+import type { Prisma } from '../dsrc/client';
+import { z } from 'zod';
+import { AccountEmailOrderByWithRelationInputObjectSchema as AccountEmailOrderByWithRelationInputObjectSchema } from './objects/account-email-AccountEmailOrderByWithRelationInput-input.js';
+import { AccountEmailWhereInputObjectSchema as AccountEmailWhereInputObjectSchema } from './objects/account-email-AccountEmailWhereInput-input.js';
+import { AccountEmailWhereUniqueInputObjectSchema as AccountEmailWhereUniqueInputObjectSchema } from './objects/account-email-AccountEmailWhereUniqueInput-input.js';
+import { AccountEmailCountAggregateInputObjectSchema as AccountEmailCountAggregateInputObjectSchema } from './objects/account-email-AccountEmailCountAggregateInput-input.js';
+import { AccountEmailMinAggregateInputObjectSchema as AccountEmailMinAggregateInputObjectSchema } from './objects/account-email-AccountEmailMinAggregateInput-input.js';
+import { AccountEmailMaxAggregateInputObjectSchema as AccountEmailMaxAggregateInputObjectSchema } from './objects/account-email-AccountEmailMaxAggregateInput-input.js';
+
+export const AccountEmailAggregateSchema: z.ZodType<Prisma.AccountEmailAggregateArgs> = z.object({ orderBy: z.union([AccountEmailOrderByWithRelationInputObjectSchema, AccountEmailOrderByWithRelationInputObjectSchema.array()]).optional(), where: AccountEmailWhereInputObjectSchema.optional(), cursor: AccountEmailWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), AccountEmailCountAggregateInputObjectSchema ]).optional(), _min: AccountEmailMinAggregateInputObjectSchema.optional(), _max: AccountEmailMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.AccountEmailAggregateArgs>;
+
+export const AccountEmailAggregateSchemaZodSchema = z.object({ orderBy: z.union([AccountEmailOrderByWithRelationInputObjectSchema, AccountEmailOrderByWithRelationInputObjectSchema.array()]).optional(), where: AccountEmailWhereInputObjectSchema.optional(), cursor: AccountEmailWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), AccountEmailCountAggregateInputObjectSchema ]).optional(), _min: AccountEmailMinAggregateInputObjectSchema.optional(), _max: AccountEmailMaxAggregateInputObjectSchema.optional() }).strict();

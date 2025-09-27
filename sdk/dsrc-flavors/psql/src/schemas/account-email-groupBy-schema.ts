@@ -1,0 +1,13 @@
+import type { Prisma } from '../dsrc/client';
+import { z } from 'zod';
+import { AccountEmailWhereInputObjectSchema as AccountEmailWhereInputObjectSchema } from './objects/account-email-AccountEmailWhereInput-input.js';
+import { AccountEmailOrderByWithAggregationInputObjectSchema as AccountEmailOrderByWithAggregationInputObjectSchema } from './objects/account-email-AccountEmailOrderByWithAggregationInput-input.js';
+import { AccountEmailScalarWhereWithAggregatesInputObjectSchema as AccountEmailScalarWhereWithAggregatesInputObjectSchema } from './objects/account-email-AccountEmailScalarWhereWithAggregatesInput-input.js';
+import { AccountEmailScalarFieldEnum } from './enums/account-email-scalar-field-enum-enum.js';
+import { AccountEmailCountAggregateInputObjectSchema as AccountEmailCountAggregateInputObjectSchema } from './objects/account-email-AccountEmailCountAggregateInput-input.js';
+import { AccountEmailMinAggregateInputObjectSchema as AccountEmailMinAggregateInputObjectSchema } from './objects/account-email-AccountEmailMinAggregateInput-input.js';
+import { AccountEmailMaxAggregateInputObjectSchema as AccountEmailMaxAggregateInputObjectSchema } from './objects/account-email-AccountEmailMaxAggregateInput-input.js';
+
+export const AccountEmailGroupBySchema: z.ZodType<Prisma.AccountEmailGroupByArgs> = z.object({ where: AccountEmailWhereInputObjectSchema.optional(), orderBy: z.union([AccountEmailOrderByWithAggregationInputObjectSchema, AccountEmailOrderByWithAggregationInputObjectSchema.array()]).optional(), having: AccountEmailScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(AccountEmailScalarFieldEnum), _count: z.union([ z.literal(true), AccountEmailCountAggregateInputObjectSchema ]).optional(), _min: AccountEmailMinAggregateInputObjectSchema.optional(), _max: AccountEmailMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.AccountEmailGroupByArgs>;
+
+export const AccountEmailGroupBySchemaZodSchema = z.object({ where: AccountEmailWhereInputObjectSchema.optional(), orderBy: z.union([AccountEmailOrderByWithAggregationInputObjectSchema, AccountEmailOrderByWithAggregationInputObjectSchema.array()]).optional(), having: AccountEmailScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(AccountEmailScalarFieldEnum), _count: z.union([ z.literal(true), AccountEmailCountAggregateInputObjectSchema ]).optional(), _min: AccountEmailMinAggregateInputObjectSchema.optional(), _max: AccountEmailMaxAggregateInputObjectSchema.optional() }).strict();

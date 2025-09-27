@@ -1,0 +1,13 @@
+import type { Prisma } from '../dsrc/client';
+import { z } from 'zod';
+import { AccountWhereInputObjectSchema as AccountWhereInputObjectSchema } from './objects/account-AccountWhereInput-input.js';
+import { AccountOrderByWithAggregationInputObjectSchema as AccountOrderByWithAggregationInputObjectSchema } from './objects/account-AccountOrderByWithAggregationInput-input.js';
+import { AccountScalarWhereWithAggregatesInputObjectSchema as AccountScalarWhereWithAggregatesInputObjectSchema } from './objects/account-AccountScalarWhereWithAggregatesInput-input.js';
+import { AccountScalarFieldEnum } from './enums/account-scalar-field-enum-enum.js';
+import { AccountCountAggregateInputObjectSchema as AccountCountAggregateInputObjectSchema } from './objects/account-AccountCountAggregateInput-input.js';
+import { AccountMinAggregateInputObjectSchema as AccountMinAggregateInputObjectSchema } from './objects/account-AccountMinAggregateInput-input.js';
+import { AccountMaxAggregateInputObjectSchema as AccountMaxAggregateInputObjectSchema } from './objects/account-AccountMaxAggregateInput-input.js';
+
+export const AccountGroupBySchema: z.ZodType<Prisma.AccountGroupByArgs> = z.object({ where: AccountWhereInputObjectSchema.optional(), orderBy: z.union([AccountOrderByWithAggregationInputObjectSchema, AccountOrderByWithAggregationInputObjectSchema.array()]).optional(), having: AccountScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(AccountScalarFieldEnum), _count: z.union([ z.literal(true), AccountCountAggregateInputObjectSchema ]).optional(), _min: AccountMinAggregateInputObjectSchema.optional(), _max: AccountMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.AccountGroupByArgs>;
+
+export const AccountGroupBySchemaZodSchema = z.object({ where: AccountWhereInputObjectSchema.optional(), orderBy: z.union([AccountOrderByWithAggregationInputObjectSchema, AccountOrderByWithAggregationInputObjectSchema.array()]).optional(), having: AccountScalarWhereWithAggregatesInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), by: z.array(AccountScalarFieldEnum), _count: z.union([ z.literal(true), AccountCountAggregateInputObjectSchema ]).optional(), _min: AccountMinAggregateInputObjectSchema.optional(), _max: AccountMaxAggregateInputObjectSchema.optional() }).strict();
