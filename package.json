@@ -28,6 +28,9 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
+  "dependencies": {
+    "@nx/devkit": "21.5.2"
+  },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
@@ -38,10 +41,13 @@
     "@nx/esbuild": "21.5.2",
     "@nx/eslint": "21.5.2",
     "@nx/eslint-plugin": "21.5.2",
+    "@nx/jest": "21.5.2",
     "@nx/js": "21.5.2",
     "@nx/node": "^21.5.2",
+    "@nx/plugin": "^21.5.2",
     "@prisma/client": "^6.16.2",
     "@swc-node/register": "~1.9.1",
+    "@swc/cli": "~0.6.0",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
     "@telareth/cli": "^0.7.0",

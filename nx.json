@@ -32,6 +32,19 @@
     }
   ],
   "generators": {
+    "@nx/plugin:plugin": {
+      "linter": "eslint",
+      "unitTestRunner": "none",
+      "compiler": "tsc",
+      "e2eTestRunner": "none",
+      "publishable": false
+    },
+    "@nx/plugin:generator": {
+      "unitTestRunner": "none"
+    },
+    "@nx/plugin:executor": {
+      "unitTestRunner": "none"
+    },
     "@nx/js:library": {
       "bundler": "tsc",
       "linter": "eslint",
